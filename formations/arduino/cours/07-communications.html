@@ -1,0 +1,18 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 07 — Communications</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 07 — UART, I²C et SPI</h1><div class="box"><h2>UART / Serial</h2><p>UART est une communication série asynchrone. Avec Arduino, <code>Serial</code> sert souvent à communiquer avec un PC ou un autre module série.</p><pre><code>void setup(){
+  Serial.begin(115200);
+}
+void loop(){
+  Serial.println("Bonjour GOMA PRO Devs");
+  delay(1000);
+}</code></pre></div><div class="box"><h2>I²C</h2><p>I²C utilise généralement deux lignes : SDA pour les données et SCL pour l'horloge. Plusieurs périphériques peuvent partager le bus grâce à leurs adresses.</p><pre><code>#include &lt;Wire.h&gt;
+
+void setup(){
+  Wire.begin();
+}
+
+void loop(){
+  Wire.beginTransmission(0x3C);
+  Wire.write(0x00);
+  Wire.endTransmission();
+  delay(1000);
+}</code></pre></div><div class="box"><h2>SPI</h2><p>SPI utilise typiquement SCK, MOSI, MISO et une sélection de périphérique CS/SS. Il est souvent utilisé pour écrans, cartes mémoire et capteurs.</p></div><div class="box"><h2>Comparer</h2><p><b>UART :</b> simple et point à point. <b>I²C :</b> plusieurs périphériques avec deux lignes. <b>SPI :</b> rapide et efficace, mais utilise davantage de lignes.</p></div><div class="box"><h2>TP</h2><ol><li>Envoyer une mesure par UART.</li><li>Identifier l'adresse I²C d'un périphérique dans un montage de laboratoire.</li><li>Lire une donnée d'un capteur I²C.</li><li>Documenter les broches SPI utilisées par votre carte.</li></ol></div></main></body></html>
