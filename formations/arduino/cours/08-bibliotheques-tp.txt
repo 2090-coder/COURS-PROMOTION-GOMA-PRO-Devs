@@ -1,0 +1,16 @@
+GOMA PRO Devs — Arduino 08 — TP Bibliothèque
+
+Objectif : créer une petite bibliothèque réutilisable.
+
+Travail :
+1. Comprendre le rôle du fichier .h.
+2. Comprendre le rôle du fichier .cpp.
+3. Compiler un exemple utilisant LedManager.
+4. Créer ensuite ButtonManager avec begin() et read().
+5. Documenter les méthodes publiques.
+
+Questions :
+- Pourquoi séparer interface et implémentation ?
+- À quoi sert #ifndef ?
+- Quelle différence entre une classe et un objet ?
+- Pourquoi une bibliothèque améliore-t-elle la réutilisation du code ?
