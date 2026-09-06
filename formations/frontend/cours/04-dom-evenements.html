@@ -1,0 +1,8 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 04 — DOM</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 04</p><h1>DOM et événements</h1><p>Le DOM représente la page HTML sous forme d'objets que JavaScript peut lire et modifier.</p><h2>Sélectionner et modifier</h2><pre><code>const titre = document.querySelector("h1");
+titre.textContent = "Bienvenue !";
+
+document.querySelector(".message").classList.add("active");</code></pre><h2>Événements</h2><pre><code>const bouton = document.querySelector("button");
+
+bouton.addEventListener("click", () =&gt; {
+  document.querySelector("#resultat").textContent = "Bouton cliqué";
+});</code></pre><h2>Formulaires</h2><p>Pour intercepter un formulaire, écoutez l'événement <code>submit</code> et utilisez <code>event.preventDefault()</code> lorsque vous ne voulez pas que le navigateur recharge immédiatement la page.</p><h2>TP</h2><ol><li>Créer un compteur +1/-1.</li><li>Créer une liste où l'utilisateur ajoute des éléments.</li><li>Valider un formulaire et afficher les erreurs.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce que le DOM ?</li><li>Quelle différence entre <code>querySelector</code> et <code>querySelectorAll</code> ?</li><li>Pourquoi utiliser <code>preventDefault()</code> ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
