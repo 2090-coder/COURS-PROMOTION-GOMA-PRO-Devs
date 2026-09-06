@@ -1,0 +1,16 @@
+GOMA PRO Devs — Arduino 03 — TP C/C++
+
+Objectifs : pratiquer variables, fonctions, tableaux et structures.
+
+Travail :
+1. Créer une fonction qui retourne le maximum de trois nombres.
+2. Parcourir un tableau de 8 valeurs et calculer la moyenne.
+3. Créer une structure Mesure avec temperature et humidite.
+4. Utiliser une fonction pour piloter plusieurs LED.
+5. Commenter le code et tester chaque partie.
+
+Questions :
+- Quelle différence entre int, float et bool ?
+- Pourquoi utiliser une fonction ?
+- Qu'est-ce qu'un tableau ?
+- Quelle différence entre variable locale et globale ?
