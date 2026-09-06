@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 02 — Entrées, sorties et PWM</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;border-radius:14px;padding:20px;margin:18px 0}pre{background:#111827;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}code{font-family:Consolas,monospace}.tag{display:inline-block;padding:5px 10px;border-radius:999px;background:#e8eefc;margin:3px}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 02 — Entrées, sorties et PWM</h1><p>Comprendre les GPIO, les boutons, les entrées analogiques et la commande de puissance par PWM.</p><div class="box"><h2>1. GPIO</h2><p>Une broche numérique peut être configurée en <b>INPUT</b>, <b>INPUT_PULLUP</b> ou <b>OUTPUT</b>.</p><span class="tag">pinMode()</span><span class="tag">digitalRead()</span><span class="tag">digitalWrite()</span></div><div class="box"><h2>2. Bouton et LED</h2><pre><code>const int bouton = 2;
+const int led = 13;
+
+void setup() {
+  pinMode(bouton, INPUT_PULLUP);
+  pinMode(led, OUTPUT);
+}
+
+void loop() {
+  bool appuye = digitalRead(bouton) == LOW;
+  digitalWrite(led, appuye ? HIGH : LOW);
+}</code></pre><p>Avec <code>INPUT_PULLUP</code>, le bouton est généralement relié entre la broche et GND.</p></div><div class="box"><h2>3. Entrée analogique</h2><p><code>analogRead()</code> mesure une tension sur une entrée analogique. Sur de nombreuses cartes Arduino classiques, la valeur est lue sur une échelle de 0 à 1023.</p><pre><code>int valeur = analogRead(A0);
+Serial.println(valeur);</code></pre></div><div class="box"><h2>4. PWM</h2><p>Le PWM permet de commander progressivement une sortie compatible, par exemple la luminosité d'une LED.</p><pre><code>const int led = 9;
+void setup(){ pinMode(led, OUTPUT); }
+void loop(){
+  for(int p=0;p<=255;p++) { analogWrite(led,p); delay(5); }
+  for(int p=255;p>=0;p--) { analogWrite(led,p); delay(5); }
+}</code></pre></div><div class="box"><h2>TP</h2><ol><li>Lire un potentiomètre sur A0.</li><li>Afficher sa valeur dans le moniteur série.</li><li>Transformer cette valeur en luminosité LED avec <code>map()</code>.</li><li>Ajouter un bouton pour activer/désactiver le système.</li></ol></div><div class="box"><h2>À retenir</h2><p>GPIO = communication avec le monde extérieur. Analogique = mesure. PWM = commande progressive d'une sortie compatible.</p></div></main></body></html>
