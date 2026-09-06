@@ -1,0 +1,26 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 06 — Interruptions et timers</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 06 — Interruptions et timers</h1><div class="box"><h2>Pourquoi une interruption ?</h2><p>Une interruption permet au microcontrôleur de réagir rapidement à un événement sans attendre la fin d'une boucle longue.</p></div><div class="box"><h2>Interruption externe</h2><pre><code>volatile bool evenement = false;
+
+void ISR_bouton() {
+  evenement = true;
+}
+
+void setup() {
+  pinMode(2, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(2), ISR_bouton, FALLING);
+}
+
+void loop() {
+  if (evenement) {
+    evenement = false;
+    // traiter l'événement
+  }
+}</code></pre><p>Une routine d'interruption doit rester courte. Les variables partagées avec une ISR sont souvent déclarées <code>volatile</code>.</p></div><div class="box"><h2>Timers</h2><p>Les timers servent à mesurer des intervalles, produire des signaux ou déclencher périodiquement une action. Les bibliothèques et possibilités dépendent du microcontrôleur.</p><pre><code>unsigned long precedent = 0;
+const unsigned long periode = 1000;
+
+void loop() {
+  unsigned long maintenant = millis();
+  if (maintenant - precedent &gt;= periode) {
+    precedent = maintenant;
+    // tâche périodique
+  }
+}</code></pre></div><div class="box"><h2>TP</h2><ol><li>Créer un compteur d'appuis sur bouton.</li><li>Afficher le compteur sans bloquer avec de longs <code>delay()</code>.</li><li>Ajouter une tâche périodique toutes les secondes avec <code>millis()</code>.</li><li>Comparer cette approche avec une interruption.</li></ol></div></main></body></html>
