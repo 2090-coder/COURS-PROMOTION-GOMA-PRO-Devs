@@ -1,0 +1,16 @@
+GOMA PRO Devs — Arduino 02 — TP Entrées, sorties et PWM
+
+Objectifs : lire un bouton, lire un potentiomètre et commander une LED par PWM.
+
+Travail :
+1. Connecter un bouton sur une entrée numérique avec INPUT_PULLUP.
+2. Lire un potentiomètre sur A0.
+3. Afficher la valeur au moniteur série.
+4. Utiliser map() pour convertir la mesure en PWM.
+5. Modifier le programme et observer le résultat.
+
+Questions :
+- Quelle différence entre digitalRead() et analogRead() ?
+- Pourquoi utiliser INPUT_PULLUP ?
+- Qu'est-ce que le PWM ?
+- À quoi sert map() ?
