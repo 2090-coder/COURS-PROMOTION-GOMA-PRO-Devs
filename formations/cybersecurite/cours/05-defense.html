@@ -1,0 +1,8 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cyber 05 — Défense</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">CYBERSÉCURITÉ · CHAPITRE 05</p><h1>Analyse défensive et durcissement</h1><p>La sécurité consiste notamment à réduire les risques, détecter les anomalies et corriger les mauvaises configurations.</p><h2>Méthode</h2><ol><li>Inventorier les actifs du laboratoire.</li><li>Identifier les services nécessaires.</li><li>Réduire les privilèges.</li><li>Configurer les journaux.</li><li>Surveiller les événements.</li><li>Corriger et vérifier.</li></ol><h2>Exemple de contrôle</h2><pre><code># Vérifier l'utilisateur courant
+whoami
+
+# Vérifier les processus
+ps aux
+
+# Examiner les derniers journaux
+journalctl --no-pager -n 50</code></pre><h2>TP défensif</h2><ol><li>Construire une machine virtuelle de laboratoire.</li><li>Créer une configuration volontairement faible mais non dangereuse.</li><li>Documenter les risques.</li><li>Appliquer des corrections.</li><li>Comparer l'état avant/après.</li></ol><p><strong>Règle :</strong> les tests de sécurité doivent être réalisés uniquement sur des systèmes dont vous avez l'autorisation.</p><p><a href="../index.html">← Retour</a></p></main></body></html>
