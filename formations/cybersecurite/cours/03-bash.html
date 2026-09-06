@@ -1,0 +1,11 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cyber 03 — Bash</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">CYBERSÉCURITÉ · CHAPITRE 03</p><h1>Bash et automatisation</h1><p>Bash permet d'automatiser des opérations répétitives d'administration.</p><h2>Script simple</h2><pre><code>#!/usr/bin/env bash
+set -euo pipefail
+
+LOG="application.log"
+if [[ -f "$LOG" ]]; then
+  grep -c "ERROR" "$LOG"
+else
+  echo "Journal absent"
+fi</code></pre><h2>Variables et boucles</h2><pre><code>for fichier in *.log; do
+  echo "Analyse : $fichier"
+done</code></pre><h2>Bonnes pratiques</h2><ul><li>Utiliser des guillemets autour des variables lorsque nécessaire.</li><li>Activer un mode d'erreur adapté comme <code>set -euo pipefail</code>.</li><li>Tester les scripts dans un environnement de laboratoire.</li><li>Éviter les commandes destructives dans les exercices.</li></ul><h2>TP</h2><ol><li>Écrire un script qui compte les erreurs d'un journal.</li><li>Créer un rapport quotidien fictif.</li><li>Ajouter une gestion des fichiers absents.</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
