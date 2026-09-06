@@ -1,0 +1,16 @@
+GOMA PRO Devs — Arduino 06 — TP Interruptions et timers
+
+Objectifs : comprendre une interruption et une tâche périodique sans bloquer le programme.
+
+Travail :
+1. Compter les appuis d'un bouton.
+2. Utiliser une ISR courte.
+3. Déclarer correctement une variable partagée avec l'ISR.
+4. Créer une tâche périodique avec millis().
+5. Comparer cette méthode avec un long delay().
+
+Questions :
+- Qu'est-ce qu'une interruption ?
+- Pourquoi une ISR doit-elle rester courte ?
+- Pourquoi utiliser volatile ?
+- Pourquoi millis() permet-il d'éviter certains blocages ?
