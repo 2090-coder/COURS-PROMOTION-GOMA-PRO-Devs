@@ -1,0 +1,16 @@
+GOMA PRO Devs — Arduino 05 — TP Registres
+
+ATTENTION
+Ce TP utilise des noms de registres propres à certaines architectures AVR. Vérifier le microcontrôleur et sa documentation avant de compiler.
+
+Travail :
+1. Identifier le registre de direction d'un port.
+2. Configurer une broche en sortie.
+3. Mettre un bit à 1 puis à 0 avec des masques.
+4. Inverser un bit avec XOR.
+5. Comparer cette méthode avec pinMode() et digitalWrite().
+
+Questions :
+- À quoi servent DDR, PORT et PIN sur les AVR classiques ?
+- Pourquoi utiliser un masque binaire ?
+- Pourquoi le code d'un AVR ne doit-il pas être copié automatiquement sur un ESP32 ?
