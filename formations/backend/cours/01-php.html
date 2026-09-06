@@ -1,0 +1,10 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 01 — PHP</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 01</p><h1>PHP : programmer côté serveur</h1><p>PHP s'exécute sur le serveur et peut générer du HTML, traiter des formulaires et communiquer avec une base de données.</p><h2>Premier script</h2><pre><code>&lt;?php
+$nom = "Étudiant";
+$age = 18;
+echo "Bonjour $nom, tu as $age ans.";</code></pre><h2>Conditions et fonctions</h2><pre><code>function estAdmis(float $note): bool {
+    return $note &gt;= 10;
+}
+
+if (estAdmis(14)) {
+    echo "Admis";
+}</code></pre><h2>Formulaire</h2><p>Les données reçues doivent être validées côté serveur. Ne considérez jamais les données du navigateur comme fiables.</p><h2>TP</h2><ol><li>Créer une page PHP qui affiche une liste d'étudiants.</li><li>Créer un formulaire de contact et valider ses champs.</li><li>Écrire des fonctions réutilisables.</li></ol><h2>Questions</h2><ol><li>Où s'exécute PHP ?</li><li>Pourquoi valider les données côté serveur ?</li><li>Quelle différence entre une variable et une fonction ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
