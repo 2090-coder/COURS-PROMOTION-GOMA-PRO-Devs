@@ -1,0 +1,10 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 05 — Fetch API</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 05</p><h1>Asynchronisme, Fetch et JSON</h1><p>Les applications web communiquent souvent avec un serveur sans recharger toute la page.</p><h2>Promise et async/await</h2><pre><code>async function chargerUtilisateurs() {
+  try {
+    const reponse = await fetch("https://example.com/api/users");
+    if (!reponse.ok) throw new Error("Réponse HTTP invalide");
+    const utilisateurs = await reponse.json();
+    console.log(utilisateurs);
+  } catch (erreur) {
+    console.error(erreur);
+  }
+}</code></pre><h2>JSON</h2><p>JSON représente des données structurées avec des objets et des tableaux. Le navigateur peut convertir une réponse JSON en objet JavaScript avec <code>response.json()</code>.</p><h2>Sécurité et robustesse</h2><ul><li>Vérifier les erreurs réseau et HTTP.</li><li>Ne jamais faire confiance aveuglément aux données reçues.</li><li>Ne pas placer de secrets dans le JavaScript envoyé au navigateur.</li></ul><h2>TP</h2><ol><li>Consommer une API publique autorisée.</li><li>Afficher une liste de données dans le DOM.</li><li>Afficher un état de chargement puis un message d'erreur.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce qu'une Promise ?</li><li>Pourquoi tester <code>response.ok</code> ?</li><li>Pourquoi un secret ne doit-il pas être stocké dans le frontend ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
