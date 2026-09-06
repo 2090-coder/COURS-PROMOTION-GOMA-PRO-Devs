@@ -1,0 +1,16 @@
+GOMA PRO Devs — Arduino 04 — TP Mémoire et données
+
+Objectifs : comprendre la mémoire et la représentation des données.
+
+Travail :
+1. Afficher sizeof(int), sizeof(long) et sizeof(float).
+2. Créer une structure de configuration.
+3. Tester des opérations bit à bit.
+4. Étudier la conservation d'une configuration sur une mémoire non volatile adaptée à la carte.
+5. Comparer l'utilisation mémoire avant et après modification du programme.
+
+Questions :
+- Pourquoi les ressources mémoire sont-elles importantes en embarqué ?
+- À quoi sert sizeof() ?
+- Qu'est-ce qu'une mémoire non volatile ?
+- Pourquoi éviter les écritures répétitives inutiles en EEPROM ?
