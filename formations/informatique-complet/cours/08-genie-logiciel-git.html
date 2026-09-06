@@ -1,0 +1,10 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>08 — Génie logiciel et Git | GOMA PRO Devs</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../index.html">← Formation</a></nav></div></header><main class="container course-section"><p class="eyebrow">INFORMATIQUE COMPLET · CHAPITRE 08</p><h1>Génie logiciel et Git</h1><p>Apprendre à organiser un projet, travailler proprement avec Git et maintenir un code compréhensible.</p><h2>1. Cycle de développement</h2><p>Un projet passe généralement par l'analyse des besoins, la conception, l'implémentation, les tests, la mise en production et la maintenance.</p><h2>2. Git : premiers pas</h2><pre><code>git init
+git status
+git add .
+git commit -m "Premier commit"
+git log</code></pre><h2>3. Dépôt distant</h2><pre><code>git remote add origin URL_DU_DEPOT
+git push -u origin main</code></pre><h2>4. Branches</h2><pre><code>git branch feature-login
+git switch feature-login
+# travailler...
+git add .
+git commit -m "Ajoute la connexion"</code></pre><h2>5. Qualité</h2><ul><li>Convention de nommage.</li><li>Commentaires utiles, pas excessifs.</li><li>Tests automatisés lorsque possible.</li><li>Commits petits et explicites.</li><li>README et documentation à jour.</li></ul><h2>Travaux pratiques</h2><ol><li>Créer un dépôt Git pour un mini-projet.</li><li>Faire au moins cinq commits propres.</li><li>Créer une branche de fonctionnalité.</li><li>Rédiger un README avec installation et utilisation.</li></ol><h2>Questions</h2><ol><li>Pourquoi utiliser Git ?</li><li>Qu'est-ce qu'un commit ?</li><li>À quoi sert une branche ?</li><li>Pourquoi documenter un projet ?</li></ol></main></body></html>
