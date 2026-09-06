@@ -1,0 +1,24 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 03 — C/C++</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 03 — C/C++ pour microcontrôleurs</h1><div class="box"><h2>Objectifs</h2><p>Maîtriser variables, conditions, boucles, fonctions, tableaux, chaînes, structures et bases de la programmation orientée objet.</p></div><div class="box"><h2>Variables</h2><pre><code>int compteur = 0;
+long temps = 0;
+float tension = 3.3;
+bool actif = true;
+const int LED = 13;</code></pre></div><div class="box"><h2>Conditions et boucles</h2><pre><code>if (temperature > 30) {
+  digitalWrite(LED, HIGH);
+} else {
+  digitalWrite(LED, LOW);
+}
+
+for (int i=0; i&lt;5; i++) {
+  Serial.println(i);
+}</code></pre></div><div class="box"><h2>Fonctions</h2><pre><code>int addition(int a, int b) {
+  return a + b;
+}
+
+void allumer(int pin) {
+  digitalWrite(pin, HIGH);
+}</code></pre></div><div class="box"><h2>Tableaux et structures</h2><pre><code>int leds[] = {3,5,6,9};
+
+struct Mesure {
+  float temperature;
+  float humidite;
+};</code></pre></div><div class="box"><h2>Mini-projet</h2><p>Créer un séquenceur de 4 LED avec une fonction dédiée à l'animation et un tableau contenant les broches.</p></div><div class="box"><h2>Exercices</h2><ol><li>Écrire une fonction qui retourne le maximum de trois nombres.</li><li>Parcourir un tableau de 8 valeurs et calculer la moyenne.</li><li>Créer une structure pour stocker une mesure de capteur.</li><li>Expliquer la différence entre variable locale et globale.</li></ol></div></main></body></html>
