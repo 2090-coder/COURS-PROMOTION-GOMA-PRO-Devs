@@ -1,0 +1,16 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>02 — Programmation | GOMA PRO Devs</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../index.html">← Formation</a></nav></div></header><main class="container course-section"><p class="eyebrow">INFORMATIQUE COMPLET · CHAPITRE 02</p><h1>Programmation</h1><p>Passer de l'algorithme au code avec Python et comprendre les notions communes aux langages modernes.</p><h2>1. Premier programme</h2><pre><code>nom = "GOMA PRO Devs"
+print("Bonjour", nom)</code></pre><h2>2. Conditions et boucles</h2><pre><code>note = 72
+if note >= 50:
+    print("Réussi")
+else:
+    print("À reprendre")
+
+for i in range(1, 6):
+    print(i)</code></pre><h2>3. Fonctions</h2><pre><code>def moyenne(a, b, c):
+    return (a + b + c) / 3</n
+print(moyenne(60, 70, 80))</code></pre><h2>4. Programmation orientée objet</h2><p>Une classe décrit une structure et des comportements. Un objet est une instance de cette classe.</p><pre><code>class Etudiant:
+    def __init__(self, nom):
+        self.nom = nom
+
+    def presenter(self):
+        print("Étudiant :", self.nom)</code></pre><h2>5. Bonnes pratiques</h2><ul><li>Choisir des noms explicites.</li><li>Découper le programme en fonctions.</li><li>Éviter la duplication inutile.</li><li>Tester les cas normaux et les erreurs.</li><li>Documenter les parties importantes.</li></ul><h2>Travaux pratiques</h2><ol><li>Créer un programme de calculatrice.</li><li>Créer un gestionnaire simple de notes avec une liste.</li><li>Créer une classe Etudiant avec nom, âge et moyenne.</li><li>Ajouter une validation des données saisies.</li></ol><h2>Questions de révision</h2><ol><li>Pourquoi utiliser une fonction ?</li><li>Qu'est-ce qu'une classe ?</li><li>Quelle différence entre une liste et une variable simple ?</li><li>Pourquoi tester un programme ?</li></ol></main></body></html>
