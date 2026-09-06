@@ -1,0 +1,14 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 03 — JavaScript</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 03</p><h1>JavaScript : programmer dans le navigateur</h1><p>JavaScript permet d'ajouter de la logique et de rendre une interface interactive.</p><h2>Variables et conditions</h2><pre><code>const nom = "Étudiant";
+let note = 15;
+
+if (note &gt;= 10) {
+  console.log(`${nom} a réussi.`);
+} else {
+  console.log(`${nom} doit progresser.`);
+}</code></pre><h2>Boucles, fonctions et tableaux</h2><pre><code>function moyenne(notes) {
+  const total = notes.reduce((somme, note) =&gt; somme + note, 0);
+  return total / notes.length;
+}
+
+const notes = [12, 15, 18];
+console.log(moyenne(notes));</code></pre><h2>Bonnes pratiques</h2><ul><li>Utiliser <code>const</code> par défaut et <code>let</code> si la valeur change.</li><li>Donner des noms explicites aux variables.</li><li>Découper les traitements en fonctions courtes.</li><li>Valider les données avant de les utiliser.</li></ul><h2>TP</h2><ol><li>Créer une calculatrice simple.</li><li>Créer un programme qui calcule une moyenne.</li><li>Afficher dynamiquement une liste d'étudiants.</li></ol><h2>Questions</h2><ol><li>Différence entre <code>let</code> et <code>const</code> ?</li><li>Qu'est-ce qu'une fonction ?</li><li>À quoi sert <code>reduce()</code> ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
