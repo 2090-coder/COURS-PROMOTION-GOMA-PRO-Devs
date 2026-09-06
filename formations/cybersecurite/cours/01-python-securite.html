@@ -1,0 +1,9 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cyber 01 — Python</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">CYBERSÉCURITÉ · CHAPITRE 01</p><h1>Python pour la sécurité</h1><p>Python est utile pour automatiser des tâches d'administration, analyser des fichiers et produire des rapports dans des environnements autorisés.</p><h2>Lecture de fichier</h2><pre><code>from pathlib import Path
+
+journal = Path("application.log")
+for ligne in journal.read_text(encoding="utf-8").splitlines():
+    if "ERROR" in ligne:
+        print(ligne)</code></pre><h2>Exceptions</h2><pre><code>try:
+    valeur = int(input("Nombre : "))
+except ValueError:
+    print("Valeur invalide")</code></pre><h2>Bonnes pratiques</h2><ul><li>Travailler uniquement sur des systèmes autorisés.</li><li>Ne pas exécuter de code inconnu sans l'analyser.</li><li>Ne jamais stocker des mots de passe ou clés dans le code.</li><li>Documenter les scripts d'administration.</li></ul><h2>TP</h2><ol><li>Analyser un fichier journal fictif.</li><li>Compter les lignes contenant différents niveaux de log.</li><li>Produire un petit rapport texte.</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
