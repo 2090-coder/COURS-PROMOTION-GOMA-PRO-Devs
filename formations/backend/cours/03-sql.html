@@ -1,0 +1,15 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 03 — SQL</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 03</p><h1>SQL et bases de données</h1><p>SQL permet de définir, rechercher, modifier et relier les données d'une base relationnelle.</p><h2>Créer une table</h2><pre><code>CREATE TABLE etudiants (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nom VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  note DECIMAL(4,2)
+);</code></pre><h2>Requêtes essentielles</h2><pre><code>SELECT id, nom, note
+FROM etudiants
+WHERE note &gt;= 10
+ORDER BY note DESC;
+
+INSERT INTO etudiants (nom, email, note)
+VALUES ('Aline', 'aline@example.test', 14);</code></pre><h2>Relations</h2><p>Une relation permet de relier des tables par des clés. Les jointures permettent ensuite de récupérer les informations associées.</p><pre><code>SELECT e.nom, f.nom AS formation
+FROM inscriptions i
+JOIN etudiants e ON e.id = i.etudiant_id
+JOIN formations f ON f.id = i.formation_id;</code></pre><h2>TP</h2><ol><li>Créer une base pour gérer des étudiants.</li><li>Ajouter formations et inscriptions.</li><li>Écrire des requêtes de recherche et de statistiques.</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
