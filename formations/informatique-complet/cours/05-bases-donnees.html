@@ -1,0 +1,11 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>05 — Bases de données | GOMA PRO Devs</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../index.html">← Formation</a></nav></div></header><main class="container course-section"><p class="eyebrow">INFORMATIQUE COMPLET · CHAPITRE 05</p><h1>Bases de données et SQL</h1><p>Modéliser, créer, interroger et maintenir des données structurées.</p><h2>1. Modèle relationnel</h2><p>Une base relationnelle organise les informations en tables composées de lignes et de colonnes. Une clé primaire identifie chaque ligne de façon unique.</p><h2>2. Création d'une table</h2><pre><code>CREATE TABLE etudiants (
+    id INTEGER PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    age INTEGER,
+    email VARCHAR(150) UNIQUE
+);</code></pre><h2>3. Requêtes essentielles</h2><pre><code>SELECT nom, age FROM etudiants;
+INSERT INTO etudiants (id, nom, age) VALUES (1, 'Amina', 19);
+UPDATE etudiants SET age = 20 WHERE id = 1;
+DELETE FROM etudiants WHERE id = 1;</code></pre><h2>4. Relations et JOIN</h2><p>Les relations permettent de relier plusieurs tables. Un JOIN récupère des informations liées selon une condition commune.</p><pre><code>SELECT e.nom, f.nom
+FROM etudiants e
+JOIN formations f ON e.formation_id = f.id;</code></pre><h2>5. Bonnes pratiques</h2><ul><li>Choisir des clés cohérentes.</li><li>Éviter les doublons inutiles.</li><li>Utiliser des requêtes paramétrées côté application.</li><li>Prévoir des sauvegardes.</li></ul><h2>Travaux pratiques</h2><ol><li>Créer une base de gestion des étudiants.</li><li>Créer les tables étudiants, formations et inscriptions.</li><li>Écrire des requêtes SELECT, INSERT, UPDATE et DELETE.</li><li>Faire une requête JOIN entre étudiants et formations.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce qu'une clé primaire ?</li><li>Pourquoi utiliser une relation entre tables ?</li><li>À quoi sert JOIN ?</li><li>Pourquoi sauvegarder une base de données ?</li></ol></main></body></html>
