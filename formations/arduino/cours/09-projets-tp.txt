@@ -1,0 +1,19 @@
+GOMA PRO Devs — Arduino 09 — Projet final
+
+Projets proposés :
+1. Feu tricolore avec bouton piéton.
+2. Station de mesure avec capteur et seuil d'alerte.
+3. Système de commande basse tension adapté au laboratoire.
+
+Livrables :
+- problème et objectifs ;
+- schéma fonctionnel ;
+- choix des composants ;
+- code commenté et modulaire ;
+- tests et résultats ;
+- documentation ;
+- présentation et démonstration.
+
+Évaluation : compréhension 20 %, code 25 %, fonctionnement 20 %, tests 15 %, documentation 10 %, présentation 10 %.
+
+Sécurité : utiliser uniquement des montages adaptés au laboratoire et respecter les règles électriques de l'établissement.
