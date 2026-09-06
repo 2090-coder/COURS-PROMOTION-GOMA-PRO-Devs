@@ -1,0 +1,13 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 02 — POO PHP</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 02</p><h1>PHP orienté objet</h1><p>La programmation orientée objet permet de regrouper données et comportements dans des classes bien organisées.</p><h2>Classe et objet</h2><pre><code>class Etudiant {
+    public function __construct(
+        public string $nom,
+        private float $note
+    ) {}
+
+    public function estAdmis(): bool {
+        return $this-&gt;note &gt;= 10;
+    }
+}
+
+$etudiant = new Etudiant("Aline", 14);
+var_dump($etudiant-&gt;estAdmis());</code></pre><h2>Concepts</h2><ul><li>Encapsulation et visibilité <code>public</code>, <code>protected</code>, <code>private</code>.</li><li>Héritage pour spécialiser une classe.</li><li>Interfaces pour définir un contrat.</li><li>Composition pour assembler des objets.</li></ul><h2>TP</h2><ol><li>Créer une classe Utilisateur.</li><li>Créer une classe Etudiant qui contient des informations de formation.</li><li>Ajouter des méthodes de validation.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce qu'une classe ?</li><li>Pourquoi encapsuler une propriété ?</li><li>Différence entre héritage et composition ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
