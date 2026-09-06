@@ -1,0 +1,14 @@
+GOMA PRO Devs — Arduino 07 — TP Communications
+
+Travail :
+1. Initialiser UART avec Serial.begin().
+2. Envoyer périodiquement une mesure.
+3. Identifier l'adresse I2C d'un périphérique dans un laboratoire autorisé.
+4. Lire une donnée d'un capteur I2C.
+5. Identifier SCK, MOSI, MISO et CS/SS pour le bus SPI de la carte utilisée.
+
+Questions :
+- Quelle différence entre UART, I2C et SPI ?
+- Que représentent SDA et SCL ?
+- Pourquoi SPI utilise-t-il généralement plus de lignes ?
+- Pourquoi faut-il vérifier les broches propres à chaque carte ?
