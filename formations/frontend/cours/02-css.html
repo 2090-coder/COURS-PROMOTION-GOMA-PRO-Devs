@@ -1,0 +1,17 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 02 — CSS</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 02</p><h1>CSS : styliser et organiser l'interface</h1><p>CSS contrôle les couleurs, dimensions, espacements, positions et la mise en page.</p><h2>Concepts fondamentaux</h2><ul><li>Sélecteurs et spécificité.</li><li>Box model : contenu, padding, border, margin.</li><li>Unités : px, %, rem, vh et vw.</li><li>Flexbox pour les mises en page en une dimension.</li><li>Grid pour les mises en page en deux dimensions.</li><li>Media queries pour le responsive design.</li></ul><h2>Exemple</h2><pre><code>.carte {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .grille { grid-template-columns: 1fr; }
+}</code></pre><h2>TP</h2><ol><li>Transformer une page HTML simple en carte moderne.</li><li>Créer une grille de trois cartes.</li><li>Adapter la grille aux téléphones.</li><li>Tester avec les outils développeur du navigateur.</li></ol><h2>Questions</h2><ol><li>Expliquez le box model.</li><li>À quoi sert Flexbox ?</li><li>Pourquoi utiliser une media query ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
