@@ -1,0 +1,37 @@
+GOMA PRO Devs — Arduino — TP 01
+
+OBJECTIF
+Faire clignoter une LED toutes les 500 ms.
+
+MATERIEL
+- Une carte Arduino compatible
+- Une LED si la carte n'utilise pas sa LED intégrée
+- Une résistance adaptée si nécessaire
+- Câbles et plaque d'essai selon le montage
+
+CODE
+
+const int LED = 13;
+
+void setup() {
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED, HIGH);
+  delay(500);
+  digitalWrite(LED, LOW);
+  delay(500);
+}
+
+TRAVAIL A REALISER
+1. Compiler le programme.
+2. Téléverser le programme sur la carte.
+3. Observer le clignotement.
+4. Modifier 500 en 200 pour accélérer le rythme.
+5. Tester une autre valeur et noter le résultat.
+
+QUESTIONS
+1. Quel est le rôle de pinMode() ?
+2. Quel est le rôle de digitalWrite() ?
+3. Que représente 500 dans delay(500) ?
