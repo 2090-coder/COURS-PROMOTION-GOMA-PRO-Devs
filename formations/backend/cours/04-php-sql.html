@@ -1,0 +1,10 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 04 — PHP + SQL</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 04</p><h1>PHP + SQL : construire un CRUD</h1><p>PDO permet à PHP de communiquer avec une base relationnelle. Les requêtes préparées réduisent les risques d'injection SQL.</p><h2>Connexion PDO</h2><pre><code>$pdo = new PDO(
+    'mysql:host=localhost;dbname=goma_pro_devs;charset=utf8mb4',
+    $user,
+    $password,
+    [PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION]
+);</code></pre><h2>Requête préparée</h2><pre><code>$stmt = $pdo-&gt;prepare(
+    'SELECT id, nom FROM etudiants WHERE email = :email'
+);
+$stmt-&gt;execute(['email' =&gt; $email]);
+$etudiant = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</code></pre><h2>CRUD</h2><ul><li>Create : créer.</li><li>Read : lire.</li><li>Update : modifier.</li><li>Delete : supprimer.</li></ul><h2>TP</h2><ol><li>Créer une table d'étudiants.</li><li>Réaliser les quatre opérations CRUD.</li><li>Ajouter validation et gestion des erreurs.</li><li>Tester les cas invalides.</li></ol><h2>Question importante</h2><p>Pourquoi concaténer directement une donnée utilisateur dans une requête SQL est-il une mauvaise pratique ?</p><p><a href="../index.html">← Retour</a></p></main></body></html>
