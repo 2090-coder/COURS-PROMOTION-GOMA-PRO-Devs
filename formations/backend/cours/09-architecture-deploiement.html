@@ -1,0 +1,15 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 09 — Architecture et déploiement</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 09</p><h1>Architecture, API et mise en ligne</h1><p>Avant le projet final, on apprend à transformer un petit script en application organisée, testable et prête à être déployée.</p><h2>1. Séparer les responsabilités</h2><pre><code>projet/
+  public/
+  src/
+    Controllers/
+    Services/
+    Repositories/
+  config/
+  views/
+  storage/</code></pre><p>L'objectif est d'éviter de mélanger dans une seule page HTML, SQL, authentification et logique métier.</p><h2>2. API JSON</h2><pre><code>&lt;?php
+header('Content-Type: application/json; charset=utf-8');
+
+echo json_encode([
+  'success' =&gt; true,
+  'message' =&gt; 'Bonjour'
+]);</code></pre><p>Une API permet à un frontend ou à une autre application de communiquer avec le backend à l'aide de requêtes HTTP et de données structurées.</p><h2>3. Configuration</h2><p>Les mots de passe de base de données, clés et autres secrets ne doivent pas être placés dans Git. Utilisez des variables d'environnement ou un mécanisme de configuration adapté à l'hébergement.</p><h2>4. Sauvegardes et erreurs</h2><ul><li>Prévoir des sauvegardes régulières de la base.</li><li>Conserver les journaux d'erreurs côté serveur.</li><li>Ne pas afficher les détails internes aux visiteurs.</li><li>Tester les restaurations de sauvegarde.</li></ul><h2>5. Mise en ligne</h2><ol><li>Préparer la configuration de production.</li><li>Créer la base sur l'hébergement.</li><li>Importer le schéma et les données nécessaires.</li><li>Déployer le code.</li><li>Configurer le domaine et HTTPS.</li><li>Tester inscription, connexion, droits et formulaires.</li></ol><h2>TP</h2><ol><li>Transformer votre projet des chapitres précédents en structure organisée.</li><li>Créer une petite route JSON.</li><li>Déplacer les informations sensibles hors du code.</li><li>Écrire une checklist de mise en production.</li></ol><h2>Questions</h2><ol><li>Pourquoi séparer la logique métier de l'affichage ?</li><li>À quoi sert une API JSON ?</li><li>Pourquoi ne pas publier les secrets dans Git ?</li><li>Pourquoi tester une restauration de sauvegarde ?</li></ol><p><a href="08-espace-admin.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="10-projet-final.html">Chapitre suivant →</a></p></main></body></html>
