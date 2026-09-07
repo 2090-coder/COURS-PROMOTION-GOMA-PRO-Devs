@@ -1,15 +1,13 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 03 — SQL</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 03</p><h1>SQL et bases de données</h1><p>SQL permet de définir, rechercher, modifier et relier les données d'une base relationnelle.</p><h2>Créer une table</h2><pre><code>CREATE TABLE etudiants (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nom VARCHAR(100) NOT NULL,
-  email VARCHAR(150) UNIQUE NOT NULL,
-  note DECIMAL(4,2)
-);</code></pre><h2>Requêtes essentielles</h2><pre><code>SELECT id, nom, note
-FROM etudiants
-WHERE note &gt;= 10
-ORDER BY note DESC;
-
-INSERT INTO etudiants (nom, email, note)
-VALUES ('Aline', 'aline@example.test', 14);</code></pre><h2>Relations</h2><p>Une relation permet de relier des tables par des clés. Les jointures permettent ensuite de récupérer les informations associées.</p><pre><code>SELECT e.nom, f.nom AS formation
-FROM inscriptions i
-JOIN etudiants e ON e.id = i.etudiant_id
-JOIN formations f ON f.id = i.formation_id;</code></pre><h2>TP</h2><ol><li>Créer une base pour gérer des étudiants.</li><li>Ajouter formations et inscriptions.</li><li>Écrire des requêtes de recherche et de statistiques.</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 03 — PHP et HTML</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 03</p><h1>Voir le résultat et mélanger PHP avec HTML</h1><p>PHP travaille côté serveur. Le serveur exécute le code PHP puis envoie au navigateur le résultat HTML. Le navigateur affiche ensuite cette page.</p><h2>1. PHP dans une page HTML</h2><pre><code>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+&lt;body&gt;
+    &lt;h1&gt;Mon site&lt;/h1&gt;
+    &lt;p&gt;Bonjour &lt;?php echo "Aline"; ?&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><h2>2. Afficher des données</h2><pre><code>&lt;?php
+$prenom = "Jean";
+?&gt;
+&lt;h1&gt;Bonjour &lt;?= htmlspecialchars($prenom) ?&gt;&lt;/h1&gt;</code></pre><p>Lorsqu'une donnée vient d'un utilisateur, on apprend à l'afficher avec un échappement adapté au contexte afin d'éviter d'injecter du HTML non désiré.</p><h2>3. Liens entre les pages</h2><pre><code>&lt;a href="contact.php"&gt;Contact&lt;/a&gt;
+&lt;a href="profil.php?id=15"&gt;Voir le profil&lt;/a&gt;</code></pre><h2>4. Réutiliser le HTML</h2><pre><code>&lt;?php include "header.php"; ?&gt;
+&lt;main&gt;Contenu de la page&lt;/main&gt;
+&lt;?php include "footer.php"; ?&gt;</code></pre><h2>5. Comprendre le chemin du résultat</h2><ol><li>Le navigateur demande une URL.</li><li>Le serveur reçoit la demande.</li><li>PHP exécute le script.</li><li>PHP produit du HTML.</li><li>Le serveur renvoie la réponse.</li><li>Le navigateur affiche la page.</li></ol><h2>TP</h2><ol><li>Créer <code>index.php</code> avec un titre HTML.</li><li>Afficher dynamiquement un prénom et une liste.</li><li>Créer <code>header.php</code> et <code>footer.php</code>.</li><li>Relier deux pages avec des liens.</li></ol><h2>Questions</h2><ol><li>Où le PHP est-il exécuté ?</li><li>Pourquoi le navigateur reçoit-il principalement du HTML ?</li><li>À quoi sert <code>include</code> ?</li><li>Pourquoi utiliser <code>htmlspecialchars</code> pour une donnée affichée ?</li></ol><p><a href="02-oop.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="04-php-sql.html">Chapitre suivant →</a></p></main></body></html>
