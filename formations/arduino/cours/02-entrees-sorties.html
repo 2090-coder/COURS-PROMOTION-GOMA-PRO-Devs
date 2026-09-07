@@ -1,19 +1,57 @@
 <!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 02 — Entrées, sorties et PWM</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;border-radius:14px;padding:20px;margin:18px 0}pre{background:#111827;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}code{font-family:Consolas,monospace}.tag{display:inline-block;padding:5px 10px;border-radius:999px;background:#e8eefc;margin:3px}.downloads{display:flex;flex-wrap:wrap;gap:12px}.downloads a{display:inline-block;padding:11px 15px;background:#2563eb;color:white;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 02 — Entrées, sorties et PWM</h1><p>Comprendre les GPIO, les boutons, les entrées analogiques et la commande de puissance par PWM.</p><div class="box"><h2>1. GPIO</h2><p>Une broche numérique peut être configurée en <b>INPUT</b>, <b>INPUT_PULLUP</b> ou <b>OUTPUT</b>.</p><span class="tag">pinMode()</span><span class="tag">digitalRead()</span><span class="tag">digitalWrite()</span></div><div class="box"><h2>2. Bouton et LED</h2><pre><code>const int bouton = 2;
-const int led = 13;
-
-void setup() {
-  pinMode(bouton, INPUT_PULLUP);
-  pinMode(led, OUTPUT);
+<html lang="fr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 02 — Premiers programmes : deux LEDs</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto;line-height:1.55}code{font-family:Consolas,monospace}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px;margin-top:18px}.note{background:#fff8e6;border:1px solid #f2d58a;padding:16px;border-radius:12px}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px}.nav a{padding:10px 14px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}</style></head>
+<body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../../../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../../../index.html">Accueil</a></nav></div></header>
+<section class="course-hero"><div class="container"><p class="eyebrow">ARDUINO — CHAPITRE 02</p><h1>Premiers programmes : deux LEDs</h1><p>Nous programmons maintenant des sorties numériques, sans variables, afin de comprendre les instructions une par une.</p></div></section>
+<main>
+<div class="box"><h2>1. Ce que nous avons déjà appris</h2><p>Dans le chapitre 01, nous avons découvert la carte Arduino, l'IDE, la compilation, le téléversement et la structure <code>setup()</code>/<code>loop()</code>. Nous avons aussi découvert <code>pinMode()</code>.</p><div class="note"><strong>Règle pédagogique :</strong> dans ce chapitre, nous n'utilisons volontairement pas de variables. Nous voulons comprendre le fonctionnement des instructions avant d'apprendre à donner des noms aux valeurs.</div></div>
+<div class="box"><h2>2. Configurer une LED comme sortie</h2><pre><code>void setup() {
+  pinMode(13, OUTPUT);
 }
 
 void loop() {
-  bool appuye = digitalRead(bouton) == LOW;
-  digitalWrite(led, appuye ? HIGH : LOW);
-}</code></pre><p>Avec <code>INPUT_PULLUP</code>, le bouton est généralement relié entre la broche et GND.</p></div><div class="box"><h2>3. Entrée analogique</h2><p><code>analogRead()</code> mesure une tension sur une entrée analogique. Sur de nombreuses cartes Arduino classiques, la valeur est lue sur une échelle de 0 à 1023.</p><pre><code>int valeur = analogRead(A0);
-Serial.println(valeur);</code></pre></div><div class="box"><h2>4. PWM</h2><p>Le PWM permet de commander progressivement une sortie compatible, par exemple la luminosité d'une LED.</p><pre><code>const int led = 9;
-void setup(){ pinMode(led, OUTPUT); }
-void loop(){
-  for(int p=0;p&lt;=255;p++) { analogWrite(led,p); delay(5); }
-  for(int p=255;p&gt;=0;p--) { analogWrite(led,p); delay(5); }
-}</code></pre></div><div class="box"><h2>5. TP</h2><ol><li>Lire un potentiomètre sur A0.</li><li>Afficher sa valeur dans le moniteur série.</li><li>Transformer cette valeur en luminosité LED avec <code>map()</code>.</li><li>Ajouter un bouton pour activer/désactiver le système.</li></ol></div><div class="box"><h2>À retenir</h2><p>GPIO = communication avec le monde extérieur. Analogique = mesure. PWM = commande progressive d'une sortie compatible.</p></div><div class="box"><h2>6. Fichiers à télécharger</h2><div class="downloads"><a href="02-entrees-sorties.ino" download="GOMA-PRO-Devs-Arduino-02.ino">Télécharger le code .ino</a><a href="02-tp.txt" download="GOMA-PRO-Devs-Arduino-02-TP.txt">Télécharger la fiche TP</a></div></div></main></body></html>
+}</code></pre><p><code>pinMode(13, OUTPUT)</code> indique à Arduino que la broche 13 sera utilisée comme sortie.</p></div>
+<div class="box"><h2>3. Allumer la LED</h2><pre><code>void setup() {
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(13, HIGH);
+}</code></pre><p><code>digitalWrite(13, HIGH)</code> demande à Arduino de placer la broche 13 à l'état logique HIGH.</p></div>
+<div class="box"><h2>4. Éteindre la LED</h2><pre><code>void setup() {
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(13, LOW);
+}</code></pre><p><code>LOW</code> demande l'état logique bas.</p></div>
+<div class="box"><h2>5. Faire clignoter une LED</h2><pre><code>void setup() {
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(1000);
+  digitalWrite(13, LOW);
+  delay(1000);
+}</code></pre><p>Arduino allume la LED, attend 1 seconde, l'éteint, attend 1 seconde, puis recommence.</p></div>
+<div class="box"><h2>6. Premier exercice : deux LEDs l'une après l'autre</h2><p>Brancher une première LED sur la broche 13 et une deuxième LED sur la broche 12, avec les résistances adaptées et une masse commune.</p><pre><code>void setup() {
+  pinMode(13, OUTPUT);
+  pinMode(12, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(13, HIGH);
+  digitalWrite(12, LOW);
+  delay(1000);
+
+  digitalWrite(13, LOW);
+  digitalWrite(12, HIGH);
+  delay(1000);
+}</code></pre><p>Résultat : LED 1 allumée → attente → LED 1 éteinte et LED 2 allumée → attente → le cycle recommence.</p></div>
+<div class="box"><h2>7. Comprendre exactement l'ordre des instructions</h2><ol><li>Arduino configure 13 comme sortie.</li><li>Arduino configure 12 comme sortie.</li><li>La broche 13 passe à HIGH.</li><li>La broche 12 passe à LOW.</li><li>Arduino attend 1000 ms.</li><li>La broche 13 passe à LOW.</li><li>La broche 12 passe à HIGH.</li><li>Arduino attend encore 1000 ms.</li><li><code>loop()</code> recommence.</li></ol></div>
+<div class="box"><h2>8. Exercices progressifs</h2><div class="exercise"><strong>Exercice 1 :</strong> faire clignoter les deux LEDs ensemble.</div><div class="exercise"><strong>Exercice 2 :</strong> faire rester la LED 13 allumée pendant 2 secondes et la LED 12 pendant 1 seconde.</div><div class="exercise"><strong>Exercice 3 :</strong> créer une séquence LED 13 → LED 12 → LED 13 → LED 12.</div><div class="exercise"><strong>Exercice 4 :</strong> modifier les temps d'attente pour obtenir une séquence plus rapide.</div></div>
+<div class="box"><h2>9. Questions de compréhension</h2><ol><li>À quoi sert <code>pinMode()</code> ?</li><li>Quelle différence entre <code>HIGH</code> et <code>LOW</code> ?</li><li>À quoi sert <code>digitalWrite()</code> ?</li><li>À quoi sert <code>delay(1000)</code> ?</li><li>Pourquoi avons-nous utilisé deux appels à <code>pinMode()</code> ?</li><li>Pourquoi n'avons-nous pas encore créé de variable ?</li></ol></div>
+<div class="box"><h2>10. Ce qu'il faut retenir</h2><p>Avant d'apprendre les variables, il faut savoir commander directement une broche. Nous savons maintenant configurer une sortie, l'allumer, l'éteindre, attendre et construire une séquence de plusieurs sorties.</p><p><strong>Au chapitre 03 :</strong> nous allons reprendre exactement ces mêmes exercices et apprendre pourquoi les variables rendent le programme plus lisible, plus facile à modifier et plus réutilisable.</p></div>
+<div class="nav"><a href="01-fondamentaux.html">← Chapitre 01</a><a href="03-cpp-arduino.html">Chapitre 03 →</a></div>
+</main></body></html>
