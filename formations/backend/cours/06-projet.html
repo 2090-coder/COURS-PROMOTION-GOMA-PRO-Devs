@@ -1,1 +1,22 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 06 — Projet final</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 06</p><h1>Projet final : plateforme de gestion</h1><p>Réalisez une application PHP + SQL permettant de gérer des étudiants, des formations et des inscriptions.</p><h2>Fonctionnalités</h2><ul><li>CRUD des étudiants.</li><li>Gestion des formations.</li><li>Recherche et filtres.</li><li>Authentification et autorisations.</li><li>Validation serveur.</li><li>Base de données relationnelle.</li><li>Journalisation des erreurs sans exposer de données sensibles.</li></ul><h2>Évaluation / 100</h2><ul><li>PHP et architecture : 20</li><li>Base SQL : 20</li><li>CRUD : 20</li><li>Sécurité : 20</li><li>Qualité, tests et documentation : 20</li></ul><p><a href="../index.html">← Retour à la formation</a></p></main></body></html>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 06 — PHP et MySQL</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 06</p><h1>Connecter PHP à MySQL avec PDO</h1><p>Nous allons maintenant relier les deux parties : PHP traite les demandes et MySQL conserve les données. PDO fournit l'interface PHP pour accéder à MySQL.</p><h2>1. Créer la connexion</h2><pre><code>&lt;?php
+$pdo = new PDO(
+    'mysql:host=localhost;dbname=goma_pro_devs;charset=utf8mb4',
+    'root',
+    'mot_de_passe_local',
+    [PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION]
+);</code></pre><p>En pratique, les identifiants de production ne doivent pas être écrits directement dans le code source.</p><h2>2. Lire les utilisateurs</h2><pre><code>$stmt = $pdo-&gt;query(
+    'SELECT id, nom, email FROM utilisateurs ORDER BY id DESC'
+);
+
+$utilisateurs = $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);</code></pre><h2>3. Requêtes préparées</h2><pre><code>$stmt = $pdo-&gt;prepare(
+    'SELECT id, nom, email FROM utilisateurs WHERE email = :email'
+);
+$stmt-&gt;execute(['email' =&gt; $email]);
+$user = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</code></pre><p>Les requêtes préparées permettent de séparer les paramètres des instructions SQL et constituent une pratique essentielle pour éviter les injections SQL.</p><h2>4. CRUD</h2><ul><li><strong>Create</strong> : INSERT</li><li><strong>Read</strong> : SELECT</li><li><strong>Update</strong> : UPDATE</li><li><strong>Delete</strong> : DELETE</li></ul><h2>5. Organisation</h2><pre><code>projet/
+  public/
+    index.php
+  config/
+    database.php
+  pages/
+  includes/
+</code></pre><p>Le but est de séparer progressivement la configuration, le traitement et l'affichage.</p><h2>TP</h2><ol><li>Connecter PHP à votre base locale.</li><li>Afficher les utilisateurs dans un tableau HTML.</li><li>Créer un formulaire d'ajout.</li><li>Créer la modification et la suppression.</li><li>Utiliser des requêtes préparées pour les données fournies par l'utilisateur.</li></ol><h2>Questions</h2><ol><li>À quoi sert PDO ?</li><li>Pourquoi utiliser une requête préparée ?</li><li>Que signifie CRUD ?</li><li>Pourquoi séparer la configuration du reste du code ?</li></ol><p><a href="05-auth-securite.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="07-inscription-login.html">Chapitre suivant →</a></p></main></body></html>
