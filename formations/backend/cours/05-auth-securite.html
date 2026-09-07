@@ -1,6 +1,22 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 05 — Authentification</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 05</p><h1>Authentification et sécurité</h1><p>Un backend doit vérifier l'identité et les droits de l'utilisateur sans faire confiance aux données envoyées par le navigateur.</p><h2>Mots de passe</h2><pre><code>$hash = password_hash($password, PASSWORD_DEFAULT);
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 05 — MySQL et SQL</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 05</p><h1>Installer et apprendre MySQL</h1><p>Une application réelle doit souvent conserver des informations. MySQL est un système de gestion de base de données relationnelle. Ici, on apprend d'abord à créer et comprendre les données avant de les connecter à PHP.</p><h2>1. Installer l'environnement de base de données</h2><p>Installez un serveur MySQL adapté à votre environnement de cours. Vous pouvez aussi utiliser un environnement local qui fournit MySQL et un outil d'administration. Notez le nom du serveur, le port, l'utilisateur et le mot de passe de développement.</p><h2>2. Créer une base</h2><pre><code>CREATE DATABASE goma_pro_devs
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;</code></pre><h2>3. Créer une table</h2><pre><code>USE goma_pro_devs;
 
-if (password_verify($password, $hash)) {
-    echo "Mot de passe correct";
-}</code></pre><h2>Sessions</h2><pre><code>session_start();
-$_SESSION['user_id'] = $user['id'];</code></pre><h2>Principes de sécurité</h2><ul><li>Hacher les mots de passe avec les fonctions prévues par PHP.</li><li>Utiliser des requêtes préparées.</li><li>Valider les entrées côté serveur.</li><li>Contrôler les autorisations à chaque action sensible.</li><li>Ne jamais stocker de secrets dans Git.</li><li>Utiliser HTTPS en production.</li></ul><h2>TP</h2><ol><li>Créer une page de connexion dans un environnement local.</li><li>Ajouter une session après authentification.</li><li>Protéger une page réservée aux utilisateurs connectés.</li><li>Ajouter une déconnexion.</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
+CREATE TABLE utilisateurs (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nom VARCHAR(100) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  mot_de_passe VARCHAR(255) NOT NULL,
+  role VARCHAR(30) NOT NULL DEFAULT 'user',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</code></pre><h2>4. Ajouter et lire</h2><pre><code>INSERT INTO utilisateurs (nom, email, mot_de_passe)
+VALUES ('Aline', 'aline@example.test', 'HASH_A_METTRE_DEPUIS_PHP');
+
+SELECT id, nom, email, role
+FROM utilisateurs
+ORDER BY id DESC;</code></pre><p>Un mot de passe réel ne doit jamais être enregistré en clair. Le hash sera produit par PHP dans le chapitre sur l'inscription.</p><h2>5. Modifier et supprimer</h2><pre><code>UPDATE utilisateurs
+SET nom = 'Aline K.'
+WHERE id = 1;
+
+DELETE FROM utilisateurs
+WHERE id = 1;</code></pre><h2>6. Relations</h2><p>Les applications peuvent contenir plusieurs tables reliées par des clés. Nous utiliserons ensuite ces relations pour construire une application complète.</p><h2>TP</h2><ol><li>Créer la base <code>goma_pro_devs</code>.</li><li>Créer la table <code>utilisateurs</code>.</li><li>Créer une table <code>formations</code>.</li><li>Insérer quelques données de test.</li><li>Faire des recherches, modifications et suppressions.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce qu'une base de données ?</li><li>Pourquoi mettre une contrainte UNIQUE sur l'email ?</li><li>À quoi sert une clé primaire ?</li><li>Pourquoi ne faut-il pas stocker un mot de passe en clair ?</li></ol><p><a href="04-php-sql.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="06-projet.html">Chapitre suivant →</a></p></main></body></html>
