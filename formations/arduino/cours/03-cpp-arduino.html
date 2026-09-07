@@ -1,24 +1,34 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 03 — C/C++</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a{padding:11px 15px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 03 — C/C++ pour microcontrôleurs</h1><div class="box"><h2>Objectifs</h2><p>Maîtriser variables, conditions, boucles, fonctions, tableaux, chaînes, structures et bases de la programmation orientée objet.</p></div><div class="box"><h2>Variables</h2><pre><code>int compteur = 0;
-long temps = 0;
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 03 — Les variables</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}.step{border-left:4px solid #2563eb;padding:14px 18px;background:#f8faff;margin:14px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto;line-height:1.55}.exercise{background:#fff7ed;border-left:4px solid #f59e0b;padding:16px 18px;margin:14px 0}.good{background:#ecfdf3;border-left:4px solid #16a34a;padding:16px 18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a{padding:11px 15px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 03 — Les variables</h1><p>Après avoir appris à commander les LEDs sans variables, nous allons maintenant comprendre pourquoi les variables rendent un programme plus clair, flexible et facile à modifier.</p><div class="box"><h2>1. Avant les variables : le problème</h2><p>Dans le chapitre précédent, nous pouvions écrire directement les numéros des broches :</p><pre><code>pinMode(13, OUTPUT); pinMode(12, OUTPUT); digitalWrite(13, HIGH); delay(500); digitalWrite(13, LOW); digitalWrite(12, HIGH); delay(500); digitalWrite(12, LOW);</code></pre><p>Le programme fonctionne. Mais si la LED 1 passe de la broche 13 à la broche 8, il faut rechercher tous les <code>13</code> dans le programme.</p></div><div class="box"><h2>2. Qu'est-ce qu'une variable ?</h2><p>Une variable est une zone de mémoire à laquelle on donne un nom. Elle permet de mémoriser une valeur et de réutiliser cette valeur dans le programme.</p><pre><code>led1 → 13
+led2 → 12</code></pre><p>Le nom <code>led1</code> représente donc la valeur <code>13</code>.</p></div><div class="box"><h2>3. Première variable</h2><pre><code>int led1 = 13;</code></pre><div class="step"><strong>int</strong> → type de donnée.</div><div class="step"><strong>led1</strong> → nom de la variable.</div><div class="step"><strong>=</strong> → affectation d'une valeur.</div><div class="step"><strong>13</strong> → valeur stockée.</div><p>La ligne signifie : « crée une variable entière appelée <code>led1</code> et donne-lui la valeur 13 ».</p></div><div class="box"><h2>4. Refaire l'exercice avec deux LEDs</h2><pre><code>int led1 = 13;
+int led2 = 12;
+
+void setup() {
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(led1, HIGH);
+  delay(500);
+  digitalWrite(led1, LOW);
+
+  digitalWrite(led2, HIGH);
+  delay(500);
+  digitalWrite(led2, LOW);
+}</code></pre><div class="good"><strong>Pourquoi est-ce mieux ?</strong><br>Si la première LED passe de la broche 13 à la broche 8, on modifie seulement <code>int led1 = 8;</code>.</div></div><div class="box"><h2>5. Une variable peut changer</h2><pre><code>int nombre = 10;
+nombre = 20;
+nombre = 30;</code></pre><p>La variable garde son nom, mais sa valeur peut changer pendant l'exécution.</p></div><div class="box"><h2>6. Les principaux types</h2><ul><li><code>int</code> : nombres entiers.</li><li><code>float</code> : nombres avec décimales.</li><li><code>char</code> : un caractère.</li><li><code>bool</code> : vrai ou faux.</li><li><code>long</code> : entier pouvant représenter des valeurs plus grandes.</li></ul><pre><code>int age = 18;
 float tension = 3.3;
-bool actif = true;
-const int LED = 13;</code></pre></div><div class="box"><h2>Conditions et boucles</h2><pre><code>if (temperature &gt; 30) {
-  digitalWrite(LED, HIGH);
-} else {
-  digitalWrite(LED, LOW);
+char lettre = 'A';
+bool moteurActif = true;</code></pre></div><div class="box"><h2>7. Modifier une variable</h2><pre><code>int compteur = 0;
+compteur = compteur + 1;
+compteur = compteur + 1;
+compteur = compteur + 1;</code></pre><p>Après ces trois instructions, <code>compteur</code> vaut 3.</p><pre><code>compteur++;</code></pre><p>Cette instruction augmente la valeur de 1.</p></div><div class="box"><h2>8. Afficher une variable</h2><pre><code>int nombre = 25;
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println(nombre);
 }
 
-for (int i=0; i&lt;5; i++) {
-  Serial.println(i);
-}</code></pre></div><div class="box"><h2>Fonctions</h2><pre><code>int addition(int a, int b) {
-  return a + b;
-}
-
-void allumer(int pin) {
-  digitalWrite(pin, HIGH);
-}</code></pre></div><div class="box"><h2>Tableaux et structures</h2><pre><code>int leds[] = {3,5,6,9};
-
-struct Mesure {
-  float temperature;
-  float humidite;
-};</code></pre></div><div class="box"><h2>Mini-projet</h2><p>Créer un séquenceur de 4 LED avec une fonction dédiée à l'animation et un tableau contenant les broches.</p></div><div class="box"><h2>Exercices</h2><ol><li>Écrire une fonction qui retourne le maximum de trois nombres.</li><li>Parcourir un tableau de 8 valeurs et calculer la moyenne.</li><li>Créer une structure pour stocker une mesure de capteur.</li><li>Expliquer la différence entre variable locale et globale.</li></ol></div><div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="03-cpp-arduino.ino" download>Télécharger le code .ino</a><a href="03-tp.txt" download>Télécharger la fiche TP</a></div></div></main></body></html>
+void loop() {
+}</code></pre><p>Le moniteur série permet de voir la valeur envoyée par Arduino.</p></div><div class="box"><h2>9. Constante</h2><pre><code>const int led1 = 13;</code></pre><p><code>const</code> indique que la valeur est destinée à rester constante. C'est pratique pour une configuration comme le numéro d'une broche.</p></div><div class="exercise"><h2>10. TP 01 — Deux LEDs avec variables</h2><ol><li>Créer <code>led1</code> avec la valeur 13.</li><li>Créer <code>led2</code> avec la valeur 12.</li><li>Configurer les deux broches en sortie.</li><li>Allumer LED 1 pendant 1 seconde.</li><li>L'éteindre.</li><li>Allumer LED 2 pendant 1 seconde.</li><li>L'éteindre.</li><li>Faire recommencer le cycle.</li></ol></div><div class="exercise"><h2>11. TP 02 — Compteur</h2><p>Créer une variable <code>compteur</code> initialisée à 0. À chaque passage dans <code>loop()</code>, augmenter sa valeur et l'afficher dans le moniteur série.</p></div><div class="exercise"><h2>12. Questions</h2><ol><li>Qu'est-ce qu'une variable ?</li><li>Que signifie <code>int</code> ?</li><li>Que signifie <code>led1 = 13</code> ?</li><li>Pourquoi utiliser une variable pour le numéro d'une LED ?</li><li>Quelle différence entre une variable et une constante ?</li><li>À quoi sert <code>Serial.println()</code> ?</li></ol></div><div class="box"><h2>13. Ce que nous avons appris</h2><p>Nous avons d'abord programmé Arduino directement avec les numéros des broches. Maintenant nous savons donner des noms aux valeurs grâce aux variables. La prochaine étape sera d'utiliser ces variables pour prendre des décisions avec <code>if</code> et <code>else</code>, puis répéter des actions avec les boucles.</p></div><div class="box"><h2>14. Fichiers à télécharger</h2><div class="downloads"><a href="03-cpp-arduino.ino" download>Télécharger le code .ino</a><a href="03-tp.txt" download>Télécharger la fiche TP</a></div></div></main></body></html>
