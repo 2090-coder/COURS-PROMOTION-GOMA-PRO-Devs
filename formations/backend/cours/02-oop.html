@@ -1,13 +1,20 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 02 — POO PHP</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 02</p><h1>PHP orienté objet</h1><p>La programmation orientée objet permet de regrouper données et comportements dans des classes bien organisées.</p><h2>Classe et objet</h2><pre><code>class Etudiant {
-    public function __construct(
-        public string $nom,
-        private float $note
-    ) {}
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 02 — Programmer en PHP</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 02</p><h1>Programmer en PHP : les bases</h1><p>Maintenant que PHP fonctionne, on apprend à programmer progressivement : afficher, stocker, calculer, décider, répéter et créer des fonctions.</p><h2>1. Structure d'un script</h2><pre><code>&lt;?php
+echo "Bonjour";</code></pre><h2>2. Variables et types</h2><pre><code>$nom = "Aline";
+$age = 20;
+$note = 15.5;
+$admis = true;
 
-    public function estAdmis(): bool {
-        return $this-&gt;note &gt;= 10;
-    }
+echo $nom;</code></pre><h2>3. Conditions</h2><pre><code>if ($note &gt;= 10) {
+    echo "Admis";
+} else {
+    echo "À améliorer";
+}</code></pre><h2>4. Boucles</h2><pre><code>for ($i = 1; $i &lt;= 5; $i++) {
+    echo "Ligne $i&lt;br&gt;";
+}</code></pre><h2>5. Tableaux</h2><pre><code>$etudiants = ["Aline", "Jean", "Sarah"];
+foreach ($etudiants as $etudiant) {
+    echo $etudiant . "&lt;br&gt;";
+}</code></pre><h2>6. Fonctions</h2><pre><code>function saluer(string $nom): string {
+    return "Bonjour " . $nom;
 }
 
-$etudiant = new Etudiant("Aline", 14);
-var_dump($etudiant-&gt;estAdmis());</code></pre><h2>Concepts</h2><ul><li>Encapsulation et visibilité <code>public</code>, <code>protected</code>, <code>private</code>.</li><li>Héritage pour spécialiser une classe.</li><li>Interfaces pour définir un contrat.</li><li>Composition pour assembler des objets.</li></ul><h2>TP</h2><ol><li>Créer une classe Utilisateur.</li><li>Créer une classe Etudiant qui contient des informations de formation.</li><li>Ajouter des méthodes de validation.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce qu'une classe ?</li><li>Pourquoi encapsuler une propriété ?</li><li>Différence entre héritage et composition ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
+echo saluer("Aline");</code></pre><h2>TP</h2><ol><li>Créer un programme qui calcule la moyenne de trois notes.</li><li>Afficher une liste de cinq étudiants avec une boucle.</li><li>Créer une fonction qui indique si une note est réussie.</li><li>Tester chaque programme avec plusieurs valeurs.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce qu'une variable ?</li><li>À quoi sert <code>if</code> ?</li><li>Quelle différence entre <code>for</code> et <code>foreach</code> ?</li><li>Pourquoi utiliser une fonction ?</li></ol><p><a href="01-php.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="03-sql.html">Chapitre suivant →</a></p></main></body></html>
