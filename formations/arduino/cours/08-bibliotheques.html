@@ -1,22 +1,29 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 08 — Bibliothèques</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a{padding:11px 15px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 08 — Bibliothèques et architecture du code</h1><div class="box"><h2>Pourquoi créer une bibliothèque ?</h2><p>Une bibliothèque regroupe du code réutilisable. Elle permet de séparer l'interface publique de l'implémentation et de rendre les projets plus propres.</p></div><div class="box"><h2>Fichier d'en-tête</h2><pre><code>#ifndef LED_MANAGER_H
-#define LED_MANAGER_H
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 08 — C/C++ avancé</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px;margin-top:18px}.summary{background:#ecfdf3;border-left:4px solid #16a34a;padding:18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a,.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}.downloads a{background:#2563eb;color:#fff;border-color:#2563eb}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 08 — C/C++ avancé pour Arduino</h1><p>Après les bases, nous approfondissons les outils du C/C++ utiles aux programmes embarqués.</p>
+<div class="box"><h2>1. Les tableaux</h2><pre><code>int leds[5] = {8, 9, 10, 11, 12};
 
-class LedManager {
-public:
-  LedManager(int pin);
-  void begin();
-  void on();
-  void off();
-private:
-  int _pin;
+for (int i = 0; i &lt; 5; i++) {
+  pinMode(leds[i], OUTPUT);
+}</code></pre><p>Un tableau permet de stocker plusieurs valeurs du même type sous un même nom.</p></div>
+<div class="box"><h2>2. Les chaînes de caractères</h2><pre><code>char message[] = "Arduino";
+String nom = "GOMA PRO Devs";
+Serial.println(nom);</code></pre><p>On distingue les chaînes de caractères en tableau de <code>char</code> et la classe Arduino <code>String</code>.</p></div>
+<div class="box"><h2>3. Structures</h2><pre><code>struct Led {
+  int broche;
+  int temps;
 };
 
-#endif</code></pre></div><div class="box"><h2>Implémentation</h2><pre><code>#include "LedManager.h"
+Led led1 = {8, 300};</code></pre><p>Une structure permet de regrouper plusieurs informations liées.</p></div>
+<div class="box"><h2>4. Portée des variables</h2><pre><code>int globale = 10;
 
-LedManager::LedManager(int pin) : _pin(pin) {}
-void LedManager::begin(){ pinMode(_pin, OUTPUT); }
-void LedManager::on(){ digitalWrite(_pin, HIGH); }
-void LedManager::off(){ digitalWrite(_pin, LOW); }</code></pre></div><div class="box"><h2>Utilisation</h2><pre><code>#include "LedManager.h"
-LedManager led(13);
-void setup(){ led.begin(); }
-void loop(){ led.on(); delay(500); led.off(); delay(500); }</code></pre></div><div class="box"><h2>Bonnes pratiques</h2><ul><li>Nommer clairement les classes et fonctions.</li><li>Éviter les variables globales inutiles.</li><li>Documenter les paramètres.</li><li>Tester une bibliothèque avec un exemple minimal.</li></ul></div><div class="box"><h2>TP</h2><p>Créer une petite bibliothèque <code>ButtonManager</code> capable d'initialiser un bouton et de fournir une méthode de lecture de son état.</p></div><div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="08-bibliotheques/LedManager.h" download>Télécharger LedManager.h</a><a href="08-bibliotheques/LedManager.cpp" download>Télécharger LedManager.cpp</a><a href="08-bibliotheques/exemple.ino" download>Télécharger l'exemple .ino</a><a href="08-bibliotheques-tp.txt" download>Télécharger la fiche TP</a></div></div></main></body></html>
+void exemple() {
+  int locale = 20;
+}</code></pre><p>Une variable globale et une variable locale n'ont pas la même portée. Il faut éviter les variables globales inutiles.</p></div>
+<div class="box"><h2>5. Mémoire et bonnes pratiques</h2><p>Sur un microcontrôleur, la mémoire est limitée. Il faut donc éviter de créer inutilement de grandes données, choisir des types adaptés et organiser le code proprement.</p></div>
+<div class="box"><h2>6. Pointeurs : première découverte</h2><pre><code>int valeur = 10;
+int *adresse = &amp;valeur;</n
+Serial.println(valeur);
+Serial.println(*adresse);</code></pre><p>Un pointeur contient une adresse mémoire. Cette notion sera approfondie uniquement lorsque les bases précédentes sont maîtrisées.</p></div>
+<div class="box"><h2>7. Bibliothèques : utiliser du code réutilisable</h2><pre><code>#include &lt;Wire.h&gt;</code></pre><p>Une bibliothèque fournit du code déjà organisé pour une fonctionnalité ou un composant. On apprend ici à l'utiliser ; la création de bibliothèques sera abordée dans les projets avancés.</p></div>
+<div class="exercise"><h2>8. TP</h2><ol><li>Créer un tableau contenant les cinq broches du chainillard.</li><li>Afficher les valeurs du tableau dans le moniteur série.</li><li>Créer une structure décrivant une LED.</li><li>Créer une petite fonction utilisant un tableau.</li><li>Tester une bibliothèque Arduino officielle avec un composant adapté.</li></ol></div>
+<div class="summary"><h2>Résumé</h2><ul><li>Les tableaux regroupent plusieurs valeurs.</li><li>Les chaînes représentent du texte.</li><li>Les structures regroupent des informations différentes.</li><li>La portée détermine où une variable est accessible.</li><li>La mémoire d'un microcontrôleur doit être utilisée avec soin.</li><li>Les pointeurs représentent des adresses mémoire.</li><li>Les bibliothèques permettent de réutiliser du code.</li></ul></div>
+<div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="08-bibliotheques.ino" download>⬇ Code Arduino (.ino)</a><a href="08-resume.md" download>⬇ Résumé du chapitre (.md)</a></div></div><div class="nav"><a href="07-communications.html">← Chapitre 07</a><a href="09-projets.html">Chapitre 09 →</a></div></main></body></html>
