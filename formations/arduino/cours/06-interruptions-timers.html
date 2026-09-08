@@ -1,26 +1,59 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 06 — Interruptions et timers</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a{padding:11px 15px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 06 — Interruptions et timers</h1><div class="box"><h2>Pourquoi une interruption ?</h2><p>Une interruption permet au microcontrôleur de réagir rapidement à un événement sans attendre la fin d'une boucle longue.</p></div><div class="box"><h2>Interruption externe</h2><pre><code>volatile bool evenement = false;
-
-void ISR_bouton() {
-  evenement = true;
-}
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 06 — Entrées, analogique, PWM et capteurs</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px;margin-top:18px}.summary{background:#ecfdf3;border-left:4px solid #16a34a;padding:18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a,.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}.downloads a{background:#2563eb;color:#fff;border-color:#2563eb}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 06 — Entrées, analogique, PWM et capteurs</h1><p>Nous passons maintenant de la commande des sorties à la lecture du monde extérieur : boutons, potentiomètre et premiers capteurs.</p>
+<div class="box"><h2>1. Entrée ou sortie ?</h2><ul><li><strong>Entrée :</strong> Arduino reçoit une information.</li><li><strong>Sortie :</strong> Arduino commande un élément.</li></ul><p>Exemple : bouton → Arduino = entrée ; Arduino → LED = sortie.</p></div>
+<div class="box"><h2>2. Lire un bouton avec digitalRead()</h2><pre><code>int bouton = 2;
+int led = 13;
 
 void setup() {
-  pinMode(2, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(2), ISR_bouton, FALLING);
+  pinMode(bouton, INPUT_PULLUP);
+  pinMode(led, OUTPUT);
 }
 
 void loop() {
-  if (evenement) {
-    evenement = false;
-    // traiter l'événement
+  int etat = digitalRead(bouton);
+
+  if (etat == LOW) {
+    digitalWrite(led, HIGH);
+  } else {
+    digitalWrite(led, LOW);
   }
-}</code></pre><p>Une routine d'interruption doit rester courte. Les variables partagées avec une ISR sont souvent déclarées <code>volatile</code>.</p></div><div class="box"><h2>Timers</h2><p>Les timers servent à mesurer des intervalles, produire des signaux ou déclencher périodiquement une action. Les bibliothèques et possibilités dépendent du microcontrôleur.</p><pre><code>unsigned long precedent = 0;
-const unsigned long periode = 1000;
+}</code></pre><p>Avec <code>INPUT_PULLUP</code>, le bouton est généralement lu à <code>LOW</code> lorsqu'il est appuyé dans ce montage.</p></div>
+<div class="box"><h2>3. Comprendre le bouton</h2><p>Il faut comprendre le câblage avant de programmer : le bouton relie ou sépare deux points électriques. La résistance de rappel interne permet d'obtenir un état logique défini.</p></div>
+<div class="box"><h2>4. Anti-rebond : première idée</h2><p>Un bouton mécanique peut produire plusieurs changements rapides lors d'un seul appui. On appelle cela le rebond. Dans un premier temps, on peut utiliser une petite attente après la détection ; plus tard, nous apprendrons des méthodes plus robustes.</p></div>
+<div class="box"><h2>5. Lire une entrée analogique</h2><pre><code>int valeur = analogRead(A0);
+Serial.println(valeur);</code></pre><p>Une entrée analogique permet de mesurer une grandeur électrique dans la plage supportée par la carte. La résolution et la plage dépendent du modèle.</p></div>
+<div class="box"><h2>6. Potentiomètre</h2><p>Le potentiomètre est un excellent premier composant pour comprendre l'analogique : en tournant son axe, la tension envoyée à l'entrée analogique varie.</p><pre><code>int potentiometre = A0;
+
+void setup() {
+  Serial.begin(9600);
+}
 
 void loop() {
-  unsigned long maintenant = millis();
-  if (maintenant - precedent &gt;= periode) {
-    precedent = maintenant;
-    // tâche périodique
-  }
-}</code></pre></div><div class="box"><h2>TP</h2><ol><li>Créer un compteur d'appuis sur bouton.</li><li>Afficher le compteur sans bloquer avec de longs <code>delay()</code>.</li><li>Ajouter une tâche périodique toutes les secondes avec <code>millis()</code>.</li><li>Comparer cette approche avec une interruption.</li></ol></div><div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="06-interruptions-timers.ino" download>Télécharger le code .ino</a><a href="06-tp.txt" download>Télécharger la fiche TP</a></div></div></main></body></html>
+  int valeur = analogRead(potentiometre);
+  Serial.println(valeur);
+  delay(100);
+}</code></pre></div>
+<div class="box"><h2>7. PWM et luminosité d'une LED</h2><p>Le PWM permet de produire un signal périodique dont le rapport cyclique peut être contrôlé. Sur les broches compatibles, <code>analogWrite()</code> permet notamment de régler la puissance moyenne appliquée à une LED pour modifier sa luminosité.</p><pre><code>int led = 9;
+
+void setup() {
+  pinMode(led, OUTPUT);
+}
+
+void loop() {
+  analogWrite(led, 128);
+}</code></pre></div>
+<div class="box"><h2>8. Potentiomètre → LED</h2><pre><code>int pot = A0;
+int led = 9;
+
+void setup() {
+  pinMode(led, OUTPUT);
+}
+
+void loop() {
+  int valeur = analogRead(pot);
+  int luminosite = map(valeur, 0, 1023, 0, 255);
+  analogWrite(led, luminosite);
+}</code></pre><p>La fonction <code>map()</code> transforme une valeur d'une plage vers une autre. Les plages exactes d'<code>analogRead()</code> et de PWM dépendent de la carte.</p></div>
+<div class="box"><h2>9. Premiers capteurs</h2><p>Une fois le principe compris avec un potentiomètre, on peut appliquer la même logique à un capteur de lumière, de température ou à un autre capteur adapté à la carte. On commence toujours par lire et afficher la valeur avant de commander une sortie.</p></div>
+<div class="exercise"><h2>10. TP progressifs</h2><ol><li>Faire allumer une LED quand un bouton est appuyé.</li><li>Afficher l'état du bouton dans le moniteur série.</li><li>Lire un potentiomètre et afficher sa valeur.</li><li>Commander la luminosité d'une LED avec le potentiomètre.</li><li>Ajouter un seuil : si la valeur dépasse un niveau choisi, allumer une LED.</li><li>Remplacer progressivement le potentiomètre par un capteur analogique adapté.</li></ol></div>
+<div class="summary"><h2>Résumé</h2><ul><li><code>digitalRead()</code> lit une entrée numérique.</li><li><code>analogRead()</code> lit une entrée analogique.</li><li><code>INPUT_PULLUP</code> utilise une résistance de rappel interne.</li><li>Un potentiomètre permet de tester facilement l'analogique.</li><li><code>analogWrite()</code> permet d'utiliser le PWM sur les broches compatibles.</li><li><code>map()</code> convertit une valeur d'une plage vers une autre.</li><li>Les capteurs fournissent des informations qu'Arduino peut traiter.</li></ul></div>
+<div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="06-interruptions-timers.ino" download>⬇ Code Arduino (.ino)</a><a href="06-resume.md" download>⬇ Résumé du chapitre (.md)</a></div></div><div class="nav"><a href="05-registres.html">← Chapitre 05</a><a href="07-communications.html">Chapitre 07 →</a></div></main></body></html>
