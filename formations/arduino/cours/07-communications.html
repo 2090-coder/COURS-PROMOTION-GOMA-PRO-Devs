@@ -1,18 +1,24 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 07 — Communications</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a{padding:11px 15px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 07 — UART, I²C et SPI</h1><div class="box"><h2>UART / Serial</h2><p>UART est une communication série asynchrone. Avec Arduino, <code>Serial</code> sert souvent à communiquer avec un PC ou un autre module série.</p><pre><code>void setup(){
-  Serial.begin(115200);
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 07 — Moniteur série et communications</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px;margin-top:18px}.summary{background:#ecfdf3;border-left:4px solid #16a34a;padding:18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a,.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}.downloads a{background:#2563eb;color:#fff;border-color:#2563eb}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 07 — Moniteur série et communications</h1><p>Nous apprenons à observer un programme, envoyer des données et découvrir les principaux bus de communication.</p>
+<div class="box"><h2>1. Le moniteur série</h2><pre><code>void setup() {
+  Serial.begin(9600);
 }
-void loop(){
-  Serial.println("Bonjour GOMA PRO Devs");
+void loop() {
+  Serial.println("Bonjour Arduino");
   delay(1000);
-}</code></pre></div><div class="box"><h2>I²C</h2><p>I²C utilise généralement deux lignes : SDA pour les données et SCL pour l'horloge. Plusieurs périphériques peuvent partager le bus grâce à leurs adresses.</p><pre><code>#include &lt;Wire.h&gt;
+}</code></pre><p>Le moniteur série permet d'observer des valeurs et des messages envoyés par la carte.</p></div>
+<div class="box"><h2>2. Afficher des mesures</h2><pre><code>int valeur = analogRead(A0);
+Serial.print("Valeur = ");
+Serial.println(valeur);</code></pre><p><code>print()</code> continue sur la même ligne ; <code>println()</code> ajoute un retour à la ligne.</p></div>
+<div class="box"><h2>3. UART / Serial</h2><p>La communication série asynchrone permet à deux équipements compatibles d'échanger des données. Avec Arduino, <code>Serial</code> est souvent utilisé avec un ordinateur ou un module série.</p></div>
+<div class="box"><h2>4. I²C</h2><p>I²C utilise généralement SDA pour les données et SCL pour l'horloge. Plusieurs périphériques peuvent partager le même bus grâce à leurs adresses.</p><pre><code>#include &lt;Wire.h&gt;
 
-void setup(){
+void setup() {
   Wire.begin();
 }
-
-void loop(){
-  Wire.beginTransmission(0x3C);
-  Wire.write(0x00);
-  Wire.endTransmission();
-  delay(1000);
-}</code></pre></div><div class="box"><h2>SPI</h2><p>SPI utilise typiquement SCK, MOSI, MISO et une sélection de périphérique CS/SS. Il est souvent utilisé pour écrans, cartes mémoire et capteurs.</p></div><div class="box"><h2>Comparer</h2><p><b>UART :</b> simple et point à point. <b>I²C :</b> plusieurs périphériques avec deux lignes. <b>SPI :</b> rapide et efficace, mais utilise davantage de lignes.</p></div><div class="box"><h2>TP</h2><ol><li>Envoyer une mesure par UART.</li><li>Identifier l'adresse I²C d'un périphérique dans un montage de laboratoire.</li><li>Lire une donnée d'un capteur I²C.</li><li>Documenter les broches SPI utilisées par votre carte.</li></ol></div><div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="07-communications.ino" download>Télécharger le code .ino</a><a href="07-tp.txt" download>Télécharger la fiche TP</a></div></div></main></body></html>
+void loop() {
+}</code></pre></div>
+<div class="box"><h2>5. SPI</h2><p>SPI utilise typiquement SCK, MOSI, MISO et une ligne de sélection du périphérique. Il est courant pour certains écrans, mémoires et capteurs.</p></div>
+<div class="box"><h2>6. Quand utiliser quoi ?</h2><ul><li><strong>Serial/UART :</strong> simple échange série.</li><li><strong>I²C :</strong> plusieurs périphériques avec peu de lignes.</li><li><strong>SPI :</strong> communication rapide avec plusieurs périphériques selon la configuration.</li></ul></div>
+<div class="exercise"><h2>7. TP</h2><ol><li>Afficher une phrase toutes les secondes.</li><li>Afficher la valeur d'un potentiomètre.</li><li>Afficher une mesure avec son unité.</li><li>Identifier les broches de communication de votre carte.</li><li>Découvrir un périphérique I²C dans un montage de laboratoire adapté.</li></ol></div>
+<div class="summary"><h2>Résumé</h2><ul><li><code>Serial.begin()</code> initialise la communication série.</li><li><code>Serial.print()</code> et <code>println()</code> affichent des données.</li><li>UART/Serial, I²C et SPI sont trois méthodes de communication différentes.</li><li>Le choix dépend du périphérique et des besoins du projet.</li></ul></div>
+<div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="07-communications.ino" download>⬇ Code Arduino (.ino)</a><a href="07-resume.md" download>⬇ Résumé du chapitre (.md)</a></div></div><div class="nav"><a href="06-interruptions-timers.html">← Chapitre 06</a><a href="08-bibliotheques.html">Chapitre 08 →</a></div></main></body></html>
