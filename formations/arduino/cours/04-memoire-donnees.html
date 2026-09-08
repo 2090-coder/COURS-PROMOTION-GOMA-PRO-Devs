@@ -1,111 +1,33 @@
-<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Arduino 04 — Conditions et boucles</title>
-<link rel="stylesheet" href="../../../assets/css/style.css">
-<style>
-main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}.step{border-left:4px solid #2563eb;padding:14px 18px;background:#f8faff;margin:14px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto;line-height:1.55}.exercise{background:#fff7ed;border-left:4px solid #f59e0b;padding:16px 18px;margin:14px 0}.good{background:#ecfdf3;border-left:4px solid #16a34a;padding:16px 18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a{padding:11px 15px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:700}
-</style>
-</head>
-<body><main>
-<p><a href="../index.html">← Retour Arduino</a></p>
-<h1>Arduino 04 — Conditions et boucles</h1>
-<p>Maintenant que nous savons utiliser les variables, nous allons apprendre à faire prendre des décisions au programme et à répéter des instructions.</p>
-
-<div class="box"><h2>1. Pourquoi avons-nous besoin de conditions ?</h2>
-<p>Jusqu'ici, notre programme exécutait les instructions dans un ordre déterminé. Mais un système réel doit souvent répondre à une situation.</p>
-<div class="step"><strong>Exemple :</strong> si un bouton est appuyé, allumer la LED ; sinon, éteindre la LED.</div>
-<p>Le mot important est <strong>si</strong>. En programmation, on utilise principalement <code>if</code> et <code>else</code>.</p></div>
-
-<div class="box"><h2>2. La condition <code>if</code></h2>
-<pre><code>if (condition) {
-  // instructions exécutées si la condition est vraie
-}</code></pre>
-<p>La partie entre parenthèses doit produire une réponse logique : vraie ou fausse.</p>
-<pre><code>int temperature = 30;
-
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 04 — Conditions et boucles</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px;margin-top:18px}.summary{background:#ecfdf3;border-left:4px solid #16a34a;padding:18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a,.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}.downloads a{background:#2563eb;color:#fff;border-color:#2563eb}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 04 — Conditions et boucles</h1><p>Après les variables, nous apprenons à faire prendre des décisions au programme puis à répéter des instructions.</p>
+<div class="box"><h2>1. La condition if</h2><pre><code>int temperature = 30;
 if (temperature &gt; 25) {
-  // cette partie sera exécutée
-}</code></pre></div>
-
-<div class="box"><h2>3. Les opérateurs de comparaison</h2>
-<ul>
-<li><code>==</code> : égal à</li>
-<li><code>!=</code> : différent de</li>
-<li><code>&gt;</code> : supérieur à</li>
-<li><code>&lt;</code> : inférieur à</li>
-<li><code>&gt;=</code> : supérieur ou égal à</li>
-<li><code>&lt;=</code> : inférieur ou égal à</li>
-</ul>
-<div class="good"><strong>Attention :</strong> <code>=</code> sert à affecter une valeur, tandis que <code>==</code> sert à comparer deux valeurs.</div></div>
-
-<div class="box"><h2>4. <code>if</code> et <code>else</code></h2>
-<pre><code>int temperature = 20;
-
-if (temperature &gt; 25) {
-  // température élevée
-} else {
-  // température normale
-}</code></pre>
-<p>Une seule des deux branches est exécutée.</p></div>
-
-<div class="box"><h2>5. Premier exercice avec une LED</h2>
-<p>Nous allons utiliser une variable pour le numéro de la LED et une autre pour décider si elle doit être allumée.</p>
-<pre><code>int led = 13;
-int allumer = 1;
-
-void setup() {
-  pinMode(led, OUTPUT);
-}
-
-void loop() {
-  if (allumer == 1) {
-    digitalWrite(led, HIGH);
-  } else {
-    digitalWrite(led, LOW);
-  }
-}</code></pre>
-<p>Modifie ensuite la valeur de <code>allumer</code> pour observer le comportement.</p></div>
-
-<div class="box"><h2>6. Plusieurs conditions avec <code>else if</code></h2>
-<pre><code>int valeur = 75;
-
-if (valeur &gt;= 80) {
+  // action
+}</code></pre><p>Le bloc est exécuté uniquement si la condition est vraie.</p></div>
+<div class="box"><h2>2. Comparer des valeurs</h2><ul><li><code>==</code> égal</li><li><code>!=</code> différent</li><li><code>&gt;</code> supérieur</li><li><code>&lt;</code> inférieur</li><li><code>&gt;=</code> supérieur ou égal</li><li><code>&lt;=</code> inférieur ou égal</li></ul><p>Attention : <code>=</code> affecte une valeur, alors que <code>==</code> compare.</p></div>
+<div class="box"><h2>3. if / else / else if</h2><pre><code>if (valeur &gt;= 80) {
   // très bon
 } else if (valeur &gt;= 50) {
   // moyen
 } else {
   // insuffisant
-}</code></pre>
-<p>Les conditions sont évaluées dans l'ordre. Dès qu'une condition est vraie, sa branche est exécutée.</p></div>
-
-<div class="box"><h2>7. Opérateurs logiques</h2>
-<ul><li><code>&amp;&amp;</code> : ET</li><li><code>||</code> : OU</li><li><code>!</code> : NON</li></ul>
-<pre><code>if (temperature &gt; 20 &amp;&amp; temperature &lt; 30) {
-  // température comprise entre 20 et 30
 }</code></pre></div>
-
-<div class="box"><h2>8. Pourquoi avons-nous besoin des boucles ?</h2>
-<p>Une boucle permet de répéter une instruction ou un groupe d'instructions sans recopier le même code plusieurs fois.</p>
-<p>Arduino possède notamment les structures <code>for</code>, <code>while</code> et <code>do...while</code>. Les exemples officiels Arduino comprennent également des exemples dédiés aux boucles et aux structures de contrôle. citeturn0search1turn0search0</p></div>
-
-<div class="box"><h2>9. La boucle <code>for</code></h2>
-<pre><code>for (int i = 0; i &lt; 5; i++) {
+<div class="box"><h2>4. Opérateurs logiques</h2><pre><code>if (temperature &gt; 20 &amp;&amp; temperature &lt; 30) {
+  // entre 20 et 30
+}</code></pre><p><code>&amp;&amp;</code> = ET, <code>||</code> = OU, <code>!</code> = NON.</p></div>
+<div class="box"><h2>5. Première boucle for</h2><pre><code>for (int i = 0; i &lt; 5; i++) {
   Serial.println(i);
-}</code></pre>
-<p>Cette boucle répète le bloc pour les valeurs 0, 1, 2, 3 et 4.</p>
-<div class="step"><strong>Initialisation :</strong> <code>int i = 0</code></div>
-<div class="step"><strong>Condition :</strong> <code>i &lt; 5</code></div>
-<div class="step"><strong>Évolution :</strong> <code>i++</code></div></div>
-
-<div class="box"><h2>10. Faire clignoter une LED plusieurs fois</h2>
-<pre><code>int led = 13;
-
-void setup() {
-  pinMode(led, OUTPUT);
-}
-
+}</code></pre><p>La boucle répète le bloc plusieurs fois. Elle possède une initialisation, une condition et une évolution.</p></div>
+<div class="box"><h2>6. while et do...while</h2><pre><code>int compteur = 0;
+while (compteur &lt; 5) {
+  Serial.println(compteur);
+  compteur++;
+}</code></pre><pre><code>int compteur = 0;
+do {
+  Serial.println(compteur);
+  compteur++;
+} while (compteur &lt; 5);</code></pre><p><code>do...while</code> exécute le bloc au moins une fois avant de tester la condition.</p></div>
+<div class="box"><h2>7. Exemple : faire clignoter une LED cinq fois</h2><pre><code>int led = 13;
+void setup() { pinMode(led, OUTPUT); }
 void loop() {
   for (int i = 0; i &lt; 5; i++) {
     digitalWrite(led, HIGH);
@@ -113,49 +35,8 @@ void loop() {
     digitalWrite(led, LOW);
     delay(300);
   }
-
   delay(1000);
-}</code></pre>
-<p>Ici, le clignotement est exécuté cinq fois avant une pause d'une seconde.</p></div>
-
-<div class="box"><h2>11. La boucle <code>while</code></h2>
-<pre><code>int compteur = 0;
-
-while (compteur &lt; 5) {
-  Serial.println(compteur);
-  compteur++;
-}</code></pre>
-<p><code>while</code> répète les instructions tant que la condition reste vraie.</p>
-<div class="good"><strong>Attention :</strong> il faut faire évoluer la condition. Sinon, une boucle <code>while</code> peut ne jamais s'arrêter.</div></div>
-
-<div class="box"><h2>12. La boucle <code>do...while</code></h2>
-<pre><code>int compteur = 0;
-
-do {
-  Serial.println(compteur);
-  compteur++;
-} while (compteur &lt; 5);</code></pre>
-<p>La différence importante est que le bloc <code>do</code> est exécuté au moins une fois avant de vérifier la condition.</p></div>
-
-<div class="exercise"><h2>13. TP 01 — LED selon une condition</h2>
-<ol><li>Créer une variable <code>etat</code>.</li><li>Si <code>etat == 1</code>, allumer la LED.</li><li>Sinon, éteindre la LED.</li><li>Changer la valeur de <code>etat</code> et observer.</li></ol></div>
-
-<div class="exercise"><h2>14. TP 02 — Compter de 0 à 9</h2>
-<p>Utiliser une boucle <code>for</code> pour afficher les nombres de 0 à 9 dans le moniteur série.</p></div>
-
-<div class="exercise"><h2>15. TP 03 — Clignotement contrôlé</h2>
-<p>Faire clignoter une LED exactement 10 fois avec une boucle <code>for</code>, puis attendre deux secondes et recommencer.</p></div>
-
-<div class="exercise"><h2>16. TP 04 — Deux LEDs et conditions</h2>
-<p>Reprendre les deux LEDs du chapitre précédent. Créer une variable <code>choix</code> : si elle vaut 1, allumer LED 1 ; si elle vaut 2, allumer LED 2 ; sinon, éteindre les deux.</p></div>
-
-<div class="exercise"><h2>17. Questions de compréhension</h2>
-<ol><li>À quoi sert <code>if</code> ?</li><li>Quelle différence entre <code>=</code> et <code>==</code> ?</li><li>À quoi sert <code>else</code> ?</li><li>Pourquoi utilise-t-on <code>else if</code> ?</li><li>À quoi sert une boucle ?</li><li>Comment fonctionne <code>for</code> ?</li><li>Quelle différence entre <code>while</code> et <code>do...while</code> ?</li><li>Pourquoi faut-il faire évoluer la condition d'une boucle <code>while</code> ?</li></ol></div>
-
-<div class="box"><h2>18. Ce que nous avons appris</h2>
-<p>Nous savons maintenant stocker des informations dans des variables, prendre des décisions avec <code>if</code>/<code>else</code> et répéter des instructions avec <code>for</code>, <code>while</code> et <code>do...while</code>.</p>
-<p><strong>Prochaine étape :</strong> apprendre à créer nos propres fonctions pour éviter de répéter du code et organiser correctement nos programmes.</p></div>
-
-<div class="box"><h2>19. Référence officielle</h2>
-<p>La référence Arduino classe la programmation autour de la structure, des variables/constantes et des fonctions. citeturn0search0</p></div>
-</main></body></html>
+}</code></pre></div>
+<div class="exercise"><h2>8. TP progressifs</h2><ol><li>Allumer une LED si une variable vaut 1, sinon l'éteindre.</li><li>Afficher 0 à 9 avec <code>for</code>.</li><li>Faire clignoter une LED exactement 10 fois.</li><li>Reprendre le chainillard de 5 LEDs du chapitre 03 et réfléchir à la façon dont une boucle pourrait éviter les répétitions.</li></ol></div>
+<div class="summary"><h2>Résumé</h2><ul><li><code>if</code> permet de décider.</li><li><code>else</code> définit l'autre cas.</li><li><code>else if</code> permet plusieurs cas.</li><li><code>&amp;&amp;</code>, <code>||</code> et <code>!</code> combinent les conditions.</li><li><code>for</code>, <code>while</code> et <code>do...while</code> répètent des instructions.</li></ul></div>
+<div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="04-memoire-donnees.ino" download>⬇ Code Arduino (.ino)</a><a href="04-resume.md" download>⬇ Résumé du chapitre (.md)</a></div></div><div class="nav"><a href="03-cpp-arduino.html">← Chapitre 03</a><a href="05-registres.html">Chapitre 05 →</a></div></main></body></html>
