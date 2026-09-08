@@ -1,7 +1,155 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 05 — Registres</title><link rel="stylesheet" href="../../../assets/css/style.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a{padding:11px 15px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 05 — Registres et accès bas niveau</h1><div class="box"><h2>Concept</h2><p>Les fonctions Arduino simplifient le matériel. Les registres permettent d'aller plus près du microcontrôleur et de comprendre précisément la configuration des ports.</p></div><div class="box"><h2>DDR, PORT et PIN</h2><p>Sur les AVR classiques, DDR configure entrée/sortie, PORT configure la sortie ou la résistance interne, et PIN permet notamment de lire l'état.</p><pre><code>// Exemple conceptuel AVR
-DDRB |= (1 &lt;&lt; PB5);
-PORTB |= (1 &lt;&lt; PB5);
-PORTB &amp;= ~(1 &lt;&lt; PB5);</code></pre></div><div class="box"><h2>Masques binaires</h2><pre><code>#define BIT(n) (1U &lt;&lt; (n))
-registre |= BIT(3);
-registre &amp;= ~BIT(3);
-registre ^= BIT(3);</code></pre></div><div class="box"><h2>Attention</h2><p>Les noms et registres varient selon le microcontrôleur. Un code AVR ne doit pas être copié tel quel sur toutes les cartes Arduino, notamment les cartes basées sur ESP32.</p></div><div class="box"><h2>TP</h2><p>Comparer une commande GPIO Arduino avec son équivalent registre sur une carte AVR documentée. Identifier le registre, le bit utilisé et l'effet obtenu.</p></div><div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="05-registres.ino" download>Télécharger le code .ino</a><a href="05-tp.txt" download>Télécharger la fiche TP</a></div></div></main></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arduino 05 — Les fonctions</title>
+<link rel="stylesheet" href="../../../assets/css/style.css">
+<style>
+main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#f5f7fb;padding:20px;border-radius:14px;margin:18px 0}.step{border-left:4px solid #2563eb;padding:14px 18px;background:#f8faff;margin:14px 0}pre{background:#111827;color:#fff;padding:18px;border-radius:12px;overflow:auto;line-height:1.55}.exercise{background:#fff7ed;border-left:4px solid #f59e0b;padding:16px 18px;margin:14px 0}.good{background:#ecfdf3;border-left:4px solid #16a34a;padding:16px 18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a{padding:11px 15px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<main>
+<p><a href="../index.html">← Retour Arduino</a></p>
+<h1>Arduino 05 — Les fonctions</h1>
+<p>Après les variables, les conditions et les boucles, nous allons apprendre à organiser un programme avec des fonctions.</p>
+
+<div class="box"><h2>1. Pourquoi les fonctions ?</h2>
+<p>Un programme devient rapidement long lorsqu'on répète les mêmes instructions. Une fonction permet de regrouper des instructions sous un nom que l'on peut appeler plusieurs fois.</p>
+<p>On peut donc passer de :</p>
+<pre><code>digitalWrite(13, HIGH);
+delay(500);
+digitalWrite(13, LOW);
+delay(500);
+
+digitalWrite(13, HIGH);
+delay(500);
+digitalWrite(13, LOW);
+delay(500);</code></pre>
+<p>à une organisation plus claire :</p>
+<pre><code>clignoter();
+clignoter();</code></pre>
+</div>
+
+<div class="box"><h2>2. Première fonction</h2>
+<pre><code>void clignoter() {
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+}</code></pre>
+<div class="step"><strong>void</strong> : la fonction ne renvoie pas de valeur.</div>
+<div class="step"><strong>clignoter</strong> : le nom de la fonction.</div>
+<div class="step"><strong>()</strong> : les paramètres éventuels seront placés ici.</div>
+<div class="step"><strong>{ }</strong> : contient les instructions de la fonction.</div>
+</div>
+
+<div class="box"><h2>3. Appeler une fonction</h2>
+<p>Définir une fonction ne suffit pas. Il faut l'appeler pour exécuter son contenu.</p>
+<pre><code>void setup() {
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+  clignoter();
+}
+
+void clignoter() {
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+}</code></pre>
+<p>Lorsque le programme arrive à <code>clignoter();</code>, Arduino exécute les instructions de cette fonction puis revient à l'endroit où elle a été appelée.</p>
+</div>
+
+<div class="box"><h2>4. Fonction avec un paramètre</h2>
+<p>Une fonction peut recevoir une information.</p>
+<pre><code>void allumer(int broche) {
+  digitalWrite(broche, HIGH);
+}</code></pre>
+<p>On peut alors écrire :</p>
+<pre><code>allumer(13);
+allumer(12);</code></pre>
+<p>Ici, <code>broche</code> reçoit successivement les valeurs 13 puis 12.</p>
+</div>
+
+<div class="box"><h2>5. Fonction avec plusieurs paramètres</h2>
+<pre><code>void clignoter(int broche, int temps) {
+  digitalWrite(broche, HIGH);
+  delay(temps);
+  digitalWrite(broche, LOW);
+  delay(temps);
+}</code></pre>
+<p>Exemple :</p>
+<pre><code>clignoter(13, 500);
+clignoter(12, 1000);</code></pre>
+<p>La même fonction peut donc être réutilisée avec différentes LEDs et différents temps.</p>
+</div>
+
+<div class="box"><h2>6. Fonction qui retourne une valeur</h2>
+<p>Une fonction peut également calculer une valeur et la retourner avec <code>return</code>.</p>
+<pre><code>int additionner(int a, int b) {
+  return a + b;
+}
+
+int resultat = additionner(5, 3);</code></pre>
+<p>La fonction retourne ici <code>8</code>, qui est stocké dans <code>resultat</code>.</p>
+</div>
+
+<div class="box"><h2>7. Variables locales</h2>
+<pre><code>void exemple() {
+  int nombre = 10;
+}</code></pre>
+<p>La variable créée à l'intérieur de la fonction est locale à cette fonction. Elle ne doit pas être considérée comme une variable globale du programme.</p>
+</div>
+
+<div class="box"><h2>8. Organiser un programme Arduino</h2>
+<p>Un programme peut maintenant être organisé avec :</p>
+<ul>
+<li>des variables pour mémoriser les valeurs ;</li>
+<li><code>setup()</code> pour l'initialisation ;</li>
+<li><code>loop()</code> pour le fonctionnement répété ;</li>
+<li>des fonctions pour séparer les différentes tâches.</li>
+</ul>
+<p>Cette organisation rend le programme plus lisible et plus facile à modifier.</p>
+</div>
+
+<div class="exercise"><h2>9. TP 01 — Deux LEDs avec une fonction</h2>
+<ol>
+<li>Créer les variables <code>led1</code> et <code>led2</code>.</li>
+<li>Configurer les deux broches en sortie.</li>
+<li>Créer une fonction <code>allumer()</code>.</li>
+<li>Créer une fonction <code>eteindre()</code>.</li>
+<li>Utiliser ces fonctions pour commander les deux LEDs.</li>
+</ol>
+</div>
+
+<div class="exercise"><h2>10. TP 02 — Fonction clignoter</h2>
+<p>Créer une fonction <code>clignoter(int broche, int temps)</code>. Utiliser ensuite cette seule fonction pour faire clignoter deux LEDs avec des temps différents.</p>
+</div>
+
+<div class="exercise"><h2>11. TP 03 — Fonction de calcul</h2>
+<p>Créer une fonction qui reçoit deux nombres et retourne leur somme. Afficher ensuite le résultat dans le moniteur série.</p>
+</div>
+
+<div class="exercise"><h2>12. Questions</h2>
+<ol>
+<li>Pourquoi utiliser une fonction ?</li>
+<li>Quelle est la différence entre définir et appeler une fonction ?</li>
+<li>À quoi sert <code>void</code> ?</li>
+<li>Qu'est-ce qu'un paramètre ?</li>
+<li>À quoi sert <code>return</code> ?</li>
+<li>Pourquoi les fonctions rendent-elles un programme plus facile à maintenir ?</li>
+</ol>
+</div>
+
+<div class="good"><strong>Progression atteinte :</strong> nous savons maintenant utiliser variables, conditions, boucles et fonctions. La prochaine étape sera de connecter réellement le programme au monde extérieur avec les boutons, les entrées numériques, les entrées analogiques, le PWM et les capteurs.</div>
+
+<div class="box"><h2>13. Fichiers à télécharger</h2>
+<div class="downloads"><a href="05-registres.ino" download>Télécharger le code .ino</a><a href="05-tp.txt" download>Télécharger la fiche TP</a></div>
+</div>
+</main>
+</body>
+</html>
