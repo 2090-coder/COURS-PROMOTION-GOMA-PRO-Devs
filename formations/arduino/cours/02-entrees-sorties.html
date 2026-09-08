@@ -1,31 +1,20 @@
 <!doctype html>
-<html lang="fr">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 02 — Premiers programmes : deux LEDs</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto;line-height:1.55}code{font-family:Consolas,monospace}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px;margin-top:18px}.note{background:#fff8e6;border:1px solid #f2d58a;padding:16px;border-radius:12px}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px}.nav a{padding:10px 14px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}</style></head>
-<body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../../../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../../../index.html">Accueil</a></nav></div></header>
-<section class="course-hero"><div class="container"><p class="eyebrow">ARDUINO — CHAPITRE 02</p><h1>Premiers programmes : deux LEDs</h1><p>Nous programmons maintenant des sorties numériques, sans variables, afin de comprendre les instructions une par une.</p></div></section>
-<main>
-<div class="box"><h2>1. Ce que nous avons déjà appris</h2><p>Dans le chapitre 01, nous avons découvert la carte Arduino, l'IDE, la compilation, le téléversement et la structure <code>setup()</code>/<code>loop()</code>. Nous avons aussi découvert <code>pinMode()</code>.</p><div class="note"><strong>Règle pédagogique :</strong> dans ce chapitre, nous n'utilisons volontairement pas de variables. Nous voulons comprendre le fonctionnement des instructions avant d'apprendre à donner des noms aux valeurs.</div></div>
-<div class="box"><h2>2. Configurer une LED comme sortie</h2><pre><code>void setup() {
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 02 — Premiers programmes</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px;margin-top:18px}.summary{background:#ecfdf3;border-left:4px solid #16a34a;padding:18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a,.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}.downloads a{background:#2563eb;color:#fff;border-color:#2563eb}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}</style></head>
+<body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../../../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../../../index.html">Accueil</a></nav></div></header><section class="course-hero"><div class="container"><p class="eyebrow">ARDUINO — CHAPITRE 02</p><h1>Premiers programmes : deux LEDs</h1><p>Nous commandons directement les broches, toujours sans variables.</p></div></section><main>
+<div class="box"><h2>1. Configurer une sortie</h2><pre><code>void setup() {
   pinMode(13, OUTPUT);
 }
 
 void loop() {
-}</code></pre><p><code>pinMode(13, OUTPUT)</code> indique à Arduino que la broche 13 sera utilisée comme sortie.</p></div>
-<div class="box"><h2>3. Allumer la LED</h2><pre><code>void setup() {
-  pinMode(13, OUTPUT);
-}
+}</code></pre><p>La broche 13 devient une sortie.</p></div>
+<div class="box"><h2>2. Allumer et éteindre</h2><pre><code>digitalWrite(13, HIGH);
 
-void loop() {
-  digitalWrite(13, HIGH);
-}</code></pre><p><code>digitalWrite(13, HIGH)</code> demande à Arduino de placer la broche 13 à l'état logique HIGH.</p></div>
-<div class="box"><h2>4. Éteindre la LED</h2><pre><code>void setup() {
-  pinMode(13, OUTPUT);
-}
-
-void loop() {
-  digitalWrite(13, LOW);
-}</code></pre><p><code>LOW</code> demande l'état logique bas.</p></div>
-<div class="box"><h2>5. Faire clignoter une LED</h2><pre><code>void setup() {
+digitalWrite(13, LOW);</code></pre><p><code>HIGH</code> produit l'état haut et <code>LOW</code> l'état bas.</p></div>
+<div class="box"><h2>3. Attendre avec delay()</h2><pre><code>digitalWrite(13, HIGH);
+delay(1000);
+digitalWrite(13, LOW);
+delay(1000);</code></pre></div>
+<div class="box"><h2>4. Premier clignotement</h2><pre><code>void setup() {
   pinMode(13, OUTPUT);
 }
 
@@ -34,8 +23,8 @@ void loop() {
   delay(1000);
   digitalWrite(13, LOW);
   delay(1000);
-}</code></pre><p>Arduino allume la LED, attend 1 seconde, l'éteint, attend 1 seconde, puis recommence.</p></div>
-<div class="box"><h2>6. Premier exercice : deux LEDs l'une après l'autre</h2><p>Brancher une première LED sur la broche 13 et une deuxième LED sur la broche 12, avec les résistances adaptées et une masse commune.</p><pre><code>void setup() {
+}</code></pre></div>
+<div class="box"><h2>5. Deux LEDs l'une après l'autre</h2><p>LED 1 sur 13 et LED 2 sur 12, avec les résistances adaptées et une masse commune.</p><pre><code>void setup() {
   pinMode(13, OUTPUT);
   pinMode(12, OUTPUT);
 }
@@ -48,10 +37,8 @@ void loop() {
   digitalWrite(13, LOW);
   digitalWrite(12, HIGH);
   delay(1000);
-}</code></pre><p>Résultat : LED 1 allumée → attente → LED 1 éteinte et LED 2 allumée → attente → le cycle recommence.</p></div>
-<div class="box"><h2>7. Comprendre exactement l'ordre des instructions</h2><ol><li>Arduino configure 13 comme sortie.</li><li>Arduino configure 12 comme sortie.</li><li>La broche 13 passe à HIGH.</li><li>La broche 12 passe à LOW.</li><li>Arduino attend 1000 ms.</li><li>La broche 13 passe à LOW.</li><li>La broche 12 passe à HIGH.</li><li>Arduino attend encore 1000 ms.</li><li><code>loop()</code> recommence.</li></ol></div>
-<div class="box"><h2>8. Exercices progressifs</h2><div class="exercise"><strong>Exercice 1 :</strong> faire clignoter les deux LEDs ensemble.</div><div class="exercise"><strong>Exercice 2 :</strong> faire rester la LED 13 allumée pendant 2 secondes et la LED 12 pendant 1 seconde.</div><div class="exercise"><strong>Exercice 3 :</strong> créer une séquence LED 13 → LED 12 → LED 13 → LED 12.</div><div class="exercise"><strong>Exercice 4 :</strong> modifier les temps d'attente pour obtenir une séquence plus rapide.</div></div>
-<div class="box"><h2>9. Questions de compréhension</h2><ol><li>À quoi sert <code>pinMode()</code> ?</li><li>Quelle différence entre <code>HIGH</code> et <code>LOW</code> ?</li><li>À quoi sert <code>digitalWrite()</code> ?</li><li>À quoi sert <code>delay(1000)</code> ?</li><li>Pourquoi avons-nous utilisé deux appels à <code>pinMode()</code> ?</li><li>Pourquoi n'avons-nous pas encore créé de variable ?</li></ol></div>
-<div class="box"><h2>10. Ce qu'il faut retenir</h2><p>Avant d'apprendre les variables, il faut savoir commander directement une broche. Nous savons maintenant configurer une sortie, l'allumer, l'éteindre, attendre et construire une séquence de plusieurs sorties.</p><p><strong>Au chapitre 03 :</strong> nous allons reprendre exactement ces mêmes exercices et apprendre pourquoi les variables rendent le programme plus lisible, plus facile à modifier et plus réutilisable.</p></div>
-<div class="nav"><a href="01-fondamentaux.html">← Chapitre 01</a><a href="03-cpp-arduino.html">Chapitre 03 →</a></div>
-</main></body></html>
+}</code></pre></div>
+<div class="exercise"><h2>6. Exercices</h2><ol><li>Faire clignoter les deux LEDs ensemble.</li><li>Faire durer LED 13 deux secondes et LED 12 une seconde.</li><li>Créer la séquence 13 → 12 → 13 → 12.</li><li>Modifier les temps d'attente.</li></ol></div>
+<div class="summary"><h2>Résumé</h2><ul><li><code>pinMode()</code> configure une broche.</li><li><code>digitalWrite()</code> commande son état.</li><li><code>HIGH</code> et <code>LOW</code> représentent deux états logiques.</li><li><code>delay()</code> crée une attente.</li><li>Nous savons maintenant réaliser une séquence avec plusieurs LEDs sans variables.</li></ul></div>
+<div class="box"><h2>Fichiers à télécharger</h2><div class="downloads"><a href="02-entrees-sorties.ino" download>⬇ Code Arduino (.ino)</a><a href="02-resume.md" download>⬇ Résumé du chapitre (.md)</a></div></div>
+<div class="nav"><a href="01-fondamentaux.html">← Chapitre 01</a><a href="03-cpp-arduino.html">Chapitre 03 →</a></div></main></body></html>
