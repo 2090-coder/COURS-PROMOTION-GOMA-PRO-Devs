@@ -1,0 +1,21 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 10 — Ultrason</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px}.summary{background:#ecfdf3;border-left:4px solid #16a34a;padding:18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a,.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}.downloads a{background:#2563eb;color:#fff;border-color:#2563eb}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 10 — Capteur ultrasonique</h1><p>Le capteur HC-SR04 sert à introduire la mesure du temps et de la distance.</p><div class="box"><h2>1. Principe</h2><p>Le module émet une impulsion ultrasonique et mesure le temps de retour de l'écho. Le programme transforme cette durée en distance.</p></div><div class="box"><h2>2. Connexions</h2><p>VCC, GND, TRIG et ECHO. Vérifier la tension logique et la compatibilité avec la carte utilisée avant le câblage.</p></div><div class="box"><h2>3. Première mesure</h2><pre><code>const int trig = 9;
+const int echo = 10;
+
+void setup() {
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+
+  unsigned long duree = pulseIn(echo, HIGH);
+  float distance = duree * 0.0343 / 2.0;
+  Serial.println(distance);
+  delay(200);
+}</code></pre></div><div class="box"><h2>4. Exploitation</h2><p>Afficher la distance, définir un seuil et commander une LED ou un buzzer lorsque l'objet est proche.</p></div><div class="exercise"><h2>TP</h2><ol><li>Mesurer une distance et l'afficher.</li><li>Afficher une alerte sous un seuil.</li><li>Créer un mini détecteur de proximité avec LED.</li></ol></div><div class="summary"><h2>Résumé</h2><ul><li>TRIG déclenche la mesure.</li><li>ECHO fournit une durée.</li><li>La durée est convertie en distance.</li><li>Le capteur permet de construire des systèmes de détection.</li></ul></div><div class="box"><h2>Téléchargements</h2><div class="downloads"><a href="10-ultrason.ino" download>⬇ Code Arduino (.ino)</a><a href="10-resume.md" download>⬇ Résumé (.md)</a></div></div><div class="nav"><a href="09-projets.html">← Chapitre 09</a><a href="11-rtc.html">Chapitre 11 →</a></div></main></body></html>
