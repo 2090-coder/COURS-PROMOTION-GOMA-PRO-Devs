@@ -1,1 +1,50 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 10 — Projet final</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 10</p><h1>Projet final : application PHP + MySQL</h1><p>Le projet final reprend tout le parcours dans l'ordre. L'étudiant construit une petite plateforme de gestion avec pages HTML, PHP, formulaires, base de données, inscription, connexion, sessions et espace d'administration.</p><h2>Étape 1 — Préparer</h2><ul><li>Installer PHP et MySQL.</li><li>Créer le dossier du projet.</li><li>Créer la base de données.</li><li>Préparer la structure des dossiers.</li></ul><h2>Étape 2 — Construire l'interface</h2><ul><li>Accueil.</li><li>Inscription.</li><li>Connexion.</li><li>Dashboard.</li><li>Administration.</li></ul><h2>Étape 3 — Construire le backend</h2><ol><li>Traiter les formulaires.</li><li>Valider les données.</li><li>Connecter PHP à MySQL.</li><li>Créer les opérations CRUD.</li><li>Gérer les redirections.</li></ol><h2>Étape 4 — Authentification</h2><ol><li>Créer un compte.</li><li>Hasher le mot de passe.</li><li>Vérifier l'identifiant à la connexion.</li><li>Créer la session.</li><li>Protéger le dashboard.</li><li>Gérer la déconnexion.</li></ol><h2>Étape 5 — Administration</h2><p>Créer une page réservée au rôle administrateur pour consulter, ajouter, modifier et supprimer les données nécessaires au projet.</p><h2>Étape 6 — Tests</h2><ul><li>Tester les formulaires vides et invalides.</li><li>Tester un email déjà utilisé.</li><li>Tester un mauvais mot de passe.</li><li>Tester une page protégée sans connexion.</li><li>Tester un utilisateur normal face à une page administrateur.</li><li>Tester les opérations CRUD.</li></ul><h2>Livrable</h2><p>Le projet doit être accompagné d'un README expliquant l'installation, la configuration locale, la création de la base, le lancement du serveur et les comptes de test.</p><h2>Évaluation / 100</h2><ul><li>Installation et fonctionnement : 10</li><li>PHP et HTML : 15</li><li>Base de données : 15</li><li>Formulaires et redirections : 10</li><li>Inscription et connexion : 15</li><li>Sessions et autorisations : 15</li><li>CRUD : 10</li><li>Organisation, tests et documentation : 10</li></ul><p><a href="09-architecture-deploiement.html">← Chapitre précédent</a> · <a href="../index.html">Retour à la formation</a></p></main></body></html>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 10 — Projet final professionnel</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 10</p><h1>Projet final : application PHP + MySQL</h1><p>Construire une application complète depuis l'installation locale jusqu'à une version documentée et prête à être publiée.</p><h2>1. Sujet</h2><p>Créer une plateforme de gestion de formations GOMA PRO Devs. Un visiteur consulte les formations, un étudiant crée un compte et se connecte, puis un administrateur gère les données.</p><h2>2. Fonctionnalités obligatoires</h2><ul><li>Accueil.</li><li>Liste des formations.</li><li>Inscription.</li><li>Connexion.</li><li>Déconnexion.</li><li>Dashboard étudiant.</li><li>Sessions.</li><li>Rôles user/admin.</li><li>Dashboard administrateur.</li><li>CRUD des formations.</li><li>Validation des formulaires.</li><li>Messages d'erreur compréhensibles.</li></ul><h2>3. Structure proposée</h2><pre><code>goma-app/
+├── public/
+│   ├── index.php
+│   ├── register.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── dashboard.php
+│   └── admin/
+├── includes/
+│   ├── database.php
+│   ├── auth.php
+│   └── header.php
+├── assets/
+│   ├── css/
+│   └── js/
+└── README.md</code></pre><h2>4. Base de données</h2><pre><code>CREATE DATABASE goma_app CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE utilisateurs (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  nom VARCHAR(100) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  mot_de_passe VARCHAR(255) NOT NULL,
+  role VARCHAR(20) NOT NULL DEFAULT 'user'
+);
+
+CREATE TABLE formations (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  titre VARCHAR(150) NOT NULL,
+  description TEXT NOT NULL
+);</code></pre><h2>5. Installation locale</h2><ol><li>Installer XAMPP.</li><li>Démarrer Apache et MySQL.</li><li>Créer le dossier du projet dans <code>htdocs</code>.</li><li>Créer la base dans phpMyAdmin ou avec SQL.</li><li>Configurer PDO.</li><li>Ouvrir le projet avec <code>http://localhost/...</code>.</li></ol><h2>6. Inscription</h2><pre><code>$hash = password_hash($password, PASSWORD_DEFAULT);
+$stmt = $pdo-&gt;prepare(
+  'INSERT INTO utilisateurs (nom, email, mot_de_passe) VALUES (:nom, :email, :hash)'
+);
+$stmt-&gt;execute(['nom' =&gt; $nom, 'email' =&gt; $email, 'hash' =&gt; $hash]);</code></pre><h2>7. Connexion</h2><pre><code>session_start();
+if ($user &amp;&amp; password_verify($password, $user['mot_de_passe'])) {
+    session_regenerate_id(true);
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['role'] = $user['role'];
+    header('Location: dashboard.php');
+    exit;
+}</code></pre><h2>8. Protection</h2><pre><code>session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+if (($_SESSION['role'] ?? '') !== 'admin') {
+    http_response_code(403);
+    exit('Accès interdit');
+}</code></pre><h2>9. Tests obligatoires</h2><ol><li>Inscription valide.</li><li>Inscription avec email déjà utilisé.</li><li>Connexion valide.</li><li>Mauvais mot de passe.</li><li>Accès au dashboard sans connexion.</li><li>Accès admin avec compte user.</li><li>Ajout, lecture, modification et suppression d'une formation.</li><li>Formulaire vide.</li><li>Données invalides.</li><li>Déconnexion.</li></ol><h2>10. Documentation</h2><p>README : prérequis, installation XAMPP, création de la base, configuration, URL locale, comptes de test fictifs, structure et fonctionnalités.</p><h2>11. Livrable professionnel</h2><ul><li>Code organisé.</li><li>Base fonctionnelle.</li><li>Authentification fonctionnelle.</li><li>Autorisations vérifiées côté serveur.</li><li>CRUD fonctionnel.</li><li>Messages propres.</li><li>README complet.</li><li>Historique Git propre.</li></ul><h2>Évaluation / 100</h2><ul><li>Installation et fonctionnement : 10</li><li>PHP + HTML : 15</li><li>MySQL + SQL : 15</li><li>Formulaires + redirections : 10</li><li>Inscription + connexion : 15</li><li>Sessions + autorisations : 15</li><li>CRUD : 10</li><li>Architecture + tests + documentation : 10</li></ul><h2>Défi final</h2><p>Après validation du projet, ajouter une API JSON, une recherche de formations et une interface responsive sans casser les fonctions existantes.</p><p><a href="09-architecture-deploiement.html">← Chapitre précédent</a> · <a href="../index.html">Retour à la formation</a></p></main></body></html>
