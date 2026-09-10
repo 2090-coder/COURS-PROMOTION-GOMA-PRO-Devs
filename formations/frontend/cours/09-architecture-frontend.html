@@ -1,1 +1,29 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 09 — Architecture</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../index.html">← Formation</a></nav></div></header><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 09</p><h1>Architecture et qualité frontend</h1><p>Organiser une application frontend afin qu'elle reste compréhensible, testable et facile à maintenir.</p><h2>1. Organisation</h2><p>Séparer HTML, CSS, JavaScript, images et données selon le rôle de chaque fichier.</p><h2>2. Composants</h2><p>Identifier les éléments réutilisables : navigation, cartes, formulaires, boutons et sections.</p><h2>3. Qualité du code</h2><ul><li>Noms explicites.</li><li>Fonctions courtes.</li><li>Éviter la duplication.</li><li>Commentaires utiles.</li><li>Gestion des erreurs.</li></ul><h2>4. Tests</h2><p>Tester les formulaires, les interactions, les écrans mobiles et les cas d'erreur.</p><h2>TP</h2><ol><li>Réorganiser un petit projet mal structuré.</li><li>Extraire les composants répétitifs.</li><li>Tester les principales fonctionnalités.</li></ol><h2>Questions</h2><ol><li>Pourquoi séparer les responsabilités ?</li><li>Qu'est-ce qu'un composant réutilisable ?</li><li>Pourquoi tester les cas d'erreur ?</li></ol><p><a href="08-git-deploiement.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="10-projet-final.html">Chapitre suivant →</a></p></main></body></html>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 09 — Architecture et qualité</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../index.html">← Formation</a></nav></div></header><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 09</p><h1>Architecture et qualité frontend</h1><p>Apprendre à organiser un projet pour qu'il reste lisible, maintenable, testable et évolutif.</p><h2>1. Séparer les responsabilités</h2><p>HTML structure le contenu, CSS gère la présentation et JavaScript gère le comportement. Les données peuvent être séparées dans JSON ou récupérées par API.</p><h2>2. Structure recommandée</h2><pre><code>mon-projet/
+├── index.html
+├── pages/
+├── css/
+│   └── style.css
+├── js/
+│   └── app.js
+├── data/
+│   └── donnees.json
+└── assets/
+    └── images/</code></pre><h2>3. Noms et fonctions</h2><ul><li>Choisir des noms explicites.</li><li>Éviter les fonctions gigantesques.</li><li>Une fonction doit avoir une responsabilité claire.</li><li>Éviter la duplication inutile.</li></ul><h2>4. Exemple HTML + CSS + JavaScript</h2><pre><code>&lt;button id="btn" type="button"&gt;Ajouter&lt;/button&gt;
+&lt;p id="compteur"&gt;0&lt;/p&gt;
+
+&lt;script&gt;
+const btn = document.querySelector('#btn');
+const compteur = document.querySelector('#compteur');
+let nombre = 0;
+
+btn.addEventListener('click', () =&gt; {
+  nombre++;
+  compteur.textContent = nombre;
+});
+&lt;/script&gt;</code></pre><p>Le HTML crée les éléments et JavaScript leur donne un comportement. En production, placer le JavaScript dans un fichier séparé.</p><h2>5. Gestion des erreurs</h2><pre><code>try {
+  const reponse = await fetch('data/donnees.json');
+  if (!reponse.ok) throw new Error('Erreur HTTP');
+  const data = await reponse.json();
+} catch (erreur) {
+  console.error(erreur);
+}</code></pre><h2>6. Responsive</h2><p>Tester plusieurs largeurs d'écran. Utiliser des unités flexibles, Flexbox, Grid et des media queries lorsque nécessaire.</p><h2>7. Tests manuels</h2><ol><li>Tester chaque bouton.</li><li>Tester les formulaires valides et invalides.</li><li>Tester le clavier.</li><li>Tester les écrans mobiles.</li><li>Tester les erreurs réseau.</li><li>Vérifier la console du navigateur.</li></ol><h2>8. Qualité avant publication</h2><ul><li>Pas de lien cassé.</li><li>Pas d'image manquante.</li><li>Pas d'erreur JavaScript bloquante.</li><li>HTML correctement structuré.</li><li>CSS organisé.</li><li>README présent.</li><li>Projet versionné avec Git.</li></ul><h2>TP</h2><ol><li>Créer la structure d'un petit projet.</li><li>Séparer HTML, CSS et JavaScript.</li><li>Ajouter une donnée JSON.</li><li>Créer deux fonctions réutilisables.</li><li>Tester les cas normaux et les erreurs.</li></ol><h2>Questions</h2><ol><li>Pourquoi séparer les responsabilités ?</li><li>Pourquoi éviter la duplication ?</li><li>Pourquoi tester les cas d'erreur ?</li><li>Pourquoi tester sur mobile ?</li></ol><p><a href="08-git-deploiement.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="10-projet-final.html">Chapitre suivant →</a></p></main></body></html>
