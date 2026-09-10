@@ -1,19 +1,20 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 08 — Espace utilisateur et administration</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 08</p><h1>Espace utilisateur, rôles et administration</h1><p>Une fois la connexion créée, il faut empêcher un visiteur non connecté d'entrer dans certaines pages et distinguer les droits d'un utilisateur normal et d'un administrateur.</p><h2>1. Vérifier la connexion</h2><pre><code>session_start();
-
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 08 — Espace utilisateur et administration</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 08</p><h1>Espace utilisateur, rôles et administration</h1><p>Après l'authentification, nous séparons clairement l'identité d'un utilisateur de ses permissions.</p><h2>1. Authentification et autorisation</h2><p><strong>Authentification</strong> : vérifier qui est connecté. <strong>Autorisation</strong> : vérifier ce que cette personne a le droit de faire.</p><h2>2. Protéger une page</h2><pre><code>session_start();
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
-}</code></pre><h2>2. Vérifier un rôle</h2><pre><code>if (($_SESSION['role'] ?? '') !== 'admin') {
+}</code></pre><h2>3. Vérifier le rôle</h2><pre><code>if (($_SESSION['role'] ?? '') !== 'admin') {
     http_response_code(403);
     exit('Accès interdit');
-}</code></pre><p>Une autorisation doit être contrôlée côté serveur pour chaque opération sensible. Cacher un bouton dans HTML ne suffit pas.</p><h2>3. CRUD d'administration</h2><ul><li>Créer un utilisateur ou une formation.</li><li>Afficher les données.</li><li>Modifier une donnée.</li><li>Supprimer une donnée après confirmation.</li></ul><h2>4. Validation</h2><p>Avant chaque écriture, vérifier les types, longueurs, formats, droits et contraintes de la base. Les erreurs doivent être gérées sans révéler de secrets techniques à l'utilisateur.</p><h2>5. Organisation des pages</h2><pre><code>public/
-  index.php
-  login.php
-  logout.php
-  dashboard.php
-  admin/
-    index.php
-    utilisateurs.php
-includes/
-  auth.php
-  database.php</code></pre><h2>TP</h2><ol><li>Créer une page dashboard protégée.</li><li>Créer un rôle <code>user</code> et un rôle <code>admin</code>.</li><li>Autoriser seulement l'administrateur à gérer les utilisateurs.</li><li>Tester l'accès avec plusieurs comptes.</li><li>Ajouter une déconnexion.</li></ol><h2>Questions</h2><ol><li>Pourquoi contrôler les droits côté serveur ?</li><li>Quelle différence entre authentification et autorisation ?</li><li>Que signifie HTTP 403 ?</li><li>Pourquoi une session ne doit-elle pas être considérée comme une preuve suffisante de droit sans vérification ?</li></ol><p><a href="07-inscription-login.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="09-architecture-deploiement.html">Chapitre suivant →</a></p></main></body></html>
+}</code></pre><p>Cacher un bouton dans HTML ne protège pas une opération. La permission doit être contrôlée côté serveur.</p><h2>4. Dashboard utilisateur</h2><pre><code>&lt;h1&gt;Mon espace&lt;/h1&gt;
+&lt;p&gt;Utilisateur connecté : &lt;?= htmlspecialchars($nom) ?&gt;&lt;/p&gt;
+&lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;</code></pre><h2>5. Administration</h2><p>Un espace admin peut gérer les formations ou les utilisateurs selon les besoins du projet.</p><pre><code>admin/
+├── index.php
+├── utilisateurs.php
+├── ajouter.php
+├── modifier.php
+└── supprimer.php</code></pre><h2>6. CRUD sécurisé</h2><p>Chaque action doit vérifier la session, le rôle, les données reçues et utiliser des requêtes préparées.</p><h2>7. Code d'autorisation réutilisable</h2><pre><code>function requireAdmin(): void {
+    if (($_SESSION['role'] ?? '') !== 'admin') {
+        http_response_code(403);
+        exit('Accès interdit');
+    }
+}</code></pre><h2>8. Erreurs HTTP</h2><ul><li>401 : authentification nécessaire selon le contexte.</li><li>403 : accès refusé.</li><li>404 : ressource introuvable.</li><li>500 : erreur serveur.</li></ul><h2>TP</h2><ol><li>Créer un dashboard protégé.</li><li>Créer user et admin.</li><li>Refuser l'accès à admin aux utilisateurs normaux.</li><li>Créer une page de liste des utilisateurs.</li><li>Ajouter une opération de modification.</li><li>Tester les accès avec plusieurs comptes.</li></ol><h2>Questions</h2><ol><li>Différence entre authentification et autorisation ?</li><li>Pourquoi contrôler les droits côté serveur ?</li><li>Que signifie HTTP 403 ?</li><li>Pourquoi le rôle doit-il être vérifié pour chaque opération sensible ?</li></ol><p><a href="07-inscription-login.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="09-architecture-deploiement.html">Chapitre suivant →</a></p></main></body></html>
