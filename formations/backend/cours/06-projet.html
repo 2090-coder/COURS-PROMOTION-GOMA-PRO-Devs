@@ -1,22 +1,35 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 06 — PHP et MySQL</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 06</p><h1>Connecter PHP à MySQL avec PDO</h1><p>Nous allons maintenant relier les deux parties : PHP traite les demandes et MySQL conserve les données. PDO fournit l'interface PHP pour accéder à MySQL.</p><h2>1. Créer la connexion</h2><pre><code>&lt;?php
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 06 — PHP + MySQL avec PDO</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 06</p><h1>Connecter PHP à MySQL avec PDO</h1><p>Nous passons maintenant de SQL seul à une vraie application PHP capable de lire et modifier la base.</p><h2>1. Connexion</h2><pre><code>&lt;?php
 $pdo = new PDO(
-    'mysql:host=localhost;dbname=goma_pro_devs;charset=utf8mb4',
+    'mysql:host=localhost;dbname=goma_app;charset=utf8mb4',
     'root',
-    'mot_de_passe_local',
-    [PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION]
-);</code></pre><p>En pratique, les identifiants de production ne doivent pas être écrits directement dans le code source.</p><h2>2. Lire les utilisateurs</h2><pre><code>$stmt = $pdo-&gt;query(
-    'SELECT id, nom, email FROM utilisateurs ORDER BY id DESC'
+    ''
 );
-
-$utilisateurs = $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);</code></pre><h2>3. Requêtes préparées</h2><pre><code>$stmt = $pdo-&gt;prepare(
+$pdo-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);</code></pre><p>Les identifiants ci-dessus sont des exemples de développement local. En production, utiliser une configuration sécurisée.</p><h2>2. SELECT avec requête préparée</h2><pre><code>$stmt = $pdo-&gt;prepare(
     'SELECT id, nom, email FROM utilisateurs WHERE email = :email'
 );
 $stmt-&gt;execute(['email' =&gt; $email]);
-$user = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</code></pre><p>Les requêtes préparées permettent de séparer les paramètres des instructions SQL et constituent une pratique essentielle pour éviter les injections SQL.</p><h2>4. CRUD</h2><ul><li><strong>Create</strong> : INSERT</li><li><strong>Read</strong> : SELECT</li><li><strong>Update</strong> : UPDATE</li><li><strong>Delete</strong> : DELETE</li></ul><h2>5. Organisation</h2><pre><code>projet/
-  public/
-    index.php
-  config/
-    database.php
-  pages/
-  includes/
-</code></pre><p>Le but est de séparer progressivement la configuration, le traitement et l'affichage.</p><h2>TP</h2><ol><li>Connecter PHP à votre base locale.</li><li>Afficher les utilisateurs dans un tableau HTML.</li><li>Créer un formulaire d'ajout.</li><li>Créer la modification et la suppression.</li><li>Utiliser des requêtes préparées pour les données fournies par l'utilisateur.</li></ol><h2>Questions</h2><ol><li>À quoi sert PDO ?</li><li>Pourquoi utiliser une requête préparée ?</li><li>Que signifie CRUD ?</li><li>Pourquoi séparer la configuration du reste du code ?</li></ol><p><a href="05-auth-securite.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="07-inscription-login.html">Chapitre suivant →</a></p></main></body></html>
+$user = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</code></pre><h2>3. Pourquoi les requêtes préparées ?</h2><p>Elles permettent de séparer les paramètres des instructions SQL et constituent une pratique importante pour éviter de construire des requêtes dangereuses à partir de données utilisateur.</p><h2>4. INSERT</h2><pre><code>$stmt = $pdo-&gt;prepare(
+  'INSERT INTO utilisateurs (nom, email, mot_de_passe) VALUES (:nom, :email, :hash)'
+);
+$stmt-&gt;execute([
+  'nom' =&gt; $nom,
+  'email' =&gt; $email,
+  'hash' =&gt; $hash
+]);</code></pre><h2>5. Afficher dans HTML</h2><pre><code>&lt;?php foreach ($utilisateurs as $user): ?&gt;
+  &lt;article&gt;
+    &lt;h2&gt;&lt;?= htmlspecialchars($user['nom']) ?&gt;&lt;/h2&gt;
+    &lt;p&gt;&lt;?= htmlspecialchars($user['email']) ?&gt;&lt;/p&gt;
+  &lt;/article&gt;
+&lt;?php endforeach; ?&gt;</code></pre><h2>6. CRUD</h2><ul><li>Create : INSERT.</li><li>Read : SELECT.</li><li>Update : UPDATE.</li><li>Delete : DELETE.</li></ul><h2>7. Gestion des erreurs</h2><pre><code>try {
+    $pdo = new PDO($dsn, $user, $password);
+    $pdo-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    http_response_code(500);
+    exit('Impossible de se connecter à la base.');
+}</code></pre><p>En production, ne pas afficher le message interne complet de l'exception aux visiteurs.</p><h2>8. Organisation</h2><pre><code>includes/
+  database.php
+pages/
+  utilisateurs.php
+  ajouter.php
+  modifier.php
+  supprimer.php</code></pre><h2>TP</h2><ol><li>Créer <code>database.php</code>.</li><li>Se connecter à <code>goma_app</code>.</li><li>Afficher les utilisateurs.</li><li>Ajouter un utilisateur de test.</li><li>Modifier un utilisateur.</li><li>Supprimer un utilisateur.</li></ol><h2>Questions</h2><ol><li>À quoi sert PDO ?</li><li>Pourquoi utiliser une requête préparée ?</li><li>Pourquoi échapper les données dans HTML ?</li><li>Pourquoi gérer les exceptions ?</li></ol><p><a href="05-auth-securite.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="07-inscription-login.html">Chapitre suivant →</a></p></main></body></html>
