@@ -1,1 +1,326 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 07 — Accessibilité et SEO</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../index.html">← Formation</a></nav></div></header><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 07</p><h1>Accessibilité et SEO</h1><p>Construire des interfaces utilisables par le plus grand nombre et compréhensibles par les moteurs de recherche.</p><h2>1. HTML sémantique</h2><p>Utiliser les éléments qui décrivent réellement le contenu : header, nav, main, section, article, footer, button et form.</p><h2>2. Images et formulaires</h2><ul><li>Texte alternatif pertinent pour les images.</li><li>Labels associés aux champs.</li><li>Boutons explicites.</li><li>Navigation au clavier.</li></ul><h2>3. Contraste et lisibilité</h2><p>Une interface doit rester lisible, claire et utilisable sur différents écrans.</p><h2>4. SEO de base</h2><p>Title, description, titres hiérarchisés, URLs compréhensibles, contenu utile et structure sémantique.</p><h2>TP</h2><ol><li>Rendre une page existante navigable au clavier.</li><li>Corriger les images sans texte alternatif.</li><li>Améliorer les titres et la description d'une page.</li></ol><h2>Questions</h2><ol><li>Pourquoi utiliser HTML sémantique ?</li><li>À quoi sert l'attribut alt ?</li><li>Pourquoi les labels sont-ils importants ?</li></ol><p><a href="06-projet.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="08-git-deploiement.html">Chapitre suivant →</a></p></main></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cours Frontend 07 : accessibilité, HTML sémantique et bases du SEO.">
+  <title>Frontend 07 — Accessibilité et SEO</title>
+  <link rel="stylesheet" href="../../../assets/css/style.css">
+  <link rel="stylesheet" href="../../../assets/css/formation.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a>
+      <nav aria-label="Navigation principale">
+        <a href="../index.html">← Formation</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container course-section">
+    <p class="eyebrow">WEB FRONTEND · CHAPITRE 07</p>
+    <h1>Accessibilité et SEO</h1>
+    <p>Dans ce chapitre, nous allons apprendre progressivement à construire des pages faciles à utiliser, y compris au clavier et avec des technologies d'assistance, puis à améliorer leur compréhension par les moteurs de recherche.</p>
+
+    <h2>1. Qu'est-ce que l'accessibilité web ?</h2>
+    <p>L'accessibilité consiste à rendre un site utilisable par le plus grand nombre, notamment par les personnes qui ont des difficultés visuelles, auditives, motrices ou cognitives.</p>
+    <p>Bonne règle : l'accessibilité ne doit pas être ajoutée uniquement à la fin du projet. Il faut y penser dès la création de la structure HTML.</p>
+
+    <h2>2. Utiliser le bon élément HTML</h2>
+    <p>Le HTML sémantique signifie que chaque élément doit être utilisé pour son rôle réel. Par exemple, un bouton doit être un <code>&lt;button&gt;</code>, et un lien doit être un <code>&lt;a&gt;</code>.</p>
+    <p>Les éléments comme <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code> et <code>&lt;footer&gt;</code> donnent également une structure compréhensible à la page. citeturn0search0turn0search1</p>
+
+    <h3>Exemple HTML</h3>
+    <pre><code>&lt;header&gt;
+  &lt;h1&gt;GOMA PRO Devs&lt;/h1&gt;
+&lt;/header&gt;
+
+&lt;nav aria-label="Navigation principale"&gt;
+  &lt;a href="index.html"&gt;Accueil&lt;/a&gt;
+  &lt;a href="cours.html"&gt;Cours&lt;/a&gt;
+&lt;/nav&gt;
+
+&lt;main&gt;
+  &lt;section&gt;
+    &lt;h2&gt;Cours Frontend&lt;/h2&gt;
+    &lt;p&gt;Apprendre à créer des interfaces web.&lt;/p&gt;
+    &lt;button type="button"&gt;Commencer&lt;/button&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;GOMA PRO Devs&lt;/footer&gt;</code></pre>
+
+    <h2>3. Pourquoi éviter un faux bouton avec &lt;div&gt; ?</h2>
+    <p>On pourrait écrire <code>&lt;div&gt;Cliquez&lt;/div&gt;</code>, mais ce n'est pas un vrai contrôle interactif. Un vrai <code>&lt;button&gt;</code> possède déjà un comportement adapté au clavier et aux technologies d'assistance.</p>
+    <p>Il faut donc préférer les éléments HTML natifs avant d'ajouter des solutions plus complexes.</p>
+
+    <h2>4. Les images et l'attribut alt</h2>
+    <p>Une image informative doit avoir un texte alternatif qui explique ce qu'elle apporte au contenu. Une image uniquement décorative peut utiliser un <code>alt=""</code>.</p>
+
+    <h3>Exemple HTML</h3>
+    <pre><code>&lt;img src="logo.png" alt="Logo GOMA PRO Devs"&gt;
+
+&lt;img src="decoration.png" alt=""&gt;</code></pre>
+    <p>Le texte de <code>alt</code> doit être court, précis et utile. citeturn0search0turn0search2</p>
+
+    <h2>5. Les formulaires accessibles</h2>
+    <p>Chaque champ important doit avoir une étiquette claire. On utilise généralement <code>&lt;label&gt;</code> avec l'attribut <code>for</code> correspondant à l'<code>id</code> du champ.</p>
+
+    <h3>Exemple HTML complet</h3>
+    <pre><code>&lt;form&gt;
+  &lt;label for="nom"&gt;Votre nom&lt;/label&gt;
+  &lt;input id="nom" name="nom" type="text" required&gt;
+
+  &lt;label for="email"&gt;Votre adresse e-mail&lt;/label&gt;
+  &lt;input id="email" name="email" type="email" required&gt;
+
+  &lt;button type="submit"&gt;S'inscrire&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+    <p>Des labels explicites facilitent la compréhension et l'utilisation des formulaires, notamment avec les technologies d'assistance. citeturn0search0turn0search6</p>
+
+    <h2>6. Navigation au clavier</h2>
+    <p>Un utilisateur doit pouvoir parcourir les éléments interactifs avec le clavier. Test simple : utilisez la touche <strong>Tab</strong> dans votre navigateur et observez le déplacement du focus.</p>
+
+    <h3>Exemple HTML + CSS</h3>
+    <pre><code>&lt;a href="#contenu" class="skip-link"&gt;Aller directement au contenu&lt;/a&gt;
+
+&lt;nav&gt;
+  &lt;a href="index.html"&gt;Accueil&lt;/a&gt;
+  &lt;a href="cours.html"&gt;Cours&lt;/a&gt;
+&lt;/nav&gt;
+
+&lt;main id="contenu"&gt;
+  &lt;h1&gt;Mon cours&lt;/h1&gt;
+&lt;/main&gt;</code></pre>
+
+    <pre><code>.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.5rem 1rem;
+}</code></pre>
+    <p>Un lien d'évitement permet notamment de passer rapidement une navigation répétitive pour atteindre le contenu principal. citeturn0search2</p>
+
+    <h2>7. Lisibilité avec CSS</h2>
+    <p>L'accessibilité ne concerne pas uniquement HTML. Le CSS doit également conserver une bonne lisibilité et un focus visible.</p>
+
+    <pre><code>body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}</code></pre>
+
+    <h2>8. JavaScript et accessibilité</h2>
+    <p>JavaScript doit améliorer l'expérience sans supprimer les comportements natifs. Pour un bouton, utilisez un vrai <code>&lt;button&gt;</code> et ajoutez l'événement avec JavaScript.</p>
+
+    <h3>HTML + JavaScript</h3>
+    <pre><code>&lt;button id="messageBtn" type="button"&gt;
+  Afficher le message
+&lt;/button&gt;
+
+&lt;p id="message"&gt;&lt;/p&gt;
+
+&lt;script&gt;
+  const bouton = document.getElementById("messageBtn");
+  const message = document.getElementById("message");
+
+  bouton.addEventListener("click", function () {
+    message.textContent = "Bienvenue dans le cours Frontend !";
+  });
+&lt;/script&gt;</code></pre>
+    <p>Le principe important est de conserver une structure HTML correcte avant d'ajouter le comportement JavaScript.</p>
+
+    <h2>9. Qu'est-ce que le SEO ?</h2>
+    <p>Le SEO, ou optimisation pour les moteurs de recherche, consiste notamment à aider les moteurs à comprendre le contenu et la structure d'une page.</p>
+    <p>Un bon HTML sémantique peut aider à la fois l'accessibilité et la compréhension du contenu par les moteurs de recherche. citeturn0search1turn0search3</p>
+
+    <h2>10. Le &lt;title&gt; et la meta description</h2>
+    <p>Le document HTML possède des informations importantes dans <code>&lt;head&gt;</code>.</p>
+
+    <pre><code>&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;meta
+    name="description"
+    content="Cours Frontend pour apprendre HTML, CSS et JavaScript."
+  &gt;
+  &lt;title&gt;Cours Frontend — GOMA PRO Devs&lt;/title&gt;
+&lt;/head&gt;</code></pre>
+
+    <h2>11. Les titres h1, h2 et h3</h2>
+    <p>Les titres doivent représenter la hiérarchie du contenu. En général, une page possède un titre principal <code>h1</code>, puis des sections avec <code>h2</code> et des sous-sections avec <code>h3</code>.</p>
+
+    <pre><code>&lt;h1&gt;Formation Frontend&lt;/h1&gt;
+
+&lt;h2&gt;HTML&lt;/h2&gt;
+&lt;p&gt;Structure de la page.&lt;/p&gt;
+
+&lt;h2&gt;CSS&lt;/h2&gt;
+&lt;h3&gt;Mise en page&lt;/h3&gt;
+&lt;p&gt;Flexbox et Grid.&lt;/p&gt;</code></pre>
+
+    <h2>12. Les liens doivent être explicites</h2>
+    <p>Évitez les liens vagues comme « Cliquez ici ». Préférez un texte qui indique clairement la destination.</p>
+
+    <pre><code>&lt;!-- Peu explicite --&gt;
+&lt;a href="cours.html"&gt;Cliquez ici&lt;/a&gt;
+
+&lt;!-- Plus explicite --&gt;
+&lt;a href="cours.html"&gt;Consulter le cours Frontend&lt;/a&gt;</code></pre>
+    <p>Des intitulés compréhensibles hors contexte sont plus utiles aux utilisateurs et aux technologies d'assistance. citeturn0search0turn0search2</p>
+
+    <h2>13. Mini-projet : rendre une page accessible et mieux structurée</h2>
+    <p>Voici une petite page complète à améliorer progressivement.</p>
+
+    <h3>HTML</h3>
+    <pre><code>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;meta name="description" content="Présentation d'une formation Frontend."&gt;
+  &lt;title&gt;Formation Frontend&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;a href="#contenu" class="skip-link"&gt;Aller au contenu&lt;/a&gt;
+
+  &lt;header&gt;
+    &lt;h1&gt;Formation Frontend&lt;/h1&gt;
+  &lt;/header&gt;
+
+  &lt;nav aria-label="Navigation principale"&gt;
+    &lt;a href="index.html"&gt;Accueil&lt;/a&gt;
+    &lt;a href="cours.html"&gt;Cours Frontend&lt;/a&gt;
+  &lt;/nav&gt;
+
+  &lt;main id="contenu"&gt;
+    &lt;section&gt;
+      &lt;h2&gt;Apprendre le développement web&lt;/h2&gt;
+      &lt;p&gt;HTML, CSS et JavaScript progressivement.&lt;/p&gt;
+
+      &lt;figure&gt;
+        &lt;img src="frontend.jpg" alt="Étudiant travaillant sur une interface web"&gt;
+        &lt;figcaption&gt;Travail pratique de développement web.&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+      &lt;form&gt;
+        &lt;label for="nom"&gt;Nom&lt;/label&gt;
+        &lt;input id="nom" name="nom" type="text" required&gt;
+
+        &lt;button type="submit"&gt;S'inscrire&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;GOMA PRO Devs&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h3>CSS</h3>
+    <pre><code>body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.5rem;
+  background: white;
+}
+
+input,
+button {
+  font: inherit;
+  padding: 0.6rem;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}</code></pre>
+
+    <h2>14. Méthode de vérification</h2>
+    <ol>
+      <li>Ouvrir la page dans le navigateur.</li>
+      <li>Utiliser uniquement la touche <strong>Tab</strong> pour parcourir les liens, champs et boutons.</li>
+      <li>Vérifier que le focus est visible.</li>
+      <li>Vérifier que chaque image informative possède un <code>alt</code>.</li>
+      <li>Vérifier que chaque champ possède un <code>label</code>.</li>
+      <li>Vérifier la présence d'un titre de page et d'une description pertinente.</li>
+      <li>Vérifier que les titres suivent une hiérarchie logique.</li>
+    </ol>
+
+    <h2>15. TP</h2>
+    <ol>
+      <li>Créer une page HTML avec <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code> et <code>footer</code>.</li>
+      <li>Ajouter une image avec un <code>alt</code> pertinent.</li>
+      <li>Créer un formulaire avec deux champs et des <code>label</code> correctement associés.</li>
+      <li>Ajouter un bouton HTML réel et vérifier son fonctionnement au clavier.</li>
+      <li>Ajouter un <code>title</code> et une <code>meta description</code>.</li>
+      <li>Organiser le contenu avec <code>h1</code>, <code>h2</code> et éventuellement <code>h3</code>.</li>
+      <li>Tester la page uniquement avec le clavier.</li>
+    </ol>
+
+    <h2>16. Questions de révision</h2>
+    <ol>
+      <li>Qu'est-ce que l'accessibilité web ?</li>
+      <li>Pourquoi faut-il privilégier les éléments HTML sémantiques ?</li>
+      <li>À quoi sert l'attribut <code>alt</code> ?</li>
+      <li>Pourquoi associer un <code>label</code> à un champ de formulaire ?</li>
+      <li>À quoi sert la touche Tab dans un test d'accessibilité ?</li>
+      <li>Pourquoi un vrai <code>button</code> est-il préférable à un <code>div</code> cliquable ?</li>
+      <li>Qu'est-ce que le SEO ?</li>
+      <li>À quoi servent <code>&lt;title&gt;</code> et <code>meta name="description"</code> ?</li>
+      <li>Pourquoi organiser correctement les niveaux de titres ?</li>
+      <li>Pourquoi les liens doivent-ils avoir un texte compréhensible ?</li>
+    </ol>
+
+    <h2>Résumé</h2>
+    <ul>
+      <li>Accessibilité = rendre le site utilisable par le plus grand nombre.</li>
+      <li>HTML sémantique = choisir l'élément correspondant à son rôle.</li>
+      <li><code>alt</code> = texte alternatif pour les images informatives.</li>
+      <li><code>label</code> = étiquette claire pour les champs de formulaire.</li>
+      <li>Clavier = un bon moyen de vérifier la navigation et le focus.</li>
+      <li>SEO = améliorer la compréhension et la visibilité du contenu.</li>
+      <li>Une bonne structure HTML aide à la fois l'accessibilité et le SEO.</li>
+    </ul>
+
+    <p>
+      <a href="06-projet.html">← Chapitre précédent</a> ·
+      <a href="../index.html">Formation</a> ·
+      <a href="08-git-deploiement.html">Chapitre suivant →</a>
+    </p>
+  </main>
+</body>
+</html>
