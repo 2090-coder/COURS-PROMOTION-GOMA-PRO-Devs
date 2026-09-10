@@ -1,13 +1,29 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 03 — PHP et HTML</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 03</p><h1>Voir le résultat et mélanger PHP avec HTML</h1><p>PHP travaille côté serveur. Le serveur exécute le code PHP puis envoie au navigateur le résultat HTML. Le navigateur affiche ensuite cette page.</p><h2>1. PHP dans une page HTML</h2><pre><code>&lt;!doctype html&gt;
-&lt;html lang="fr"&gt;
-&lt;body&gt;
-    &lt;h1&gt;Mon site&lt;/h1&gt;
-    &lt;p&gt;Bonjour &lt;?php echo "Aline"; ?&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre><h2>2. Afficher des données</h2><pre><code>&lt;?php
-$prenom = "Jean";
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 03 — PHP et HTML</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 03</p><h1>PHP + HTML : construire des pages dynamiques</h1><p>Nous allons comprendre ce que fait le serveur, comment PHP produit HTML et comment organiser plusieurs pages.</p><h2>1. Le trajet d'une page</h2><ol><li>Le navigateur demande une URL.</li><li>Apache reçoit la demande.</li><li>PHP exécute le code serveur.</li><li>Le serveur renvoie le résultat HTML.</li><li>Le navigateur affiche la page.</li></ol><h2>2. PHP dans HTML</h2><pre><code>&lt;h1&gt;Mon profil&lt;/h1&gt;
+&lt;?php
+$nom = 'Aline';
 ?&gt;
-&lt;h1&gt;Bonjour &lt;?= htmlspecialchars($prenom) ?&gt;&lt;/h1&gt;</code></pre><p>Lorsqu'une donnée vient d'un utilisateur, on apprend à l'afficher avec un échappement adapté au contexte afin d'éviter d'injecter du HTML non désiré.</p><h2>3. Liens entre les pages</h2><pre><code>&lt;a href="contact.php"&gt;Contact&lt;/a&gt;
-&lt;a href="profil.php?id=15"&gt;Voir le profil&lt;/a&gt;</code></pre><h2>4. Réutiliser le HTML</h2><pre><code>&lt;?php include "header.php"; ?&gt;
-&lt;main&gt;Contenu de la page&lt;/main&gt;
-&lt;?php include "footer.php"; ?&gt;</code></pre><h2>5. Comprendre le chemin du résultat</h2><ol><li>Le navigateur demande une URL.</li><li>Le serveur reçoit la demande.</li><li>PHP exécute le script.</li><li>PHP produit du HTML.</li><li>Le serveur renvoie la réponse.</li><li>Le navigateur affiche la page.</li></ol><h2>TP</h2><ol><li>Créer <code>index.php</code> avec un titre HTML.</li><li>Afficher dynamiquement un prénom et une liste.</li><li>Créer <code>header.php</code> et <code>footer.php</code>.</li><li>Relier deux pages avec des liens.</li></ol><h2>Questions</h2><ol><li>Où le PHP est-il exécuté ?</li><li>Pourquoi le navigateur reçoit-il principalement du HTML ?</li><li>À quoi sert <code>include</code> ?</li><li>Pourquoi utiliser <code>htmlspecialchars</code> pour une donnée affichée ?</li></ol><p><a href="02-oop.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="04-php-sql.html">Chapitre suivant →</a></p></main></body></html>
+&lt;p&gt;Nom : &lt;?= htmlspecialchars($nom) ?&gt;&lt;/p&gt;</code></pre><h2>3. Affichage conditionnel</h2><pre><code>&lt;?php if ($connecte): ?&gt;
+  &lt;p&gt;Bienvenue dans votre espace.&lt;/p&gt;
+&lt;?php else: ?&gt;
+  &lt;p&gt;Veuillez vous connecter.&lt;/p&gt;
+&lt;?php endif; ?&gt;</code></pre><h2>4. Liens entre pages</h2><pre><code>&lt;a href="contact.php"&gt;Contact&lt;/a&gt;
+&lt;a href="login.php"&gt;Connexion&lt;/a&gt;</code></pre><h2>5. Réutiliser une partie HTML</h2><pre><code>&lt;?php include 'header.php'; ?&gt;
+&lt;main&gt;
+  &lt;h1&gt;Accueil&lt;/h1&gt;
+&lt;/main&gt;
+&lt;?php include 'footer.php'; ?&gt;</code></pre><p>Cette technique évite de recopier la même navigation et le même pied de page dans toutes les pages.</p><h2>6. Données dans une liste</h2><pre><code>&lt;?php
+$formations = ['Frontend', 'Backend', 'Arduino'];
+?&gt;
+&lt;ul&gt;
+&lt;?php foreach ($formations as $formation): ?&gt;
+  &lt;li&gt;&lt;?= htmlspecialchars($formation) ?&gt;&lt;/li&gt;
+&lt;?php endforeach; ?&gt;
+&lt;/ul&gt;</code></pre><h2>7. Organisation simple</h2><pre><code>goma-backend/
+├── index.php
+├── contact.php
+├── login.php
+├── includes/
+│   ├── header.php
+│   └── footer.php
+└── assets/
+    └── css/style.css</code></pre><h2>TP</h2><ol><li>Créer une page accueil.</li><li>Créer une page contact.</li><li>Créer header et footer.</li><li>Afficher un tableau de formations avec PHP.</li><li>Ajouter des liens entre les pages.</li></ol><h2>Questions</h2><ol><li>Que se passe-t-il entre l'URL et le HTML affiché ?</li><li>Pourquoi utiliser include ?</li><li>Pourquoi échapper les données affichées ?</li></ol><p><a href="02-oop.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="04-php-sql.html">Chapitre suivant →</a></p></main></body></html>
