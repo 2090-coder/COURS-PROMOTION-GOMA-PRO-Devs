@@ -1,14 +1,19 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 04 — Formulaires et redirections</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 04</p><h1>Formulaires, validation et redirections</h1><p>Une application Web doit recevoir les données d'un utilisateur, les vérifier, effectuer une action puis souvent rediriger vers une autre page.</p><h2>1. Formulaire HTML</h2><pre><code>&lt;form method="post" action="traitement.php"&gt;
-  &lt;label&gt;Nom&lt;/label&gt;
-  &lt;input name="nom" required&gt;
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 04 — Formulaires et redirections</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 04</p><h1>Formulaires, validation et redirections</h1><p>Un backend devient interactif lorsqu'il reçoit des données du navigateur et décide quoi en faire.</p><h2>1. Premier formulaire</h2><pre><code>&lt;form method="post" action="traitement.php"&gt;
+  &lt;label for="nom"&gt;Nom&lt;/label&gt;
+  &lt;input id="nom" name="nom" required&gt;
   &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
-&lt;/form&gt;</code></pre><h2>2. Recevoir POST</h2><pre><code>&lt;?php
-$nom = trim($_POST['nom'] ?? '');
-
+&lt;/form&gt;</code></pre><h2>2. Lire POST</h2><pre><code>$nom = trim($_POST['nom'] ?? '');
 if ($nom === '') {
     exit('Nom obligatoire');
 }
-
-echo htmlspecialchars($nom, ENT_QUOTES, 'UTF-8');</code></pre><h2>3. GET et POST</h2><ul><li><code>GET</code> est souvent utilisé pour demander une ressource ou transmettre des paramètres dans l'URL.</li><li><code>POST</code> est utilisé pour envoyer des données dans le corps de la requête.</li><li>Dans les deux cas, le serveur doit valider les données.</li></ul><h2>4. Redirection</h2><pre><code>&lt;?php
-header('Location: resultat.php');
-exit;</code></pre><p>La redirection demande au navigateur de faire une nouvelle requête vers une autre URL. On utilise généralement <code>exit</code> juste après pour arrêter le traitement.</p><h2>5. Message après redirection</h2><p>Pour transmettre un état d'une requête à la suivante, les sessions peuvent être utilisées. Nous les étudierons avec l'authentification.</p><h2>TP</h2><ol><li>Créer un formulaire d'inscription simple sans base de données.</li><li>Vérifier que les champs obligatoires sont remplis.</li><li>Afficher un message d'erreur compréhensible.</li><li>Après réussite, rediriger vers une page de confirmation.</li></ol><h2>Questions</h2><ol><li>Différence entre GET et POST ?</li><li>Pourquoi valider côté serveur même si le HTML contient <code>required</code> ?</li><li>À quoi sert <code>header('Location: ...')</code> ?</li><li>Pourquoi arrêter le script après une redirection ?</li></ol><p><a href="03-sql.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="05-auth-securite.html">Chapitre suivant →</a></p></main></body></html>
+echo htmlspecialchars($nom, ENT_QUOTES, 'UTF-8');</code></pre><h2>3. GET</h2><p>GET est souvent utilisé pour des paramètres visibles dans l'URL. POST est adapté à de nombreuses soumissions de formulaires.</p><pre><code>$recherche = trim($_GET['q'] ?? '');</code></pre><h2>4. Validation</h2><pre><code>$email = trim($_POST['email'] ?? '');
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    exit('Email invalide');
+}</code></pre><p>Valider côté serveur même si HTML possède déjà <code>required</code> ou <code>type="email"</code>.</p><h2>5. Redirection</h2><pre><code>header('Location: merci.php');
+exit;</code></pre><p>La redirection doit être envoyée avant toute sortie HTTP incompatible avec les headers.</p><h2>6. Pattern POST/Redirect/GET</h2><ol><li>Le navigateur envoie POST.</li><li>PHP valide et enregistre.</li><li>PHP redirige.</li><li>Le navigateur effectue un GET sur la page résultat.</li></ol><h2>7. Formulaire complet</h2><pre><code>&lt;form method="post" action="traitement.php"&gt;
+  &lt;label for="email"&gt;Email&lt;/label&gt;
+  &lt;input id="email" name="email" type="email" required&gt;
+  &lt;label for="message"&gt;Message&lt;/label&gt;
+  &lt;textarea id="message" name="message" required&gt;&lt;/textarea&gt;
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</code></pre><h2>8. Bonnes pratiques</h2><ul><li>Valider les données côté serveur.</li><li>Ne jamais faire confiance aux données reçues.</li><li>Échapper les données lors de l'affichage HTML.</li><li>Utiliser POST pour les opérations qui modifient des données.</li><li>Rediriger après un traitement réussi.</li></ul><h2>TP</h2><ol><li>Créer un formulaire de contact.</li><li>Vérifier nom, email et message.</li><li>Afficher une erreur si une donnée est invalide.</li><li>Afficher une page de confirmation après succès.</li><li>Ajouter une redirection.</li></ol><h2>Questions</h2><ol><li>Quelle différence entre GET et POST ?</li><li>Pourquoi valider côté serveur ?</li><li>À quoi sert header Location ?</li><li>Pourquoi exit après une redirection ?</li></ol><p><a href="03-sql.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="05-auth-securite.html">Chapitre suivant →</a></p></main></body></html>
