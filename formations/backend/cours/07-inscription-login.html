@@ -1,28 +1,42 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 07 — Inscription et connexion</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 07</p><h1>Inscription, connexion et sessions</h1><p>C'est ici que nous construisons le mécanisme classique : un visiteur crée un compte, PHP enregistre ses informations, puis la page de connexion recherche le compte et compare le mot de passe correctement.</p><h2>1. Inscription : recevoir les données</h2><pre><code>$nom = trim($_POST['nom'] ?? '');
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 07 — Inscription et connexion</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 07</p><h1>Inscription, connexion et sessions</h1><p>Nous construisons maintenant le parcours complet : inscription, recherche du compte, vérification du mot de passe et session utilisateur.</p><h2>1. Formulaire d'inscription</h2><pre><code>&lt;form method="post" action="register.php"&gt;
+  &lt;label for="nom"&gt;Nom&lt;/label&gt;
+  &lt;input id="nom" name="nom" required&gt;
+  &lt;label for="email"&gt;Email&lt;/label&gt;
+  &lt;input id="email" name="email" type="email" required&gt;
+  &lt;label for="password"&gt;Mot de passe&lt;/label&gt;
+  &lt;input id="password" name="password" type="password" required&gt;
+  &lt;button type="submit"&gt;Créer le compte&lt;/button&gt;
+&lt;/form&gt;</code></pre><h2>2. Valider les données</h2><pre><code>$nom = trim($_POST['nom'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
-if ($nom === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if ($nom === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
     exit('Données invalides');
-}</code></pre><h2>2. Ne jamais enregistrer le mot de passe en clair</h2><pre><code>$hash = password_hash($password, PASSWORD_DEFAULT);</code></pre><p>La base conserve le hash, pas le mot de passe original. PHP fournit <code>password_hash()</code> pour produire ce hash.</p><h2>3. Enregistrer le compte</h2><pre><code>$stmt = $pdo-&gt;prepare(
+}</code></pre><h2>3. Hasher le mot de passe</h2><pre><code>$hash = password_hash($password, PASSWORD_DEFAULT);</code></pre><p>La base conserve le hash et non le mot de passe original.</p><h2>4. Enregistrer le compte</h2><pre><code>$stmt = $pdo-&gt;prepare(
   'INSERT INTO utilisateurs (nom, email, mot_de_passe) VALUES (:nom, :email, :hash)'
 );
 $stmt-&gt;execute([
   'nom' =&gt; $nom,
   'email' =&gt; $email,
   'hash' =&gt; $hash
-]);</code></pre><p>L'email doit être unique dans la base. Il faut gérer proprement le cas où l'utilisateur existe déjà.</p><h2>4. Connexion : retrouver le compte</h2><pre><code>$stmt = $pdo-&gt;prepare(
+]);</code></pre><h2>5. Connexion : retrouver le compte</h2><pre><code>$stmt = $pdo-&gt;prepare(
   'SELECT id, nom, email, mot_de_passe, role FROM utilisateurs WHERE email = :email'
 );
 $stmt-&gt;execute(['email' =&gt; $email]);
-$user = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</code></pre><h2>5. Comparer le mot de passe</h2><pre><code>if ($user &amp;&amp; password_verify($password, $user['mot_de_passe'])) {
-    // Identifiants corrects
+$user = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</code></pre><h2>6. Vérifier le mot de passe</h2><pre><code>if ($user &amp;&amp; password_verify($password, $user['mot_de_passe'])) {
+    echo 'Connexion réussie';
 } else {
-    // Identifiants incorrects
-}</code></pre><p>On ne compare donc pas le mot de passe à une valeur stockée en clair. <code>password_verify()</code> vérifie le mot de passe fourni contre le hash enregistré.</p><h2>6. Garder l'utilisateur connecté</h2><pre><code>session_start();
+    echo 'Identifiants incorrects';
+}</code></pre><h2>7. Créer la session</h2><pre><code>session_start();
+
+session_regenerate_id(true);
 $_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role'];</code></pre><h2>7. Déconnexion</h2><pre><code>session_start();
+$_SESSION['role'] = $user['role'];</code></pre><h2>8. Vérifier une session</h2><pre><code>session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}</code></pre><h2>9. Déconnexion</h2><pre><code>session_start();
 $_SESSION = [];
 session_destroy();
 header('Location: login.php');
-exit;</code></pre><h2>TP</h2><ol><li>Créer <code>register.php</code>.</li><li>Créer <code>login.php</code>.</li><li>Enregistrer un utilisateur dans MySQL avec un hash.</li><li>Refuser un email déjà utilisé.</li><li>Connecter l'utilisateur avec une session.</li><li>Créer <code>logout.php</code>.</li></ol><h2>Questions</h2><ol><li>Pourquoi stocker un hash plutôt que le mot de passe ?</li><li>À quoi sert <code>password_verify()</code> ?</li><li>Pourquoi utiliser une session ?</li><li>Comment savoir quel utilisateur est connecté ?</li></ol><p><a href="06-projet.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="08-espace-admin.html">Chapitre suivant →</a></p></main></body></html>
+exit;</code></pre><h2>10. Règles essentielles</h2><ul><li>Ne jamais stocker les mots de passe en clair.</li><li>Utiliser des requêtes préparées.</li><li>Valider les données côté serveur.</li><li>Regénérer l'identifiant de session après authentification.</li><li>Ne pas afficher de secrets dans les erreurs.</li></ul><h2>TP</h2><ol><li>Créer register.php.</li><li>Créer login.php.</li><li>Créer logout.php.</li><li>Tester une inscription.</li><li>Tester un mauvais mot de passe.</li><li>Afficher le nom de l'utilisateur connecté.</li></ol><h2>Questions</h2><ol><li>Pourquoi utiliser password_hash ?</li><li>À quoi sert password_verify ?</li><li>Pourquoi une session ?</li><li>Pourquoi régénérer l'ID de session après connexion ?</li></ol><p><a href="06-projet.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="08-espace-admin.html">Chapitre suivant →</a></p></main></body></html>
