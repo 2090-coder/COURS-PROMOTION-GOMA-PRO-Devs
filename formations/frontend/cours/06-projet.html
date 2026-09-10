@@ -1,1 +1,450 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 06 — Projet final</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 06</p><h1>Projet final : application web</h1><p>Construisez une petite application complète qui démontre vos compétences HTML, CSS et JavaScript.</p><h2>Cahier des charges</h2><ul><li>Interface responsive pour ordinateur et téléphone.</li><li>Navigation claire et accessible.</li><li>Formulaire avec validation côté client.</li><li>Données manipulées dynamiquement avec JavaScript.</li><li>Page d'erreur ou état vide.</li><li>Code organisé et commenté uniquement lorsque cela apporte une vraie explication.</li></ul><h2>Exemple de projets</h2><ul><li>Gestionnaire de tâches.</li><li>Catalogue de produits fictifs.</li><li>Tableau de bord étudiant.</li><li>Application de notes.</li></ul><h2>Évaluation</h2><ol><li>Structure HTML et accessibilité : 20 points.</li><li>Design CSS et responsive : 20 points.</li><li>JavaScript et logique : 25 points.</li><li>Qualité du code : 15 points.</li><li>Présentation et documentation : 20 points.</li></ol><p><a href="../index.html">← Retour à la formation</a></p></main></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frontend 06 — Projet intermédiaire</title>
+  <link rel="stylesheet" href="../../../assets/css/style.css">
+  <link rel="stylesheet" href="../../../assets/css/formation.css">
+  <style>
+    main{max-width:1050px;margin:auto;padding:32px 18px}
+    .box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}
+    pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}
+    .exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px;margin:18px 0}
+    .summary{background:#ecfdf3;border-left:4px solid #16a34a;padding:18px;margin:18px 0}
+    .project{background:#fff7ed;border-left:4px solid #f97316;padding:18px;margin:18px 0}
+    .nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px;flex-wrap:wrap}
+    .nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="../index.html">← Retour Web Frontend</a></p>
+  <p class="eyebrow">WEB FRONTEND · CHAPITRE 06</p>
+  <h1>Projet intermédiaire : application de tâches</h1>
+  <p>Nous allons maintenant réunir ce que nous avons appris en HTML, CSS et JavaScript pour construire progressivement une petite application interactive.</p>
+
+  <div class="project">
+    <h2>Objectif du projet</h2>
+    <p>Construire une application de tâches permettant de :</p>
+    <ul>
+      <li>écrire une tâche ;</li>
+      <li>ajouter la tâche dans la page ;</li>
+      <li>afficher plusieurs tâches ;</li>
+      <li>marquer une tâche comme terminée ;</li>
+      <li>supprimer une tâche ;</li>
+      <li>afficher le nombre de tâches ;</li>
+      <li>valider correctement le formulaire.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>1. Comprendre la construction du projet</h2>
+    <p>Notre application sera construite en trois parties :</p>
+    <pre><code>HTML
+  ↓
+Structure de la page
+
+CSS
+  ↓
+Présentation et mise en page
+
+JavaScript
+  ↓
+Interactions et logique</code></pre>
+    <p>JavaScript va sélectionner les éléments HTML, écouter les événements et créer ou modifier des éléments du DOM. C'est précisément le type de manipulation permis par <code>createElement()</code>, <code>appendChild()</code> et <code>addEventListener()</code>. citeturn0search0turn0search1turn0search7</p>
+  </div>
+
+  <div class="box">
+    <h2>2. Première étape : créer le HTML</h2>
+    <p>Nous commençons toujours par la structure HTML avant d'écrire la logique JavaScript.</p>
+    <pre><code>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Ma liste de tâches&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Ma liste de tâches&lt;/h1&gt;
+
+  &lt;form id="formulaire-tache"&gt;
+    &lt;input id="tache" type="text" placeholder="Écrire une tâche"&gt;
+    &lt;button type="submit"&gt;Ajouter&lt;/button&gt;
+  &lt;/form&gt;
+
+  &lt;p id="message"&gt;&lt;/p&gt;
+  &lt;p&gt;Nombre de tâches : &lt;strong id="compteur"&gt;0&lt;/strong&gt;&lt;/p&gt;
+  &lt;ul id="liste-taches"&gt;&lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <p>À ce stade, nous avons seulement construit la structure. Aucun JavaScript n'est encore nécessaire.</p>
+  </div>
+
+  <div class="box">
+    <h2>3. Ajouter le CSS</h2>
+    <p>Nous pouvons maintenant améliorer la présentation.</p>
+    <pre><code>body {
+  font-family: Arial, sans-serif;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+li {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.terminee {
+  text-decoration: line-through;
+  opacity: 0.6;
+}</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>4. Sélectionner les éléments HTML</h2>
+    <p>Nous allons maintenant connecter JavaScript au HTML.</p>
+    <pre><code>const formulaire = document.querySelector("#formulaire-tache");
+const champ = document.querySelector("#tache");
+const liste = document.querySelector("#liste-taches");
+const compteur = document.querySelector("#compteur");
+const message = document.querySelector("#message");</code></pre>
+    <p>Chaque constante contient une référence vers un élément HTML. Nous pouvons ensuite agir sur ces éléments.</p>
+  </div>
+
+  <div class="box">
+    <h2>5. Intercepter l'envoi du formulaire</h2>
+    <p>Nous ne voulons pas que le navigateur recharge immédiatement la page.</p>
+    <pre><code>formulaire.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  alert("Le formulaire a été envoyé !");
+});</code></pre>
+    <p><code>addEventListener()</code> permet d'écouter un événement, tandis que <code>preventDefault()</code> permet ici de contrôler le comportement automatique du formulaire. citeturn0search3turn0search7</p>
+  </div>
+
+  <div class="box">
+    <h2>6. Lire ce que l'utilisateur a écrit</h2>
+    <p>La valeur d'un champ texte est accessible avec <code>.value</code>.</p>
+    <pre><code>formulaire.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const texte = champ.value;
+
+  alert(texte);
+});</code></pre>
+    <p>Fais un test : écris une tâche puis clique sur <strong>Ajouter</strong>. Le texte apparaît dans une boîte de dialogue.</p>
+  </div>
+
+  <div class="box">
+    <h2>7. Vérifier que la tâche n'est pas vide</h2>
+    <pre><code>formulaire.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const texte = champ.value.trim();
+
+  if (texte === "") {
+    message.textContent = "Veuillez écrire une tâche.";
+    return;
+  }
+
+  message.textContent = "Tâche correcte.";
+});</code></pre>
+    <p><code>trim()</code> retire les espaces inutiles au début et à la fin du texte.</p>
+  </div>
+
+  <div class="box">
+    <h2>8. Créer une nouvelle ligne HTML avec JavaScript</h2>
+    <p>Maintenant, nous allons réellement créer un élément HTML avec JavaScript.</p>
+    <pre><code>const element = document.createElement("li");
+element.textContent = texte;
+
+liste.appendChild(element);</code></pre>
+    <p><code>createElement()</code> crée un nouvel élément et <code>appendChild()</code> l'ajoute dans le DOM. citeturn0search0turn0search2</p>
+  </div>
+
+  <div class="box">
+    <h2>9. Ajouter une tâche complète</h2>
+    <p>Nous pouvons maintenant réunir les étapes précédentes.</p>
+    <pre><code>formulaire.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const texte = champ.value.trim();
+
+  if (texte === "") {
+    message.textContent = "Veuillez écrire une tâche.";
+    return;
+  }
+
+  const element = document.createElement("li");
+  element.textContent = texte;
+
+  liste.appendChild(element);
+
+  champ.value = "";
+  message.textContent = "Tâche ajoutée.";
+});</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>10. Ajouter un bouton « Terminer »</h2>
+    <p>Une tâche ne doit pas seulement être affichée. L'utilisateur doit pouvoir interagir avec elle.</p>
+    <pre><code>const element = document.createElement("li");
+const texteTache = document.createElement("span");
+const boutonTerminer = document.createElement("button");
+
+texteTache.textContent = texte;
+boutonTerminer.textContent = "Terminer";
+
+element.appendChild(texteTache);
+element.appendChild(boutonTerminer);
+liste.appendChild(element);</code></pre>
+    <p>Nous construisons donc une petite structure HTML directement avec JavaScript :</p>
+    <pre><code>&lt;li&gt;
+  &lt;span&gt;Ma tâche&lt;/span&gt;
+  &lt;button&gt;Terminer&lt;/button&gt;
+&lt;/li&gt;</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>11. Rendre la tâche terminée</h2>
+    <pre><code>boutonTerminer.addEventListener("click", function() {
+  texteTache.classList.toggle("terminee");
+});</code></pre>
+    <p><code>classList.toggle()</code> ajoute la classe si elle n'existe pas et la retire si elle existe déjà.</p>
+  </div>
+
+  <div class="box">
+    <h2>12. Ajouter un bouton « Supprimer »</h2>
+    <pre><code>const boutonSupprimer = document.createElement("button");
+boutonSupprimer.textContent = "Supprimer";
+
+element.appendChild(boutonSupprimer);
+
+boutonSupprimer.addEventListener("click", function() {
+  element.remove();
+});</code></pre>
+    <p>La tâche peut maintenant être retirée de la page.</p>
+  </div>
+
+  <div class="box">
+    <h2>13. Compter les tâches</h2>
+    <p>Nous voulons afficher le nombre de tâches présentes dans la liste.</p>
+    <pre><code>compteur.textContent = liste.children.length;</code></pre>
+    <p>Après une suppression, il faut également actualiser le compteur.</p>
+    <pre><code>boutonSupprimer.addEventListener("click", function() {
+  element.remove();
+  compteur.textContent = liste.children.length;
+});</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>14. Code JavaScript complet</h2>
+    <pre><code>const formulaire = document.querySelector("#formulaire-tache");
+const champ = document.querySelector("#tache");
+const liste = document.querySelector("#liste-taches");
+const compteur = document.querySelector("#compteur");
+const message = document.querySelector("#message");
+
+formulaire.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const texte = champ.value.trim();
+
+  if (texte === "") {
+    message.textContent = "Veuillez écrire une tâche.";
+    return;
+  }
+
+  const element = document.createElement("li");
+  const texteTache = document.createElement("span");
+  const boutonTerminer = document.createElement("button");
+  const boutonSupprimer = document.createElement("button");
+
+  texteTache.textContent = texte;
+  boutonTerminer.textContent = "Terminer";
+  boutonSupprimer.textContent = "Supprimer";
+
+  element.appendChild(texteTache);
+  element.appendChild(boutonTerminer);
+  element.appendChild(boutonSupprimer);
+  liste.appendChild(element);
+
+  boutonTerminer.addEventListener("click", function() {
+    texteTache.classList.toggle("terminee");
+  });
+
+  boutonSupprimer.addEventListener("click", function() {
+    element.remove();
+    compteur.textContent = liste.children.length;
+  });
+
+  compteur.textContent = liste.children.length;
+  champ.value = "";
+  message.textContent = "Tâche ajoutée avec succès.";
+  champ.focus();
+});</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>15. HTML + JavaScript : version complète</h2>
+    <p>Voici maintenant le principe complet dans une seule page. C'est cette relation entre HTML et JavaScript que tu dois comprendre.</p>
+    <pre><code>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Ma liste de tâches&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    form { display: flex; gap: 10px; }
+    input { flex: 1; padding: 10px; }
+    button { padding: 10px; cursor: pointer; }
+    li { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+    .terminee { text-decoration: line-through; opacity: 0.6; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Ma liste de tâches&lt;/h1&gt;
+
+  &lt;form id="formulaire-tache"&gt;
+    &lt;input id="tache" type="text" placeholder="Écrire une tâche"&gt;
+    &lt;button type="submit"&gt;Ajouter&lt;/button&gt;
+  &lt;/form&gt;
+
+  &lt;p id="message"&gt;&lt;/p&gt;
+  &lt;p&gt;Nombre de tâches : &lt;strong id="compteur"&gt;0&lt;/strong&gt;&lt;/p&gt;
+  &lt;ul id="liste-taches"&gt;&lt;/ul&gt;
+
+  &lt;script&gt;
+    const formulaire = document.querySelector("#formulaire-tache");
+    const champ = document.querySelector("#tache");
+    const liste = document.querySelector("#liste-taches");
+    const compteur = document.querySelector("#compteur");
+    const message = document.querySelector("#message");
+
+    formulaire.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const texte = champ.value.trim();
+
+      if (texte === "") {
+        message.textContent = "Veuillez écrire une tâche.";
+        return;
+      }
+
+      const element = document.createElement("li");
+      const texteTache = document.createElement("span");
+      const boutonTerminer = document.createElement("button");
+      const boutonSupprimer = document.createElement("button");
+
+      texteTache.textContent = texte;
+      boutonTerminer.textContent = "Terminer";
+      boutonSupprimer.textContent = "Supprimer";
+
+      element.appendChild(texteTache);
+      element.appendChild(boutonTerminer);
+      element.appendChild(boutonSupprimer);
+      liste.appendChild(element);
+
+      boutonTerminer.addEventListener("click", function() {
+        texteTache.classList.toggle("terminee");
+      });
+
+      boutonSupprimer.addEventListener("click", function() {
+        element.remove();
+        compteur.textContent = liste.children.length;
+      });
+
+      compteur.textContent = liste.children.length;
+      champ.value = "";
+      message.textContent = "Tâche ajoutée avec succès.";
+      champ.focus();
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h2>16. TP progressif</h2>
+    <ol>
+      <li>Reproduire exactement l'application présentée dans le cours.</li>
+      <li>Ajouter un bouton « Modifier ».</li>
+      <li>Ajouter une priorité : faible, normale ou importante.</li>
+      <li>Afficher le nombre de tâches terminées.</li>
+      <li>Ajouter un bouton permettant de supprimer toutes les tâches.</li>
+      <li>Améliorer le CSS pour téléphone.</li>
+      <li>Ajouter une validation empêchant une tâche trop courte.</li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <h2>17. Ce que tu viens réellement d'apprendre</h2>
+    <ul>
+      <li>Créer une structure avec HTML.</li>
+      <li>Styliser une interface avec CSS.</li>
+      <li>Sélectionner des éléments avec <code>querySelector()</code>.</li>
+      <li>Écouter un événement avec <code>addEventListener()</code>.</li>
+      <li>Lire la valeur d'un champ avec <code>value</code>.</li>
+      <li>Empêcher le comportement automatique d'un formulaire avec <code>preventDefault()</code>.</li>
+      <li>Créer des éléments avec <code>createElement()</code>.</li>
+      <li>Ajouter des éléments au DOM avec <code>appendChild()</code>.</li>
+      <li>Modifier les classes avec <code>classList</code>.</li>
+      <li>Supprimer des éléments avec <code>remove()</code>.</li>
+      <li>Construire une petite application complète.</li>
+    </ul>
+  </div>
+
+  <div class="summary">
+    <h2>18. Résumé</h2>
+    <p>Le frontend professionnel commence lorsque HTML, CSS et JavaScript travaillent ensemble.</p>
+    <pre><code>HTML
+ ↓
+Structure
+ ↓
+CSS
+ ↓
+Présentation
+ ↓
+JavaScript
+ ↓
+DOM + événements
+ ↓
+Application interactive</code></pre>
+    <p>Le chapitre suivant sera consacré à <strong>l'accessibilité et au SEO</strong>, afin d'apprendre à construire des pages plus accessibles et mieux structurées.</p>
+  </div>
+
+  <div class="nav">
+    <a href="05-fetch-api.html">← Chapitre 05 : Fetch, JSON et API</a>
+    <a href="../index.html">Formation Frontend</a>
+    <a href="07-accessibilite-seo.html">Chapitre 07 : Accessibilité et SEO →</a>
+  </div>
+</main>
+</body>
+</html>
