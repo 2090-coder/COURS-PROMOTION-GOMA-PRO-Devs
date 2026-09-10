@@ -1,14 +1,41 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 03 — JavaScript</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 03</p><h1>JavaScript : programmer dans le navigateur</h1><p>JavaScript permet d'ajouter de la logique et de rendre une interface interactive.</p><h2>Variables et conditions</h2><pre><code>const nom = "Étudiant";
-let note = 15;
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 03 — JavaScript</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}.nav a{padding:10px 14px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 03</p><h1>JavaScript : programmer et interagir avec le HTML</h1><p>Dans ce chapitre, JavaScript est appris dans son environnement naturel pour le frontend : le navigateur. L'objectif est de programmer puis de faire communiquer JavaScript avec la page HTML.</p><div class="box"><h2>1. Premier programme : alert()</h2><p>Pour voir immédiatement le résultat dans le navigateur, nous commençons avec <code>alert()</code>.</p><pre><code>alert("Bonjour GOMA PRO Devs !");</code></pre><p>Une boîte de dialogue apparaît dans le navigateur. <code>alert()</code> est utile pour les premiers exercices et pour comprendre qu'un programme JavaScript peut produire une interaction visible.</p></div><div class="box"><h2>2. Variables et alert()</h2><pre><code>const nom = "Étudiant";
+let age = 18;
+
+alert("Bonjour " + nom);
+alert("Tu as " + age + " ans.");</code></pre><p>On apprend les variables avant de les utiliser pour construire des messages interactifs.</p></div><div class="box"><h2>3. Conditions et alert()</h2><pre><code>let note = 15;
 
 if (note &gt;= 10) {
-  console.log(`${nom} a réussi.`);
+  alert("Réussi !");
 } else {
-  console.log(`${nom} doit progresser.`);
-}</code></pre><h2>Boucles, fonctions et tableaux</h2><pre><code>function moyenne(notes) {
-  const total = notes.reduce((somme, note) =&gt; somme + note, 0);
-  return total / notes.length;
+  alert("À revoir.");
+}</code></pre><p>La condition décide quel message doit être présenté à l'utilisateur.</p></div><div class="box"><h2>4. Le DOM : JavaScript rencontre HTML</h2><p>Le DOM représente la page HTML sous forme d'objets que JavaScript peut lire et modifier. On peut sélectionner un élément avec <code>document.getElementById()</code> ou avec <code>document.querySelector()</code>. citeturn0search7turn0search3</p><pre><code>&lt;p id="message"&gt;Texte initial&lt;/p&gt;
+
+const message = document.getElementById("message");
+message.textContent = "Texte modifié par JavaScript !";</code></pre><p><code>textContent</code> permet de modifier le texte d'un élément HTML. citeturn0search0</p></div><div class="box"><h2>5. Interaction avec un bouton</h2><pre><code>&lt;button id="btn"&gt;Clique-moi&lt;/button&gt;
+&lt;p id="resultat"&gt;&lt;/p&gt;
+
+&lt;script&gt;
+const bouton = document.getElementById("btn");
+const resultat = document.getElementById("resultat");
+
+bouton.addEventListener("click", function () {
+  resultat.textContent = "Le bouton a été cliqué !";
+});
+&lt;/script&gt;</code></pre><p>Ici, l'utilisateur agit sur le HTML et JavaScript réagit à l'événement <code>click</code>.</p></div><div class="box"><h2>6. Lire une valeur dans un formulaire</h2><pre><code>&lt;input id="nom" type="text" placeholder="Votre nom"&gt;
+&lt;button id="valider"&gt;Valider&lt;/button&gt;
+
+&lt;script&gt;
+const champ = document.getElementById("nom");
+const valider = document.getElementById("valider");
+
+valider.addEventListener("click", function () {
+  alert("Bonjour " + champ.value);
+});
+&lt;/script&gt;</code></pre><p>C'est une première vraie interaction entre une donnée saisie dans HTML et JavaScript.</p></div><div class="box"><h2>7. Boucles, fonctions et tableaux</h2><pre><code>function afficherEtudiants(etudiants) {
+  for (const etudiant of etudiants) {
+    alert(etudiant);
+  }
 }
 
-const notes = [12, 15, 18];
-console.log(moyenne(notes));</code></pre><h2>Bonnes pratiques</h2><ul><li>Utiliser <code>const</code> par défaut et <code>let</code> si la valeur change.</li><li>Donner des noms explicites aux variables.</li><li>Découper les traitements en fonctions courtes.</li><li>Valider les données avant de les utiliser.</li></ul><h2>TP</h2><ol><li>Créer une calculatrice simple.</li><li>Créer un programme qui calcule une moyenne.</li><li>Afficher dynamiquement une liste d'étudiants.</li></ol><h2>Questions</h2><ol><li>Différence entre <code>let</code> et <code>const</code> ?</li><li>Qu'est-ce qu'une fonction ?</li><li>À quoi sert <code>reduce()</code> ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
+const etudiants = ["Amina", "David", "Salomon"];
+afficherEtudiants(etudiants);</code></pre><p>Les fonctions, tableaux et boucles sont ensuite utilisés dans les interactions avec la page.</p></div><div class="exercise"><h2>TP progressif</h2><ol><li>Afficher un message avec <code>alert()</code>.</li><li>Créer une variable contenant ton nom et l'afficher avec <code>alert()</code>.</li><li>Créer une condition qui affiche un message différent selon une note.</li><li>Créer un paragraphe HTML et modifier son texte avec <code>textContent</code>.</li><li>Créer un bouton qui change le texte d'un paragraphe.</li><li>Créer un champ de nom et afficher la valeur avec <code>alert()</code>.</li><li>Créer une petite interface HTML permettant d'additionner deux nombres et d'afficher le résultat dans la page.</li></ol></div><div class="box"><h2>Important</h2><p><code>console.log()</code> peut rester utile pour le débogage, mais il ne sera pas notre moyen principal d'afficher le résultat dans les premiers exercices. L'objectif pédagogique est de faire comprendre à l'apprenant que JavaScript peut <strong>interagir directement avec le HTML grâce au DOM</strong>.</p></div><div class="nav"><a href="02-css.html">← Chapitre 02</a><a href="04-dom-evenements.html">Chapitre 04 →</a></div></main></body></html>
