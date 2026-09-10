@@ -1,20 +1,40 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 02 — Programmer en PHP</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 02</p><h1>Programmer en PHP : les bases</h1><p>Maintenant que PHP fonctionne, on apprend à programmer progressivement : afficher, stocker, calculer, décider, répéter et créer des fonctions.</p><h2>1. Structure d'un script</h2><pre><code>&lt;?php
-echo "Bonjour";</code></pre><h2>2. Variables et types</h2><pre><code>$nom = "Aline";
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backend 02 — Programmer en PHP</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB BACKEND · CHAPITRE 02</p><h1>Programmer en PHP</h1><p>Maintenant que PHP fonctionne, nous apprenons à programmer progressivement avant de connecter une base de données.</p><h2>1. Variables</h2><pre><code>&lt;?php
+$nom = "Aline";
 $age = 20;
-$note = 15.5;
-$admis = true;
+$connecte = true;
 
-echo $nom;</code></pre><h2>3. Conditions</h2><pre><code>if ($note &gt;= 10) {
-    echo "Admis";
+echo $nom;
+echo $age;
+?&gt;</code></pre><h2>2. Types</h2><p>PHP manipule notamment les chaînes, nombres, booléens, tableaux et valeurs nulles.</p><h2>3. Opérateurs</h2><pre><code>$a = 10;
+$b = 3;
+$somme = $a + $b;
+$produit = $a * $b;
+$egal = ($a === $b);</code></pre><h2>4. Conditions</h2><pre><code>if ($age &gt;= 18) {
+    echo "Majeur";
 } else {
-    echo "À améliorer";
-}</code></pre><h2>4. Boucles</h2><pre><code>for ($i = 1; $i &lt;= 5; $i++) {
-    echo "Ligne $i&lt;br&gt;";
-}</code></pre><h2>5. Tableaux</h2><pre><code>$etudiants = ["Aline", "Jean", "Sarah"];
-foreach ($etudiants as $etudiant) {
-    echo $etudiant . "&lt;br&gt;";
-}</code></pre><h2>6. Fonctions</h2><pre><code>function saluer(string $nom): string {
+    echo "Mineur";
+}</code></pre><h2>5. Boucles</h2><pre><code>for ($i = 1; $i &lt;= 5; $i++) {
+    echo "Numéro : $i&lt;br&gt;";
+}
+
+$fruits = ["Mangue", "Banane", "Orange"];
+foreach ($fruits as $fruit) {
+    echo $fruit . "&lt;br&gt;";
+}</code></pre><h2>6. Tableaux associatifs</h2><pre><code>$utilisateur = [
+    'nom' =&gt; 'Aline',
+    'ville' =&gt; 'Goma'
+];
+
+echo $utilisateur['nom'];</code></pre><h2>7. Fonctions</h2><pre><code>function saluer(string $nom): string {
     return "Bonjour " . $nom;
 }
 
-echo saluer("Aline");</code></pre><h2>TP</h2><ol><li>Créer un programme qui calcule la moyenne de trois notes.</li><li>Afficher une liste de cinq étudiants avec une boucle.</li><li>Créer une fonction qui indique si une note est réussie.</li><li>Tester chaque programme avec plusieurs valeurs.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce qu'une variable ?</li><li>À quoi sert <code>if</code> ?</li><li>Quelle différence entre <code>for</code> et <code>foreach</code> ?</li><li>Pourquoi utiliser une fonction ?</li></ol><p><a href="01-php.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="03-sql.html">Chapitre suivant →</a></p></main></body></html>
+echo saluer('Aline');</code></pre><h2>8. PHP + HTML</h2><pre><code>&lt;h1&gt;Bienvenue&lt;/h1&gt;
+&lt;p&gt;Bonjour &lt;?= htmlspecialchars($nom, ENT_QUOTES, 'UTF-8') ?&gt;&lt;/p&gt;</code></pre><p>Quand une donnée vient d'un utilisateur, il faut apprendre à l'échapper avant de l'afficher dans HTML.</p><h2>9. Débogage simple</h2><pre><code>var_dump($utilisateur);
+print_r($fruits);</code></pre><h2>10. Mini-programme</h2><pre><code>&lt;?php
+$prix = 20;
+$quantite = 3;
+$total = $prix * $quantite;
+?&gt;
+&lt;h1&gt;Commande&lt;/h1&gt;
+&lt;p&gt;Total : &lt;?= $total ?&gt; $&lt;/p&gt;</code></pre><h2>TP</h2><ol><li>Créer trois variables.</li><li>Faire une condition de réussite avec une note.</li><li>Afficher les nombres de 1 à 10.</li><li>Créer un tableau de cinq étudiants.</li><li>Créer une fonction qui calcule un total.</li><li>Afficher le résultat dans une page HTML.</li></ol><h2>Questions</h2><ol><li>À quoi sert une variable ?</li><li>Quelle différence entre <code>==</code> et <code>===</code> ?</li><li>À quoi sert une fonction ?</li><li>Pourquoi utiliser <code>htmlspecialchars()</code> lors de l'affichage de données utilisateur ?</li></ol><p><a href="01-php.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a> · <a href="03-sql.html">Chapitre suivant →</a></p></main></body></html>
