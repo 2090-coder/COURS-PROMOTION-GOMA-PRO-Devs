@@ -1,1 +1,34 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 10 — Projet final</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../index.html">← Formation</a></nav></div></header><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 10</p><h1>Projet final professionnel</h1><p>Réaliser une application web complète, responsive, accessible et publiée en ligne.</p><h2>Projet</h2><p>Créer un site professionnel ou une application web répondant à un besoin réel.</p><h2>Exigences</h2><ul><li>HTML sémantique.</li><li>Design responsive.</li><li>JavaScript interactif.</li><li>Formulaire avec validation.</li><li>Utilisation d'une API ou de données JSON.</li><li>Accessibilité de base.</li><li>Git et documentation.</li><li>Déploiement fonctionnel.</li></ul><h2>Étapes</h2><ol><li>Définir le besoin.</li><li>Faire la maquette.</li><li>Construire la structure HTML.</li><li>Créer le design CSS.</li><li>Ajouter les interactions JavaScript.</li><li>Tester sur plusieurs tailles d'écran.</li><li>Corriger les erreurs.</li><li>Publier.</li></ol><h2>Évaluation / 100</h2><ul><li>Fonctionnalités : 30</li><li>HTML/CSS : 20</li><li>JavaScript : 20</li><li>Responsive et accessibilité : 10</li><li>Qualité et Git : 10</li><li>Présentation : 10</li></ul><p><a href="09-architecture-frontend.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a></p></main></body></html>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 10 — Projet final professionnel</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a><nav><a href="../index.html">← Formation</a></nav></div></header><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 10</p><h1>Projet final professionnel</h1><p>Mettre ensemble HTML, CSS, JavaScript, DOM, données, accessibilité, Git et déploiement pour construire une application réellement utilisable.</p><h2>1. Sujet proposé</h2><p>Créer une application de gestion de tâches pour une petite équipe.</p><h2>2. Fonctionnalités obligatoires</h2><ul><li>Ajouter une tâche.</li><li>Afficher les tâches.</li><li>Marquer une tâche comme terminée.</li><li>Supprimer une tâche.</li><li>Afficher un compteur.</li><li>Valider les entrées.</li><li>Afficher les erreurs clairement.</li><li>Conserver les données pendant la session ou utiliser une source JSON/API.</li></ul><h2>3. Structure</h2><pre><code>projet-final/
+├── index.html
+├── css/style.css
+├── js/app.js
+├── data/taches.json
+├── assets/
+└── README.md</code></pre><h2>4. Exemple HTML de départ</h2><pre><code>&lt;main&gt;
+  &lt;h1&gt;Mes tâches&lt;/h1&gt;
+  &lt;form id="formulaire-tache"&gt;
+    &lt;label for="tache"&gt;Nouvelle tâche&lt;/label&gt;
+    &lt;input id="tache" name="tache" required&gt;
+    &lt;button type="submit"&gt;Ajouter&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;p id="message" aria-live="polite"&gt;&lt;/p&gt;
+  &lt;ul id="liste-taches"&gt;&lt;/ul&gt;
+&lt;/main&gt;</code></pre><h2>5. Exemple JavaScript</h2><pre><code>const formulaire = document.querySelector('#formulaire-tache');
+const champ = document.querySelector('#tache');
+const liste = document.querySelector('#liste-taches');
+
+formulaire.addEventListener('submit', (event) =&gt; {
+  event.preventDefault();
+  const texte = champ.value.trim();
+  if (!texte) return;
+
+  const element = document.createElement('li');
+  element.textContent = texte;
+  liste.appendChild(element);
+  formulaire.reset();
+});</code></pre><h2>6. Accessibilité</h2><ul><li>Utiliser des labels.</li><li>Utiliser de vrais boutons.</li><li>Prévoir un texte d'état avec <code>aria-live</code> lorsque nécessaire.</li><li>Vérifier la navigation au clavier.</li><li>Conserver une structure de titres logique.</li></ul><h2>7. Responsive</h2><p>Le projet doit rester utilisable sur téléphone, tablette et ordinateur.</p><h2>8. Git</h2><pre><code>git init
+git add .
+git commit -m "Initialiser le projet final"
+git branch -M main
+git remote add origin URL_DU_REPOSITORY
+git push -u origin main</code></pre><h2>9. Documentation</h2><p>Le README doit présenter le projet, ses fonctionnalités, l'installation, l'utilisation, la structure et les technologies.</p><h2>10. Tests avant livraison</h2><ol><li>Ajouter une tâche valide.</li><li>Essayer d'envoyer un formulaire vide.</li><li>Terminer une tâche.</li><li>Supprimer une tâche.</li><li>Tester au clavier.</li><li>Tester sur mobile.</li><li>Tester après publication.</li></ol><h2>Évaluation / 100</h2><ul><li>Fonctionnalités : 30</li><li>HTML/CSS : 20</li><li>JavaScript/DOM : 20</li><li>Responsive/accessibilité : 10</li><li>Git/documentation : 10</li><li>Tests et présentation : 10</li></ul><h2>Livrable</h2><p>Un repository propre, un README clair, une application fonctionnelle et une URL de démonstration.</p><p><a href="09-architecture-frontend.html">← Chapitre précédent</a> · <a href="../index.html">Formation</a></p></main></body></html>
