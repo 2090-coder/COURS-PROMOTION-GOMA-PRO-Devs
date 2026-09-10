@@ -1,10 +1,332 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 05 — Fetch API</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 05</p><h1>Asynchronisme, Fetch et JSON</h1><p>Les applications web communiquent souvent avec un serveur sans recharger toute la page.</p><h2>Promise et async/await</h2><pre><code>async function chargerUtilisateurs() {
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frontend 05 — Fetch, JSON et API</title>
+  <link rel="stylesheet" href="../../../assets/css/style.css">
+  <link rel="stylesheet" href="../../../assets/css/formation.css">
+</head>
+<body>
+<main class="container course-section">
+  <p class="eyebrow">WEB FRONTEND · CHAPITRE 05</p>
+  <h1>Fetch, JSON et API</h1>
+  <p>
+    Dans le chapitre précédent, nous avons appris à sélectionner des éléments HTML,
+    modifier leur contenu et réagir aux événements. Maintenant, nous allons apprendre
+    à récupérer des données et à les afficher directement dans la page.
+  </p>
+
+  <h2>1. Objectif du chapitre</h2>
+  <p>À la fin de ce chapitre, tu dois savoir :</p>
+  <ul>
+    <li>comprendre ce qu'est <strong>Fetch</strong> ;</li>
+    <li>comprendre le format <strong>JSON</strong> ;</li>
+    <li>utiliser <code>async</code> et <code>await</code> ;</li>
+    <li>vérifier <code>response.ok</code> ;</li>
+    <li>convertir une réponse avec <code>response.json()</code> ;</li>
+    <li>afficher les données dans le HTML avec le DOM ;</li>
+    <li>afficher un état de chargement et une erreur dans la page.</li>
+  </ul>
+
+  <h2>2. Rappel : JavaScript doit interagir avec le HTML</h2>
+  <p>
+    Dans notre progression, <code>console.log()</code> sert surtout au débogage.
+    Le résultat principal doit être visible par l'utilisateur dans la page grâce au DOM.
+    Nous allons donc travailler avec <code>textContent</code>, <code>createElement()</code>
+    et <code>appendChild()</code>.
+  </p>
+
+  <h2>3. Première étape : comprendre les données</h2>
+  <p>Voici un exemple de données JavaScript :</p>
+  <pre><code>const utilisateur = {
+  nom: "Aline",
+  metier: "Développeuse Frontend",
+  ville: "Goma"
+};
+
+alert(utilisateur.nom);</code></pre>
+
+  <p>
+    Ici, JavaScript possède déjà les données. Avec <code>alert()</code>, nous pouvons
+    vérifier immédiatement qu'une donnée est accessible. Ensuite, nous allons apprendre
+    à afficher cette donnée dans un élément HTML.
+  </p>
+
+  <h2>4. Afficher une donnée dans le HTML</h2>
+  <p>HTML :</p>
+  <pre><code>&lt;h2 id="resultat"&gt;Résultat&lt;/h2&gt;</code></pre>
+
+  <p>JavaScript :</p>
+  <pre><code>const utilisateur = {
+  nom: "Aline",
+  metier: "Développeuse Frontend"
+};
+
+const resultat = document.getElementById("resultat");
+resultat.textContent = utilisateur.nom;</code></pre>
+
+  <p>
+    Cette fois, le résultat apparaît directement dans la page. C'est exactement le type
+    d'interaction DOM que nous voulons maîtriser avant de travailler avec des données réseau.
+  </p>
+
+  <h2>5. Qu'est-ce que JSON ?</h2>
+  <p>
+    JSON signifie <strong>JavaScript Object Notation</strong>. C'est un format texte très
+    utilisé pour représenter et échanger des données structurées entre applications.
+  </p>
+
+  <pre><code>{
+  "nom": "Aline",
+  "metier": "Développeuse Frontend",
+  "ville": "Goma"
+}</code></pre>
+
+  <p>
+    Un fichier JSON peut contenir un objet ou un tableau d'objets. JavaScript peut ensuite
+    analyser cette réponse avec <code>response.json()</code>. Cette méthode retourne une
+    Promise dont le résultat est l'objet JavaScript correspondant. citeturn0search0turn0search5
+  </p>
+
+  <h2>6. Qu'est-ce que Fetch ?</h2>
+  <p>
+    <code>fetch()</code> permet à JavaScript d'effectuer une requête pour récupérer une
+    ressource. Il retourne une <strong>Promise</strong> qui sera traitée lorsque la réponse
+    arrivera. citeturn0search2turn0search6
+  </p>
+
+  <p>Structure générale :</p>
+  <pre><code>fetch("adresse-de-la-ressource")
+  .then(response =&gt; response.json())
+  .then(data =&gt; {
+    // utiliser les données
+  });</code></pre>
+
+  <p>
+    Pour les débutants, nous allons maintenant utiliser une autre écriture plus lisible :
+    <code>async/await</code>.
+  </p>
+
+  <h2>7. Comprendre async et await</h2>
+  <pre><code>async function chargerDonnees() {
+  const response = await fetch("./data/utilisateurs.json");
+  const donnees = await response.json();
+
+  alert(donnees[0].nom);
+}</code></pre>
+
+  <p>
+    <code>async</code> indique que la fonction travaille avec des opérations asynchrones.
+    <code>await</code> permet d'attendre le résultat d'une Promise avant de continuer.
+    C'est une façon courante de rendre le code asynchrone plus facile à lire. citeturn0search3turn0search9
+  </p>
+
+  <h2>8. Vérifier response.ok</h2>
+  <p>
+    Il ne suffit pas d'appeler <code>fetch()</code>. Une réponse HTTP comme <code>404</code>
+    peut quand même produire un objet <code>Response</code>. Nous devons donc vérifier
+    <code>response.ok</code> avant de traiter les données. citeturn0search2
+  </p>
+
+  <pre><code>const response = await fetch("./data/utilisateurs.json");
+
+if (!response.ok) {
+  throw new Error("Impossible de charger les données");
+}</code></pre>
+
+  <h2>9. Afficher les données dans le DOM</h2>
+  <p>Notre HTML :</p>
+  <pre><code>&lt;div id="message"&gt;Chargement...&lt;/div&gt;
+&lt;div id="liste-utilisateurs"&gt;&lt;/div&gt;</code></pre>
+
+  <p>Notre JavaScript :</p>
+  <pre><code>async function chargerUtilisateurs() {
+  const message = document.getElementById("message");
+  const liste = document.getElementById("liste-utilisateurs");
+
   try {
-    const reponse = await fetch("https://example.com/api/users");
-    if (!reponse.ok) throw new Error("Réponse HTTP invalide");
-    const utilisateurs = await reponse.json();
-    console.log(utilisateurs);
+    const response = await fetch("./data/utilisateurs.json");
+
+    if (!response.ok) {
+      throw new Error("Erreur HTTP : " + response.status);
+    }
+
+    const utilisateurs = await response.json();
+
+    message.textContent = "Données chargées avec succès.";
+
+    utilisateurs.forEach(utilisateur =&gt; {
+      const article = document.createElement("article");
+      const titre = document.createElement("h3");
+      const metier = document.createElement("p");
+      const ville = document.createElement("p");
+
+      titre.textContent = utilisateur.nom;
+      metier.textContent = "Métier : " + utilisateur.metier;
+      ville.textContent = "Ville : " + utilisateur.ville;
+
+      article.appendChild(titre);
+      article.appendChild(metier);
+      article.appendChild(ville);
+
+      liste.appendChild(article);
+    });
   } catch (erreur) {
-    console.error(erreur);
+    message.textContent = "Impossible de charger les données.";
   }
-}</code></pre><h2>JSON</h2><p>JSON représente des données structurées avec des objets et des tableaux. Le navigateur peut convertir une réponse JSON en objet JavaScript avec <code>response.json()</code>.</p><h2>Sécurité et robustesse</h2><ul><li>Vérifier les erreurs réseau et HTTP.</li><li>Ne jamais faire confiance aveuglément aux données reçues.</li><li>Ne pas placer de secrets dans le JavaScript envoyé au navigateur.</li></ul><h2>TP</h2><ol><li>Consommer une API publique autorisée.</li><li>Afficher une liste de données dans le DOM.</li><li>Afficher un état de chargement puis un message d'erreur.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce qu'une Promise ?</li><li>Pourquoi tester <code>response.ok</code> ?</li><li>Pourquoi un secret ne doit-il pas être stocké dans le frontend ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
+}
+
+chargerUtilisateurs();</code></pre>
+
+  <p>
+    Remarque importante : nous ne mettons pas <code>console.log()</code> pour montrer le
+    résultat principal. Nous créons réellement des éléments HTML avec le DOM et nous y
+    plaçons les données. Cette approche correspond au fonctionnement d'une vraie interface.
+    citeturn0search0turn0search5
+  </p>
+
+  <h2>10. Le rôle de createElement()</h2>
+  <p>
+    <code>document.createElement("article")</code> crée un nouvel élément HTML en JavaScript.
+    Ensuite, <code>appendChild()</code> permet de l'ajouter à un autre élément.
+  </p>
+
+  <pre><code>const carte = document.createElement("div");
+carte.textContent = "Bonjour depuis JavaScript";
+
+const zone = document.getElementById("liste-utilisateurs");
+zone.appendChild(carte);</code></pre>
+
+  <h2>11. L'état de chargement</h2>
+  <p>
+    Une requête réseau peut prendre du temps. Il est donc préférable d'informer l'utilisateur.
+  </p>
+
+  <pre><code>message.textContent = "Chargement des utilisateurs...";</code></pre>
+
+  <p>Puis, lorsque les données sont reçues :</p>
+
+  <pre><code>message.textContent = "Utilisateurs chargés.";</code></pre>
+
+  <h2>12. Afficher une erreur dans le HTML</h2>
+  <pre><code>try {
+  // chargement des données
+} catch (erreur) {
+  message.textContent = "Une erreur est survenue.";
+}</code></pre>
+
+  <p>
+    L'utilisateur doit voir un message compréhensible. Les détails techniques peuvent être
+    utilisés par le développeur pendant le débogage, mais ils ne doivent pas remplacer le
+    message visible dans l'interface.
+  </p>
+
+  <h2>13. Exemple complet : HTML + JavaScript</h2>
+  <pre><code>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Utilisateurs&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Liste des utilisateurs&lt;/h1&gt;
+
+  &lt;p id="message"&gt;Chargement...&lt;/p&gt;
+  &lt;section id="liste-utilisateurs"&gt;&lt;/section&gt;
+
+  &lt;script&gt;
+    async function chargerUtilisateurs() {
+      const message = document.getElementById("message");
+      const liste = document.getElementById("liste-utilisateurs");
+
+      try {
+        const response = await fetch("./data/utilisateurs.json");
+
+        if (!response.ok) {
+          throw new Error("Erreur HTTP : " + response.status);
+        }
+
+        const utilisateurs = await response.json();
+        message.textContent = "Données chargées.";
+
+        utilisateurs.forEach(utilisateur =&gt; {
+          const article = document.createElement("article");
+          article.textContent =
+            utilisateur.nom + " — " +
+            utilisateur.metier + " — " +
+            utilisateur.ville;
+
+          liste.appendChild(article);
+        });
+      } catch (erreur) {
+        message.textContent = "Impossible de charger les utilisateurs.";
+      }
+    }
+
+    chargerUtilisateurs();
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <h2>14. Organisation des fichiers</h2>
+  <pre><code>formations/
+└── frontend/
+    └── cours/
+        ├── 05-fetch-api.html
+        └── data/
+            └── utilisateurs.json</code></pre>
+
+  <p>
+    Pour tester correctement <code>fetch()</code>, utilise un serveur local plutôt que de
+    simplement ouvrir le fichier HTML directement. Le navigateur pourra ainsi demander le
+    fichier JSON au serveur local.
+  </p>
+
+  <h2>15. Travaux pratiques</h2>
+  <ol>
+    <li>Crée une page HTML contenant une zone de chargement et une zone de résultats.</li>
+    <li>Crée un fichier JSON contenant au moins 5 utilisateurs.</li>
+    <li>Utilise <code>fetch()</code> pour récupérer le fichier JSON.</li>
+    <li>Utilise <code>async/await</code>.</li>
+    <li>Vérifie <code>response.ok</code>.</li>
+    <li>Transforme la réponse avec <code>response.json()</code>.</li>
+    <li>Crée une carte HTML pour chaque utilisateur avec <code>createElement()</code>.</li>
+    <li>Affiche les cartes dans le DOM.</li>
+    <li>Affiche un message pendant le chargement.</li>
+    <li>Affiche un message visible en cas d'erreur.</li>
+  </ol>
+
+  <h2>16. Questions de révision</h2>
+  <ol>
+    <li>Qu'est-ce que JSON ?</li>
+    <li>À quoi sert <code>fetch()</code> ?</li>
+    <li>Pourquoi utilise-t-on <code>async</code> et <code>await</code> ?</li>
+    <li>Pourquoi vérifier <code>response.ok</code> ?</li>
+    <li>À quoi sert <code>response.json()</code> ?</li>
+    <li>Quelle est la différence entre <code>textContent</code> et <code>createElement()</code> ?</li>
+    <li>Pourquoi afficher l'état de chargement dans le HTML ?</li>
+    <li>Pourquoi ne faut-il pas mettre une clé secrète dans le JavaScript frontend ?</li>
+  </ol>
+
+  <h2>17. Résumé</h2>
+  <ul>
+    <li><code>fetch()</code> récupère une ressource.</li>
+    <li><code>async/await</code> facilite la lecture du code asynchrone.</li>
+    <li><code>response.ok</code> permet de vérifier le succès HTTP.</li>
+    <li><code>response.json()</code> transforme la réponse JSON en données JavaScript.</li>
+    <li>Le DOM permet d'afficher les données dans le HTML.</li>
+    <li><code>createElement()</code> crée dynamiquement des éléments.</li>
+    <li>Les états de chargement et d'erreur doivent être visibles dans l'interface.</li>
+  </ul>
+
+  <nav aria-label="Navigation du cours">
+    <a href="04-dom-evenements.html">← Chapitre 04 : DOM et événements</a>
+    <span> | </span>
+    <a href="../index.html">Formation Frontend</a>
+    <span> | </span>
+    <a href="06-projet.html">Chapitre 06 : Projet intermédiaire →</a>
+  </nav>
+</main>
+</body>
+</html>
