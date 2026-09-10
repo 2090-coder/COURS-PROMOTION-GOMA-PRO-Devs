@@ -1,8 +1,78 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 04 — DOM</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"></head><body><main class="container course-section"><p class="eyebrow">WEB FRONTEND · CHAPITRE 04</p><h1>DOM et événements</h1><p>Le DOM représente la page HTML sous forme d'objets que JavaScript peut lire et modifier.</p><h2>Sélectionner et modifier</h2><pre><code>const titre = document.querySelector("h1");
-titre.textContent = "Bienvenue !";
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontend 04 — DOM et événements</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}pre{background:#101828;color:#f8fafc;padding:18px;border-radius:12px;overflow:auto}.exercise{border-left:4px solid #2563eb;background:#f5f8ff;padding:18px}.summary{background:#ecfdf3;border-left:4px solid #16a34a;padding:18px}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}</style></head><body><main><p><a href="../index.html">← Retour Web Frontend</a></p><p class="eyebrow">WEB FRONTEND · CHAPITRE 04</p><h1>DOM et événements</h1><p>Après avoir appris les bases de JavaScript, nous allons maintenant faire communiquer JavaScript avec le HTML. C'est ici que la page devient interactive.</p>
+<div class="box"><h2>1. Qu'est-ce que le DOM ?</h2><p>Le DOM (Document Object Model) représente le document HTML sous forme d'objets. JavaScript peut sélectionner ces objets, lire leurs informations et les modifier.</p><p><strong>HTML → DOM → JavaScript → modification visible dans la page</strong></p></div>
+<div class="box"><h2>2. Premier résultat visible : alert()</h2><p>Avant de manipuler le DOM, on peut afficher un message à l'utilisateur avec <code>alert()</code>.</p><pre><code>alert("Bienvenue dans JavaScript !");
 
-document.querySelector(".message").classList.add("active");</code></pre><h2>Événements</h2><pre><code>const bouton = document.querySelector("button");
+const nom = "Salomon";
+alert("Bonjour " + nom);</code></pre><p><code>alert()</code> est utile pour les premiers exercices et pour comprendre qu'un programme JavaScript peut produire un résultat visible.</p></div>
+<div class="box"><h2>3. Sélectionner un élément HTML</h2><pre><code>&lt;h1 id="titre"&gt;Ancien titre&lt;/h1&gt;
 
-bouton.addEventListener("click", () =&gt; {
-  document.querySelector("#resultat").textContent = "Bouton cliqué";
-});</code></pre><h2>Formulaires</h2><p>Pour intercepter un formulaire, écoutez l'événement <code>submit</code> et utilisez <code>event.preventDefault()</code> lorsque vous ne voulez pas que le navigateur recharge immédiatement la page.</p><h2>TP</h2><ol><li>Créer un compteur +1/-1.</li><li>Créer une liste où l'utilisateur ajoute des éléments.</li><li>Valider un formulaire et afficher les erreurs.</li></ol><h2>Questions</h2><ol><li>Qu'est-ce que le DOM ?</li><li>Quelle différence entre <code>querySelector</code> et <code>querySelectorAll</code> ?</li><li>Pourquoi utiliser <code>preventDefault()</code> ?</li></ol><p><a href="../index.html">← Retour</a></p></main></body></html>
+const titre = document.getElementById("titre");
+
+alert(titre.textContent);</code></pre><p>On peut aussi utiliser <code>querySelector()</code>, qui sélectionne le premier élément correspondant au sélecteur fourni. citeturn0search7</p><pre><code>const titre = document.querySelector("#titre");
+const bouton = document.querySelector("button");</code></pre></div>
+<div class="box"><h2>4. Modifier le HTML avec JavaScript</h2><pre><code>&lt;h1 id="titre"&gt;Bonjour&lt;/h1&gt;
+
+const titre = document.querySelector("#titre");
+titre.textContent = "Bienvenue sur mon site !";</code></pre><p>Ici, JavaScript ne se contente plus d'afficher une information : il modifie réellement le contenu de la page.</p></div>
+<div class="box"><h2>5. Modifier une classe CSS</h2><pre><code>const message = document.querySelector(".message");
+message.classList.add("active");
+message.classList.remove("cache");</code></pre><p>JavaScript peut donc modifier l'apparence d'une interface en ajoutant ou supprimant des classes CSS.</p></div>
+<div class="box"><h2>6. Comprendre les événements</h2><p>Un événement est une action ou un changement détecté par le navigateur : clic, saisie au clavier, déplacement de souris, soumission d'un formulaire, chargement de la page, etc. citeturn0search0turn0search2</p><p>Le principe est :</p><pre><code>UTILISATEUR
+    ↓
+ÉVÉNEMENT
+    ↓
+JAVASCRIPT
+    ↓
+ACTION SUR LE DOM</code></pre></div>
+<div class="box"><h2>7. Premier bouton interactif</h2><pre><code>&lt;button id="btn"&gt;Cliquez-moi&lt;/button&gt;
+&lt;p id="resultat"&gt;&lt;/p&gt;
+
+const bouton = document.querySelector("#btn");
+const resultat = document.querySelector("#resultat");
+
+bouton.addEventListener("click", function() {
+  resultat.textContent = "Vous avez cliqué sur le bouton !";
+});</code></pre><p><code>addEventListener()</code> est la méthode recommandée pour enregistrer un gestionnaire d'événement. citeturn0search3</p></div>
+<div class="box"><h2>8. Utiliser alert() avec un événement</h2><pre><code>const bouton = document.querySelector("#btn");
+
+bouton.addEventListener("click", function() {
+  alert("Le bouton a été cliqué !");
+});</code></pre><p>Cet exercice fait le lien entre ce que nous avons appris au chapitre précédent et le DOM.</p></div>
+<div class="box"><h2>9. Lire la valeur d'un champ HTML</h2><pre><code>&lt;input id="nom" type="text" placeholder="Votre nom"&gt;
+&lt;button id="valider"&gt;Valider&lt;/button&gt;
+
+const champ = document.querySelector("#nom");
+const valider = document.querySelector("#valider");
+
+valider.addEventListener("click", function() {
+  alert("Bonjour " + champ.value);
+});</code></pre></div>
+<div class="box"><h2>10. Événement input</h2><pre><code>&lt;input id="nom" type="text"&gt;
+&lt;p id="affichage"&gt;&lt;/p&gt;
+
+const champ = document.querySelector("#nom");
+const affichage = document.querySelector("#affichage");
+
+champ.addEventListener("input", function() {
+  affichage.textContent = champ.value;
+});</code></pre><p>Chaque modification du champ peut maintenant être répercutée directement dans la page.</p></div>
+<div class="box"><h2>11. Premier compteur</h2><pre><code>&lt;button id="plus"&gt;+1&lt;/button&gt;
+&lt;p id="compteur"&gt;0&lt;/p&gt;
+
+let nombre = 0;
+const plus = document.querySelector("#plus");
+const compteur = document.querySelector("#compteur");
+
+plus.addEventListener("click", function() {
+  nombre = nombre + 1;
+  compteur.textContent = nombre;
+});</code></pre></div>
+<div class="box"><h2>12. Les formulaires</h2><p>Un formulaire déclenche notamment l'événement <code>submit</code>. Pour traiter les données avec JavaScript sans recharger immédiatement la page, on peut utiliser <code>event.preventDefault()</code>.</p><pre><code>const formulaire = document.querySelector("#formulaire");
+
+formulaire.addEventListener("submit", function(event) {
+  event.preventDefault();
+  alert("Formulaire reçu !");
+});</code></pre></div>
+<div class="exercise"><h2>TP progressif</h2><ol><li>Créer un bouton qui affiche un <code>alert()</code>.</li><li>Créer un bouton qui change le texte d'un paragraphe.</li><li>Créer un champ qui affiche immédiatement son contenu dans un paragraphe.</li><li>Créer un compteur +1 et -1.</li><li>Créer un formulaire qui affiche le nom saisi.</li><li>Créer une petite carte étudiant dont le contenu est rempli par JavaScript.</li></ol></div>
+<div class="summary"><h2>Résumé</h2><ul><li><code>alert()</code> permet d'obtenir un premier résultat visible.</li><li>Le DOM représente la page HTML sous forme d'objets.</li><li><code>getElementById()</code> et <code>querySelector()</code> permettent de sélectionner des éléments.</li><li><code>textContent</code> permet de modifier un texte.</li><li><code>classList</code> permet de modifier les classes CSS.</li><li>Les événements permettent de réagir aux actions de l'utilisateur.</li><li><code>addEventListener()</code> permet d'attacher une action à un événement.</li><li><code>value</code> permet de lire la valeur d'un champ.</li><li><code>preventDefault()</code> permet notamment de contrôler le comportement par défaut d'un formulaire.</li></ul></div>
+<div class="nav"><a href="03-javascript.html">← Chapitre 03</a><a href="05-fetch-api.html">Chapitre 05 →</a></div></main></body></html>
