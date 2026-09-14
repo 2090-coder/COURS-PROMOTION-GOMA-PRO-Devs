@@ -1,5 +1,214 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arduino 13 — GPS</title><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/formation.css"><style>main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}.exercise{background:#f5f8ff;padding:18px}.summary{background:#ecfdf3;padding:18px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a,.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}.downloads a{background:#2563eb;color:#fff}.nav{display:flex;justify-content:space-between;margin-top:28px}</style></head><body><main><p><a href="../index.html">← Retour Arduino</a></p><h1>Arduino 13 — GPS et localisation</h1><div class="box"><h2>1. GPS et GNSS</h2><p>Un module GPS/GNSS reçoit des signaux satellites et peut fournir position, heure et autres informations. Arduino documente notamment les messages NMEA et les projets GPS.</p></div><div class="box"><h2>2. Communication série</h2><p>Nous réutilisons Serial/UART : le module envoie des données que le microcontrôleur reçoit et interprète.</p><pre><code>// Principe
-// lire les données série du GPS
-// reconnaître les trames utiles
-// extraire latitude, longitude et heure
-// afficher les résultats</code></pre></div><div class="box"><h2>3. Projet localisation</h2><p>Afficher la position sur le moniteur série puis sur l'OLED. Ajouter ensuite un enregistrement sur SD avec RTC pour créer un journal de déplacements.</p></div><div class="exercise"><h2>TP</h2><ol><li>Recevoir les données du module.</li><li>Identifier les trames NMEA.</li><li>Afficher latitude et longitude.</li><li>Associer GPS + OLED + SD.</li></ol></div><div class="summary"><h2>Résumé</h2><ul><li>GPS fournit une position à partir des satellites.</li><li>UART/Serial sert à recevoir les données.</li><li>NMEA est un format courant de messages GPS.</li></ul></div><div class="box"><h2>Téléchargements</h2><div class="downloads"><a href="13-gps.ino" download>⬇ Code Arduino (.ino)</a><a href="13-resume.md" download>⬇ Résumé (.md)</a></div></div><div class="nav"><a href="12-oled.html">← Chapitre 12</a><a href="14-rfid.html">Chapitre 14 →</a></div></main></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arduino 13 — GPS et GNSS</title>
+<link rel="stylesheet" href="../../../assets/css/style.css">
+<link rel="stylesheet" href="../../../assets/css/formation.css">
+<style>
+main{max-width:1000px;margin:auto;padding:32px 18px}.box{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:22px;margin:18px 0}.codebox{background:#0f172a;color:#e5e7eb;border-radius:12px;padding:18px;overflow:auto}.exercise{background:#f5f8ff;padding:18px;border-radius:14px}.summary{background:#ecfdf3;padding:18px;border-radius:14px}.warning{background:#fff7ed;border-left:5px solid #f97316;padding:16px;border-radius:8px}.downloads{display:flex;gap:12px;flex-wrap:wrap}.downloads a,.nav a{padding:11px 15px;border:1px solid #d9e0ec;border-radius:8px;text-decoration:none;font-weight:700}.downloads a{background:#2563eb;color:#fff}.nav{display:flex;justify-content:space-between;margin-top:28px;gap:12px;flex-wrap:wrap}.table{width:100%;border-collapse:collapse}.table th,.table td{border:1px solid #d9e0ec;padding:10px;text-align:left}.flow{font-weight:700;text-align:center;padding:16px;background:#f8fafc;border-radius:10px}
+</style>
+</head>
+<body>
+<main>
+<p><a href="../index.html">← Retour Arduino</a></p>
+<h1>Arduino 13 — GPS et GNSS</h1>
+<p>Comprendre le GPS, recevoir les données NMEA par UART, les décoder avec TinyGPSPlus et afficher une position réelle avec Arduino.</p>
+
+<div class="box">
+<h2>1. Qu'est-ce qu'un GPS ?</h2>
+<p>Un récepteur GPS reçoit les signaux de satellites et utilise les informations de temps et de distance apparente pour calculer une position. Le terme <strong>GNSS</strong> est plus général : selon le matériel, un récepteur peut exploiter plusieurs constellations de navigation.</p>
+<p>Les informations courantes sont : latitude, longitude, altitude, vitesse, cap, date, heure et nombre de satellites utilisés.</p>
+<div class="flow">Satellites → Récepteur GNSS → Trames NMEA → UART → Arduino → Décodage → Position</div>
+</div>
+
+<div class="box">
+<h2>2. Les satellites et le calcul de position</h2>
+<p>Le récepteur compare les temps de propagation des signaux provenant de plusieurs satellites. Il construit des mesures de distance apparente, appelées pseudo-distances, puis résout sa position et l'erreur d'horloge.</p>
+<p>Pour une solution complète de position et de temps, plusieurs satellites sont nécessaires. La qualité de la solution dépend notamment de la visibilité du ciel, de la géométrie des satellites et des conditions radio.</p>
+</div>
+
+<div class="box">
+<h2>3. Le module GPS communique avec Arduino</h2>
+<p>Beaucoup de modules GPS/GNSS utilisent une liaison série UART pour transmettre leurs données.</p>
+<table class="table">
+<tr><th>GPS/GNSS</th><th>Arduino UNO</th><th>Rôle</th></tr>
+<tr><td>TX</td><td>D4 (RX logiciel)</td><td>Le GPS envoie vers Arduino</td></tr>
+<tr><td>RX</td><td>D3 (TX logiciel)</td><td>Arduino peut envoyer vers le GPS</td></tr>
+<tr><td>GND</td><td>GND</td><td>Masse commune</td></tr>
+<tr><td>VCC</td><td>Alimentation adaptée au module</td><td>Alimentation</td></tr>
+</table>
+<div class="warning"><strong>Attention :</strong> ne supposez pas que tous les modules GPS acceptent la même tension. Pour votre NEO-800L/NEO-8M ou un module clone, vérifiez les marquages de la carte et sa documentation avant de choisir VCC.</div>
+</div>
+
+<div class="box">
+<h2>4. Pourquoi TX et RX sont croisés ?</h2>
+<p>TX signifie transmission et RX réception. Une sortie TX doit donc aller vers une entrée RX :</p>
+<div class="flow">GPS TX → Arduino RX<br>Arduino TX → GPS RX</div>
+<p>Si TX est branché sur TX ou RX sur RX, la communication ne fonctionnera généralement pas comme prévu.</p>
+</div>
+
+<div class="box">
+<h2>5. Les trames NMEA</h2>
+<p>Les récepteurs GNSS peuvent transmettre des messages textuels structurés selon NMEA. On y trouve notamment des informations de position, de temps, de vitesse et d'état du positionnement.</p>
+<p>Le programme n'a pas besoin de décoder manuellement chaque champ : <strong>TinyGPSPlus</strong> peut analyser les données NMEA et fournir une interface Arduino plus simple.</p>
+</div>
+
+<div class="box">
+<h2>6. Installer TinyGPSPlus</h2>
+<ol>
+<li>Ouvrir Arduino IDE.</li>
+<li>Aller dans <strong>Outils / Gérer les bibliothèques</strong> selon la version de l'IDE.</li>
+<li>Rechercher <strong>TinyGPSPlus</strong>.</li>
+<li>Installer la bibliothèque de Mikal Hart.</li>
+</ol>
+<p>La bibliothèque est conçue pour analyser les flux NMEA et extraire notamment position, date, heure, altitude, vitesse et cap.</p>
+</div>
+
+<div class="box">
+<h2>7. Comprendre le programme</h2>
+<pre class="codebox"><code>#include &lt;SoftwareSerial.h&gt;
+#include &lt;TinyGPS++.h&gt;
+
+SoftwareSerial gpsSerial(4, 3);
+TinyGPSPlus gps;
+
+void setup() {
+  Serial.begin(9600);
+  gpsSerial.begin(9600);
+}
+
+void loop() {
+  while (gpsSerial.available() &gt; 0) {
+    gps.encode(gpsSerial.read());
+  }
+
+  if (gps.location.isUpdated()) {
+    Serial.println(gps.location.lat(), 6);
+    Serial.println(gps.location.lng(), 6);
+  }
+}</code></pre>
+<p><strong>Étape 1 :</strong> <code>SoftwareSerial</code> crée une liaison série sur les broches choisies.</p>
+<p><strong>Étape 2 :</strong> <code>TinyGPSPlus gps;</code> crée l'objet qui va analyser les données GNSS.</p>
+<p><strong>Étape 3 :</strong> chaque caractère reçu est envoyé à <code>gps.encode()</code>.</p>
+<p><strong>Étape 4 :</strong> <code>isUpdated()</code> permet de travailler lorsqu'une nouvelle position a été traitée.</p>
+</div>
+
+<div class="box">
+<h2>8. Programme complet</h2>
+<p>Le fichier <strong>13-gps.ino</strong> disponible ci-dessous affiche latitude, longitude, altitude, vitesse, satellites, HDOP et heure UTC. Il contient aussi un diagnostic simple lorsqu'aucune donnée série n'est reçue.</p>
+<pre class="codebox"><code>while (gpsSerial.available() &gt; 0) {
+  gps.encode(gpsSerial.read());
+}
+
+if (gps.location.isUpdated()) {
+  Serial.print("Latitude : ");
+  Serial.println(gps.location.lat(), 6);
+
+  Serial.print("Longitude : ");
+  Serial.println(gps.location.lng(), 6);
+}</code></pre>
+</div>
+
+<div class="box">
+<h2>9. `isValid()` ou `isUpdated()` ?</h2>
+<ul>
+<li><code>isValid()</code> : la donnée actuellement disponible est considérée comme valide.</li>
+<li><code>isUpdated()</code> : une nouvelle donnée vient d'être reçue et traitée.</li>
+</ul>
+<p>Pour afficher une position uniquement lorsqu'elle change, <code>isUpdated()</code> est particulièrement pratique.</p>
+</div>
+
+<div class="box">
+<h2>10. Les principales données</h2>
+<table class="table">
+<tr><th>Instruction</th><th>Information</th></tr>
+<tr><td><code>gps.location.lat()</code></td><td>Latitude en degrés décimaux</td></tr>
+<tr><td><code>gps.location.lng()</code></td><td>Longitude en degrés décimaux</td></tr>
+<tr><td><code>gps.altitude.meters()</code></td><td>Altitude approximative en mètres</td></tr>
+<tr><td><code>gps.speed.kmph()</code></td><td>Vitesse en km/h</td></tr>
+<tr><td><code>gps.satellites.value()</code></td><td>Nombre de satellites rapportés</td></tr>
+<tr><td><code>gps.hdop.hdop()</code></td><td>Indicateur de géométrie/qualité du positionnement</td></tr>
+<tr><td><code>gps.time.hour()</code></td><td>Heure UTC</td></tr>
+</table>
+</div>
+
+<div class="box">
+<h2>11. Pourquoi parfois aucune position ?</h2>
+<p>Le module peut être alimenté et communiquer avec Arduino tout en n'ayant pas encore obtenu un fix. Il faut distinguer <strong>communication série</strong> et <strong>position valide</strong>.</p>
+<ul>
+<li>Une antenne avec une bonne vue du ciel aide à l'acquisition.</li>
+<li>Le premier fix peut demander du temps.</li>
+<li>Un mauvais câblage TX/RX ou GND empêche la réception.</li>
+<li>Un mauvais débit série peut produire des données incompréhensibles.</li>
+<li>Un problème d'alimentation peut empêcher le module de fonctionner correctement.</li>
+</ul>
+</div>
+
+<div class="box">
+<h2>12. Diagnostic progressif</h2>
+<ol>
+<li>Vérifier l'alimentation adaptée au module.</li>
+<li>Vérifier GND commun.</li>
+<li>Vérifier GPS TX → Arduino RX.</li>
+<li>Vérifier le débit série.</li>
+<li>Tester d'abord la réception des données.</li>
+<li>Installer TinyGPSPlus.</li>
+<li>Afficher latitude et longitude.</li>
+<li>Ajouter ensuite OLED, SD ou GSM.</li>
+</ol>
+</div>
+
+<div class="exercise">
+<h2>13. TP progressif</h2>
+<ol>
+<li>Identifier les broches de votre module GPS.</li>
+<li>Réaliser le câblage UART avec Arduino UNO.</li>
+<li>Installer TinyGPSPlus.</li>
+<li>Téléverser <code>13-gps.ino</code>.</li>
+<li>Ouvrir le moniteur série à la vitesse configurée dans le programme.</li>
+<li>Attendre l'obtention d'une position valide.</li>
+<li>Noter latitude, longitude, altitude et nombre de satellites.</li>
+<li>Déplacer le module dans un endroit sûr et observer l'évolution des données.</li>
+<li>Proposer ensuite une intégration GPS + OLED.</li>
+</ol>
+<h3>Questions</h3>
+<ol>
+<li>Quelle est la différence entre GPS et GNSS ?</li>
+<li>Pourquoi TX est-il relié à RX ?</li>
+<li>À quoi servent les trames NMEA ?</li>
+<li>Pourquoi Arduino reçoit-il les caractères un par un ?</li>
+<li>Quelle différence entre <code>isValid()</code> et <code>isUpdated()</code> ?</li>
+<li>Pourquoi peut-on recevoir des données sans avoir encore une position valide ?</li>
+</ol>
+</div>
+
+<div class="summary">
+<h2>14. À retenir</h2>
+<ul>
+<li>Le GNSS reçoit les signaux de satellites pour calculer une solution de position et de temps.</li>
+<li>UART permet au module et à Arduino d'échanger les données.</li>
+<li>TX et RX se croisent.</li>
+<li>NMEA fournit des messages structurés.</li>
+<li>TinyGPSPlus simplifie le décodage des données NMEA.</li>
+<li>Latitude et longitude sont des coordonnées géographiques en degrés.</li>
+<li>Un fix satellite et une liaison série fonctionnelle sont deux choses différentes.</li>
+</ul>
+</div>
+
+<div class="box">
+<h2>15. Ressources</h2>
+<div class="downloads">
+<a href="13-gps.ino" download>⬇ Code Arduino (.ino)</a>
+<a href="13-resume.md" download>⬇ Résumé (.md)</a>
+</div>
+</div>
+
+<div class="nav">
+<a href="12-oled.html">← Chapitre 12</a>
+<a href="14-rfid.html">Chapitre 14 →</a>
+</div>
+</main>
+</body>
+</html>
