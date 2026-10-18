@@ -3,7 +3,8 @@ const FORMATION_HASHES = {
   frontend: "f3e2dcdbc0bdc6d1aa7be27774f1e77703ac56fd0a5e371b53b4a4932e368dcc",
   backend: "f88ff12984bbaaabea6acc59aa4936b6ac3c1b69afa1c6dc3ac2f2881239b137",
   cybersecurite: "961ab2afeec25317f1c9ef72854982be2773c3825d0f49e540ef2b7660cc0a52",
-  informatique: "3b668cc70504ded652dcda4ef49a36539a193c3fabf7dea590bf87145c56c41b"
+  informatique: "3b668cc70504ded652dcda4ef49a36539a193c3fabf7dea590bf87145c56c41b",
+  anglais: "5daabfc604ef830323c892d1a694aace8fef6797b2ac94f9e7e9c01f19d87c5d"
 };
 
 async function sha256(value) {
