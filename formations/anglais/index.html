@@ -7,32 +7,37 @@
   <title>Anglais — GOMA PRO Devs</title>
   <link rel="stylesheet" href="../../assets/css/style.css">
   <link rel="stylesheet" href="../../assets/css/formation.css">
-  <style>.lesson-link{display:inline-block;margin-top:12px;padding:10px 14px;border:1px solid #cfd8ea;border-radius:8px;font-weight:700;font-size:13px}</style>
+  <style>
+    .lesson-link{display:inline-block;margin-top:12px;padding:10px 14px;border:1px solid #cfd8ea;border-radius:8px;font-weight:700;font-size:13px}
+    .course-intro{max-width:780px;color:#475467}
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="brand" href="../../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a>
-      <nav><a href="../../index.html">Accueil</a></nav>
-    </div>
-  </header>
-  <section class="course-hero">
-    <div class="container">
-      <p class="eyebrow">FORMATION 06</p>
-      <h1>Anglais — débutant</h1>
-      <p>Apprenez l'anglais progressivement à partir des bases. Le cours est organisé par chapitres, avec des explications en français, des exemples en anglais, des exercices et des conversations à pratiquer.</p>
-    </div>
-  </section>
+  <header class="site-header"><div class="container nav-wrap">
+    <a class="brand" href="../../index.html">GOMA PRO Devs <span>&lt;/&gt;</span></a>
+    <nav><a href="../../index.html">Accueil</a></nav>
+  </div></header>
+  <section class="course-hero"><div class="container">
+    <p class="eyebrow">FORMATION 06</p>
+    <h1>Anglais — débutant</h1>
+    <p>Apprenez l'anglais progressivement à partir des bases. Chaque cours suit un chapitre précis : règle, vocabulaire, exemples, exercices et pratique orale.</p>
+  </div></section>
   <main class="container">
-    <section class="course-section">
+    <section id="locked-content" class="access-box">
+      <h2>Accès à la formation Anglais</h2>
+      <p>Saisissez le mot de passe communiqué par votre enseignant pour accéder au programme et aux leçons.</p>
+      <form id="access-form">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Ouvrir la formation</button>
+        <p id="access-message" class="access-message" aria-live="polite"></p>
+      </form>
+    </section>
+    <section id="protected-content" class="course-section" hidden>
       <h2>Programme de la formation</h2>
-      <p>Une séance de deux heures chaque dimanche, de 13 h à 15 h. Le programme ci-dessous propose une progression de douze semaines; le rythme peut s'adapter aux progrès des apprenants.</p>
+      <p class="course-intro">Une séance de deux heures chaque dimanche, de 13 h à 15 h. Ce programme propose une progression de douze semaines; le rythme s'adaptera aux progrès des apprenants.</p>
       <div class="module-grid">
-        <article class="module">
-          <h3>01. GREETINGS</h3>
-          <p>Formal greetings, informal greetings, réponses courantes et façons de prendre congé.</p>
-          <a class="lesson-link" href="cours/01-greetings.html">Commencer le chapitre →</a>
-        </article>
+        <article class="module"><h3>01. GREETINGS</h3><p>Formal greetings, informal greetings, réponses courantes et façons de prendre congé.</p><a class="lesson-link" href="cours/01-greetings.html">Commencer le chapitre →</a></article>
         <article class="module"><h3>02. THE ALPHABET AND SPELLING</h3><p>L'alphabet anglais, épeler les prénoms et demander comment un mot s'écrit.</p></article>
         <article class="module"><h3>03. INTRODUCING YOURSELF</h3><p>Prénoms, âge, origine, métiers et présentations simples.</p></article>
         <article class="module"><h3>04. NUMBERS, DATES AND TIME</h3><p>Nombres, jours, mois, dates et demander l'heure.</p></article>
@@ -45,8 +50,11 @@
         <article class="module"><h3>11. SHOPPING AND EVERYDAY CONVERSATIONS</h3><p>Prix, achats, demandes polies et situations de la vie courante.</p></article>
         <article class="module"><h3>12. REVISION AND FINAL CONVERSATION</h3><p>Révision générale et conversation guidée mobilisant les notions apprises.</p></article>
       </div>
-      <div class="notice"><strong>Pour chaque chapitre :</strong> vocabulaire, explication, exemples, prononciation, exercices, dialogue et devoir de révision.</div>
+      <div class="notice"><strong>Méthode de chaque chapitre :</strong> définition, formes à connaître, exemples en contexte, prononciation, exercices écrits, dialogue oral et devoir de révision.</div>
+      <p><a href="PROGRAMME-COMPLET.md">Consulter le programme complet (texte)</a></p>
     </section>
   </main>
+  <script src="../../assets/js/lock.js"></script>
+  <script>initLock("anglais", "Anglais");</script>
 </body>
 </html>
