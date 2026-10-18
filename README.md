@@ -13,6 +13,7 @@ Ce dépôt est consacré aux cours, exercices, projets, bibliothèques et ressou
 3. Web Backend — PHP et SQL.
 4. Cybersécurité — Python, Linux et Bash, avec une approche légale, défensive et pédagogique.
 5. Informatique complet — programmation, systèmes, bases de données, architecture et réseaux informatiques en profondeur.
+6. Anglais — cours débutant organisés en chapitres, avec vocabulaire, explications en français, exemples, exercices et conversations.
 
 ## Organisation pédagogique
 
@@ -26,6 +27,8 @@ Chaque module est prévu avec :
 - fichiers sources ;
 - documents téléchargeables ;
 - ressources complémentaires.
+
+La formation Anglais propose une séance chaque dimanche de 13 h à 15 h et commence par le chapitre **GREETINGS** : salutations formelles, salutations informelles et façons de prendre congé.
 
 ## Protection des formations
 
